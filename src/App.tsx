@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useState,
+} from "react";
+import { useContext } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+export function createCtx<A>(defaultValue: A) {
+  type UpdateType = Dispatch<SetStateAction<typeof defaultValue>>;
+  const defaultUpdate: UpdateType = () => defaultValue;
+  const ctx = createContext({
+    state: defaultValue,
+    update: defaultUpdate,
+  });
+
+  function Provider(props: PropsWithChildren<{}>) {
+    const [state, update] = useState(defaultValue);
+    return <ctx.Provider value={{ state, update }} {...props} />;
+  }
+  return [ctx, Provider] as const; // alternatively, [typeof ctx, typeof Provider]
 }
 
-export default App;
+// usage
+// import { useContext } from "react";
+
+const [ctx, TextProvider] = createCtx("someText");
+export const TextContext = ctx;
+export default function App() {
+  return (
+    <TextProvider>
+      <Component />
+    </TextProvider>
+  );
+}
+export function Component() {
+  const { state, update } = useContext(TextContext);
+  return (
+    <label>
+      {state}
+      <input type="text" onChange={(e) => update(e.target.value)} />
+    </label>
+  );
+}
