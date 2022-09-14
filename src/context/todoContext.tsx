@@ -1,25 +1,25 @@
 // context/todoContext.tsx
-import * as React from 'react';
-import { TodoContextType, ITodo } from '../@types/todo';
+import * as React from "react";
+import { TodoContextType, ITodo } from "../@types/todo";
 
 export const TodoContext = React.createContext<TodoContextType | null>(null);
 
 interface Props {
-    children: React.ReactNode;
-  }
+  children: React.ReactNode;
+}
 
 const TodoProvider: React.FC<Props> = ({ children }) => {
   const [todos, setTodos] = React.useState<ITodo[]>([
     {
       id: 1,
-      title: 'post 1',
-      description: 'this is a description',
+      title: "post 1",
+      description: "this is a description",
       status: false,
     },
     {
       id: 2,
-      title: 'post 2',
-      description: 'this is a description',
+      title: "post 2",
+      description: "this is a description",
       status: true,
     },
   ]);
@@ -35,12 +35,20 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
   const updateTodo = (id: number) => {
     todos.filter((todo: ITodo) => {
       if (todo.id === id) {
-        todo.status = true;
+        todo.status = !todo.status;
         setTodos([...todos]);
       }
     });
   };
-  return <TodoContext.Provider value={{ todos, saveTodo, updateTodo }}>{children}</TodoContext.Provider>;
+  const removeTodo = (id: number) => {
+    const filtered = todos.filter((todo: ITodo) => todo.id !== id);
+    setTodos(filtered);
+  };
+  return (
+    <TodoContext.Provider value={{ todos, saveTodo, updateTodo, removeTodo }}>
+      {children}
+    </TodoContext.Provider>
+  );
 };
 
 export default TodoProvider;
