@@ -4,12 +4,12 @@ import { ITodo, TodoContextType } from "../@types/todo";
 
 type Props = {
   todo: ITodo;
-  //   updateTodo: (id: number) => void;
   updateTodo: TodoContextType["updateTodo"];
   removeTodo: TodoContextType["removeTodo"];
+  editTodo: TodoContextType["editTodo"];
 };
 
-const Todo: React.FC<Props> = ({ todo, updateTodo, removeTodo }) => {
+const Todo: React.FC<Props> = ({ todo, updateTodo, removeTodo, editTodo }) => {
   const checkTodo: string = todo.status ? `line-through` : "";
   return (
     <div className="Card">
@@ -23,6 +23,7 @@ const Todo: React.FC<Props> = ({ todo, updateTodo, removeTodo }) => {
       >
         Complete
       </button>
+      <button onClick={() => editTodo(todo.id)}>edit</button>
       <button onClick={() => removeTodo(todo.id)}>remove</button>
     </div>
   );
