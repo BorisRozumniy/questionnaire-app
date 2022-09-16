@@ -5,7 +5,7 @@ import { TodoContext } from "../context/todoContext";
 import Todo from "../components/Todo";
 
 const Todos = () => {
-  const { todos, updateTodo, removeTodo, editTodo } = React.useContext(
+  const { todos, /* updateTodo, */ removeTodo, editTodo } = React.useContext(
     TodoContext
   ) as TodoContextType;
   return (
@@ -13,7 +13,7 @@ const Todos = () => {
       {todos.map((todo: ITodo) => (
         <Todo
           key={todo.id}
-          updateTodo={updateTodo}
+          // updateTodo={updateTodo}
           removeTodo={removeTodo}
           editTodo={editTodo}
           todo={todo}

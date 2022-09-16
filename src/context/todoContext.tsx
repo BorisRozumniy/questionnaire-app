@@ -1,6 +1,6 @@
 // context/todoContext.tsx
 import * as React from "react";
-import { TodoContextType, ITodo } from "../@types/todo";
+import { TodoContextType, ITodo, AnswerType } from "../@types/todo";
 
 export const TodoContext = React.createContext<TodoContextType | null>(null);
 
@@ -11,22 +11,23 @@ interface Props {
 const TodoProvider: React.FC<Props> = ({ children }) => {
   const [todos, setTodos] = React.useState<ITodo[]>([]);
   const saveTodo = (todo: ITodo) => {
+    console.log(todo.answerType);
+    
     const newTodo: ITodo = {
       id: Math.random(), // not really unique - but fine for this example
-      title: todo.title,
-      description: todo.description,
-      status: false,
+      questionText: todo.questionText,
+      answerType: todo.answerType || AnswerType.text,
     };
     setTodos([...todos, newTodo]);
   };
-  const updateTodo = (id: number) => {
-    todos.filter((todo: ITodo) => {
-      if (todo.id === id) {
-        todo.status = !todo.status;
-        setTodos([...todos]);
-      }
-    });
-  };
+  // const updateTodo = (id: number) => {
+  //   todos.filter((todo: ITodo) => {
+  //     if (todo.id === id) {
+  //       todo.status = !todo.status;
+  //       setTodos([...todos]);
+  //     }
+  //   });
+  // };
   const removeTodo = (id: number) => {
     const filtered = todos.filter((todo: ITodo) => todo.id !== id);
     setTodos(filtered);
@@ -48,7 +49,7 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
   };
   return (
     <TodoContext.Provider
-      value={{ todos, saveTodo, updateTodo, removeTodo, editTodo }}
+      value={{ todos, saveTodo, /* updateTodo */ removeTodo, editTodo }}
     >
       {children}
     </TodoContext.Provider>
