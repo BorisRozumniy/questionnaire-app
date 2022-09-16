@@ -2,6 +2,9 @@
 import * as React from "react";
 import { TodoContext } from "../context/todoContext";
 import { TodoContextType, ITodo, AnswerType } from "../@types/todo";
+import { Container } from "./Styled/Container";
+import { Input } from "./Styled/Input";
+import { Button } from "./Styled/Button";
 
 const AddTodo: React.FC = () => {
   const { saveTodo } = React.useContext(TodoContext) as TodoContextType;
@@ -21,34 +24,36 @@ const AddTodo: React.FC = () => {
   };
 
   const handleSaveTodo = (e: React.FormEvent, formData: ITodo | any) => {
-    console.log(e, formData);
-
     e.preventDefault();
     saveTodo(formData);
   };
   return (
-    <form className="Form" onSubmit={(e) => handleSaveTodo(e, formData)}>
-      <div>
+    <Container>
+      <h2>Create question</h2>
+      <form className="Form" onSubmit={(e) => handleSaveTodo(e, formData)}>
         <div>
-          <label htmlFor="name">Question</label>
-          <input onChange={handleForm} type="text" id="questionText" />
+          <div>
+            <label htmlFor="name">Question</label>
+            <Input onChange={handleForm} type="text" id="questionText" />
+          </div>
+          <div>
+            <label htmlFor="answerType">Answer Type</label>
+            <select onChange={handleForm} id="answerType">
+              <option value={AnswerType.text}>text</option>
+              <option value={AnswerType.data}>data</option>
+              <option value={AnswerType.oneOfTheList}>one of the list</option>
+              <option value={AnswerType.aFewFromTheList}>
+                a few from the list
+              </option>
+              <option value={AnswerType.scale}>scale</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label htmlFor="answerType">Answer Type</label>
-          {/* <select onChange={(e) => console.log(e.target.value)} id="answerType"> */}
-          <select onChange={handleForm} id="answerType">
-            <option value={AnswerType.text}>text</option>
-            <option value={AnswerType.data}>data</option>
-            <option value={AnswerType.oneOfTheList}>one of the list</option>
-            <option value={AnswerType.aFewFromTheList}>
-              a few from the list
-            </option>
-            <option value={AnswerType.scale}>scale</option>
-          </select>
-        </div>
-      </div>
-      <button disabled={formData === undefined ? true : false}>Add Todo</button>
-    </form>
+        <Button disabled={formData === undefined ? true : false}>
+          Add Todo
+        </Button>
+      </form>
+    </Container>
   );
 };
 
