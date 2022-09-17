@@ -21,4 +21,7 @@ export type TodoContextType = {
   modalIsOpen: boolean;
   editingQuestionData: ITodo;
   saveEditedQuestion: (todo: ITodo) => void;
+  editMod: boolean;
+  setEditMod: (val: boolean) => void;
+
 };

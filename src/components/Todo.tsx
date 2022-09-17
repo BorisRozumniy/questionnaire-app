@@ -8,18 +8,20 @@ type Props = {
 };
 
 const Todo: FC<Props> = ({ todo }) => {
-  const { removeTodo, editQuestion } = useContext(
+  const { removeTodo, editQuestion, editMod } = useContext(
     TodoContext
   ) as TodoContextType;
-  return (
-    <div className="Card">
-      <div className="Card--text">
-        <h3 className={"checkTodo"}>{todo.questionText}</h3>
-        <span>{todo.answerType}</span>
+  if (editMod)
+    return (
+      <div>
+        <div>
+          <h3>{todo.questionText}</h3>
+          <span>{todo.answerType}</span>
+        </div>
+        <Button onClick={() => editQuestion(todo.id)}>edit</Button>
+        <Button onClick={() => removeTodo(todo.id)}>remove</Button>
       </div>
-      <Button onClick={() => editQuestion(todo.id)}>edit</Button>
-      <Button onClick={() => removeTodo(todo.id)}>remove</Button>
-    </div>
-  );
+    );
+  return <h3>{todo.questionText}</h3>;
 };
 export default Todo;

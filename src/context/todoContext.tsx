@@ -8,6 +8,7 @@ interface Props {
 }
 
 const TodoProvider: FC<Props> = ({ children }) => {
+  const [editMod, setEditMod] = useState(false);
   const [todos, setTodos] = useState<ITodo[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [editingQuestionData, setEditingQuestionData] = useState<ITodo>(
@@ -50,6 +51,8 @@ const TodoProvider: FC<Props> = ({ children }) => {
   return (
     <TodoContext.Provider
       value={{
+        editMod,
+        setEditMod,
         todos,
         saveTodo,
         removeTodo,
