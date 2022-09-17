@@ -1,18 +1,19 @@
-// context/todoContext.tsx
-import * as React from "react";
+import { useState, createContext, FC, ReactNode } from "react";
 import { TodoContextType, ITodo, AnswerType } from "../@types/todo";
 
-export const TodoContext = React.createContext<TodoContextType | null>(null);
+export const TodoContext = createContext<TodoContextType | null>(null);
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const TodoProvider: React.FC<Props> = ({ children }) => {
-  const [todos, setTodos] = React.useState<ITodo[]>([]);
+const TodoProvider: FC<Props> = ({ children }) => {
+  const [todos, setTodos] = useState<ITodo[]>([]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [editingQuestionData, setEditingQuestionData] = useState<ITodo>(
+    {} as ITodo
+  );
   const saveTodo = (todo: ITodo) => {
-    console.log(todo.answerType);
-    
     const newTodo: ITodo = {
       id: Math.random(), // not really unique - but fine for this example
       questionText: todo.questionText,
@@ -20,36 +21,44 @@ const TodoProvider: React.FC<Props> = ({ children }) => {
     };
     setTodos([...todos, newTodo]);
   };
-  // const updateTodo = (id: number) => {
-  //   todos.filter((todo: ITodo) => {
-  //     if (todo.id === id) {
-  //       todo.status = !todo.status;
-  //       setTodos([...todos]);
-  //     }
-  //   });
-  // };
+
   const removeTodo = (id: number) => {
     const filtered = todos.filter((todo: ITodo) => todo.id !== id);
     setTodos(filtered);
   };
-  const editTodo = (id: number) => {
-    const copyTodos = JSON.parse(JSON.stringify(todos));
 
-    const findedIndex = todos.findIndex((todo: ITodo) => todo.id === id);
-    const finded = copyTodos[findedIndex];
-    const newTitle = prompt(`edit title item ${finded?.title}`, finded?.title);
-    const newDescription = prompt(
-      `edit description item ${finded?.title}`,
-      finded?.description
+  const editQuestion = (id: number) => {
+    toggleModal(true);
+    setEditingQuestionData(
+      todos[todos.findIndex((question) => question.id === id)]
     );
-    finded.title = newTitle || "";
-    finded.description = newDescription || "";
+  };
 
+  const saveEditedQuestion = (editedQuestion: ITodo) => {
+    const { id: questionId } = editedQuestion;
+    const copyTodos: ITodo[] = JSON.parse(JSON.stringify(todos));
+    const finded =
+      copyTodos[copyTodos.findIndex(({ id }: ITodo) => id === questionId)];
+    finded.questionText = editedQuestion.questionText;
+    finded.answerType = editedQuestion.answerType;
     setTodos([...copyTodos]);
+  };
+
+  const toggleModal = (toggle: boolean) => {
+    setModalIsOpen(toggle);
   };
   return (
     <TodoContext.Provider
-      value={{ todos, saveTodo, /* updateTodo */ removeTodo, editTodo }}
+      value={{
+        todos,
+        saveTodo,
+        removeTodo,
+        editQuestion,
+        toggleModal,
+        modalIsOpen,
+        editingQuestionData,
+        saveEditedQuestion,
+      }}
     >
       {children}
     </TodoContext.Provider>

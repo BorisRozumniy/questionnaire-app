@@ -1,29 +1,24 @@
-// components/AddTodo.tsx
-import * as React from "react";
+import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
 import { TodoContext } from "../context/todoContext";
 import { TodoContextType, ITodo, AnswerType } from "../@types/todo";
 import { Container } from "./Styled/Container";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 
-const AddTodo: React.FC = () => {
-  const { saveTodo } = React.useContext(TodoContext) as TodoContextType;
-  const [formData, setFormData] = React.useState<ITodo | {}>();
-  console.log(formData);
-  // React.DetailedHTMLProps<React.OptionHTMLAttributes<HTMLOptionElement>, HTMLOptionElement>
+const AddTodo: FC = () => {
+  const { saveTodo } = useContext(TodoContext) as TodoContextType;
+  const [formData, setFormData] = useState({} as ITodo);
 
-  // handleQuestionText
   const handleForm = (
-    e: React.FormEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>
+    e: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ): void => {
     setFormData({
       ...formData,
-      // text: e.currentTarget.value,
       [e.currentTarget.id]: e.currentTarget.value,
     });
   };
 
-  const handleSaveTodo = (e: React.FormEvent, formData: ITodo | any) => {
+  const handleSaveTodo = (e: FormEvent, formData: ITodo | any) => {
     e.preventDefault();
     saveTodo(formData);
   };

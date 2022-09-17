@@ -1,10 +1,8 @@
-// App.tsx
-// import * as React from 'react'
 import TodoProvider from "./context/todoContext";
 import Todos from "./containers/Todos";
 import AddTodo from "./components/AddTodo";
 import { GlobalStyle } from "./global-style";
-// import './styles.css'
+import { Modal } from "./components/Modal";
 
 export default function App() {
   return (
@@ -14,6 +12,7 @@ export default function App() {
         <Todos />
       </main>
       <GlobalStyle />
+      <Modal />
     </TodoProvider>
   );
 }

@@ -9,16 +9,16 @@ export enum AnswerType {
 }
 export interface ITodo {
   id: number;
-  questionText?: string;
-  answerType?: AnswerType;
-  // title: string;
-  // description: string;
-  // status: boolean;
+  questionText: string;
+  answerType: AnswerType;
 }
 export type TodoContextType = {
   todos: ITodo[];
   saveTodo: (todo: ITodo) => void;
-  // updateTodo: (id: number) => void;
-  editTodo: (id: number) => void;
+  editQuestion: (id: number) => void;
   removeTodo: (id: number) => void;
+  toggleModal: (question: boolean) => void;
+  modalIsOpen: boolean;
+  editingQuestionData: ITodo;
+  saveEditedQuestion: (todo: ITodo) => void;
 };
