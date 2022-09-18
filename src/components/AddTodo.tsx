@@ -1,7 +1,6 @@
 import { ChangeEvent, FC, FormEvent, useContext, useState } from "react";
 import { TodoContext } from "../context/todoContext";
 import { TodoContextType, ITodo, AnswerType } from "../@types/todo";
-import { Container } from "./Styled/Container";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 
@@ -25,7 +24,7 @@ const AddTodo: FC = () => {
 
   if (editMod)
     return (
-      <Container>
+      <>
         <h2>Create question</h2>
         <form className="Form" onSubmit={(e) => handleSaveTodo(e, formData)}>
           <div>
@@ -50,7 +49,7 @@ const AddTodo: FC = () => {
             Add Todo
           </Button>
         </form>
-      </Container>
+      </>
     );
 
   return null;

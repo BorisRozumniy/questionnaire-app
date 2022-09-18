@@ -4,15 +4,16 @@ import AddTodo from "./components/AddTodo";
 import { GlobalStyle } from "./global-style";
 import { Modal } from "./components/Modal";
 import { SwitchMod } from "./components/SwitchMod";
+import { Container } from "./components/Styled/Container";
 
 export default function App() {
   return (
     <TodoProvider>
-      <main className="App">
+      <Container mt={40}>
         <SwitchMod />
         <AddTodo />
         <Todos />
-      </main>
+      </Container>
       <GlobalStyle />
       <Modal />
     </TodoProvider>
