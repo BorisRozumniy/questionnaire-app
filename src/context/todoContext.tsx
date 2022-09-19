@@ -48,6 +48,7 @@ const TodoProvider: FC<Props> = ({ children }) => {
   const toggleModal = (toggle: boolean) => {
     setModalIsOpen(toggle);
   };
+
   return (
     <TodoContext.Provider
       value={{

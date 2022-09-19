@@ -23,5 +23,7 @@ export type TodoContextType = {
   saveEditedQuestion: (todo: ITodo) => void;
   editMod: boolean;
   setEditMod: (val: boolean) => void;
-
 };
+
+export type Option = { label: AnswerType; value: AnswerType };
+
