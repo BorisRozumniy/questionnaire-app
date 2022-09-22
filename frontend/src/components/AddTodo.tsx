@@ -33,6 +33,22 @@ const AddTodo: FC = () => {
   const handleSaveTodo = (e: FormEvent, formData: ITodo | any) => {
     e.preventDefault();
     saveTodo(formData);
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+      body: JSON.stringify(formData),
+    };
+
+    const url = "/questions/";
+    fetch(url, config)
+      .then((res) => res.json())
+      .then(({ data, message }) => {
+        console.log(data, message);
+      })
+      .catch((error) => {
+        console.log("error fff", error);
+      });
   };
 
   if (editMod)
