@@ -1,19 +1,19 @@
-import TodoProvider from "./context/todoContext";
-import Todos from "./containers/Todos";
-import AddTodo from "./components/AddTodo";
+import { QuestionProvider } from "./context/context";
+import { Questions } from "./components/Questions";
+import { AddQuestion } from "./components/AddQuestion";
 import { GlobalStyle } from "./global-style";
 import { Modal } from "./components/Modal";
 import { SwitchMod } from "./components/SwitchMod";
 import { Container } from "./components/Styled/Container";
 
 export const App = () => (
-  <TodoProvider>
+  <QuestionProvider>
     <Container mt={40}>
       <SwitchMod />
-      <AddTodo />
-      <Todos />
+      <AddQuestion />
+      <Questions />
     </Container>
     <GlobalStyle />
     <Modal />
-  </TodoProvider>
+  </QuestionProvider>
 );

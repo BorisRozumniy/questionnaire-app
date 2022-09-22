@@ -1,6 +1,6 @@
 import Select, { ActionMeta, SingleValue } from "react-select";
-import { AnswerType } from "../../@types/todo";
-import { options } from "../AddTodo";
+import { AnswerType } from "../../@types/question";
+import { options } from "../AddQuestion";
 import { customStyles } from "./style";
 
 type Option = { label: AnswerType; value: AnswerType };

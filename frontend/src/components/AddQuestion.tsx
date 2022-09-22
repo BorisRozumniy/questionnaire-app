@@ -1,6 +1,6 @@
 import { FC, FormEvent, useContext, useState } from "react";
-import { TodoContext } from "../context/todoContext";
-import { TodoContextType, ITodo, AnswerType, Option } from "../@types/todo";
+import { Context } from "../context/context";
+import { ContextType, IQuestion, AnswerType, Option } from "../@types/question";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { AnswerTypeSelect } from "./AnswerTypeSelect";
@@ -11,9 +11,9 @@ type OnChange = (
   actionMeta: ActionMeta<Option>
 ) => void;
 
-const AddTodo: FC = () => {
-  const { saveQuestion, editMod } = useContext(TodoContext) as TodoContextType;
-  const [formData, setFormData] = useState({} as ITodo);
+export const AddQuestion: FC = () => {
+  const { saveQuestion, editMod } = useContext(Context) as ContextType;
+  const [formData, setFormData] = useState({} as IQuestion);
 
   const handleForm = (e: FormEvent<HTMLInputElement>): void => {
     setFormData({
@@ -30,7 +30,7 @@ const AddTodo: FC = () => {
       });
   };
 
-  const handleSaveTodo = (e: FormEvent, formData: ITodo | any) => {
+  const handleSave = (e: FormEvent, formData: IQuestion | any) => {
     e.preventDefault();
     saveQuestion(formData);
   };
@@ -39,7 +39,7 @@ const AddTodo: FC = () => {
     return (
       <>
         <h2>Create question</h2>
-        <form className="Form" onSubmit={(e) => handleSaveTodo(e, formData)}>
+        <form className="Form" onSubmit={(e) => handleSave(e, formData)}>
           <div>
             <div>
               <label htmlFor="questionText">Question</label>
@@ -51,7 +51,7 @@ const AddTodo: FC = () => {
             </div>
           </div>
           <Button disabled={!formData.questionText ? true : false}>
-            Add Todo
+            Add Question
           </Button>
         </form>
       </>
@@ -59,8 +59,6 @@ const AddTodo: FC = () => {
 
   return null;
 };
-
-export default AddTodo;
 
 export const options = [
   { value: AnswerType.text, label: AnswerType.text },

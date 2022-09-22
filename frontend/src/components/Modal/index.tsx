@@ -6,8 +6,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { AnswerType, ITodo, TodoContextType } from "../../@types/todo";
-import { TodoContext } from "../../context/todoContext";
+import { AnswerType, IQuestion, ContextType } from "../../@types/question";
+import { Context } from "../../context/context";
 import { useOnClickOutside } from "../../useOnClickOutside";
 import { Button } from "../Styled/Button";
 import { Input } from "../Styled/Input";
@@ -21,9 +21,9 @@ import {
 
 export const Modal = () => {
   const { modalIsOpen, toggleModal, editingQuestionData, saveEditedQuestion } =
-    useContext(TodoContext) as TodoContextType;
+    useContext(Context) as ContextType;
 
-  const [formData, setFormData] = useState(editingQuestionData as ITodo);
+  const [formData, setFormData] = useState(editingQuestionData as IQuestion);
 
   useEffect(() => {
     setFormData(editingQuestionData);
@@ -38,7 +38,7 @@ export const Modal = () => {
     });
   };
 
-  const handleSaveTodo = (e: FormEvent, formData: ITodo | any) => {
+  const handleSave = (e: FormEvent, formData: IQuestion | any) => {
     e.preventDefault();
     saveEditedQuestion(formData);
     toggleModal(false);
@@ -55,7 +55,7 @@ export const Modal = () => {
         <ModalWindow ref={wrapperRef}>
           <Heading>Modal</Heading>
           <CloseButton onClick={() => toggleModal(false)}>x</CloseButton>
-          <ModalFormBlock onSubmit={(e) => handleSaveTodo(e, formData)}>
+          <ModalFormBlock onSubmit={(e) => handleSave(e, formData)}>
             <Input
               defaultValue={formData.questionText}
               onChange={handleForm}

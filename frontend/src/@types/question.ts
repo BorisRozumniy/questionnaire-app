@@ -1,5 +1,3 @@
-// @types.todo.ts
-
 export enum AnswerType {
   text = 'text',
   data = 'data',
@@ -7,20 +5,20 @@ export enum AnswerType {
   aFewFromTheList = 'a few from the list',
   scale = 'scale'
 }
-export interface ITodo {
+export interface IQuestion {
   _id: number;
   questionText: string;
   answerType: AnswerType;
 }
-export type TodoContextType = {
-  questions: ITodo[];
-  saveQuestion: (todo: ITodo) => void;
+export type ContextType = {
+  questions: IQuestion[];
+  saveQuestion: (data: IQuestion) => void;
   editQuestion: (id: number) => void;
-  removeTodo: (id: number) => void;
+  removeQuestion: (id: number) => void;
   toggleModal: (question: boolean) => void;
   modalIsOpen: boolean;
-  editingQuestionData: ITodo;
-  saveEditedQuestion: (todo: ITodo) => void;
+  editingQuestionData: IQuestion;
+  saveEditedQuestion: (data: IQuestion) => void;
   editMod: boolean;
   setEditMod: (val: boolean) => void;
 };

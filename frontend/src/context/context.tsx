@@ -1,18 +1,18 @@
 import { useState, createContext, FC, ReactNode, useEffect } from "react";
-import { TodoContextType, ITodo, AnswerType } from "../@types/todo";
+import { ContextType, IQuestion, AnswerType } from "../@types/question";
 
-export const TodoContext = createContext<TodoContextType | null>(null);
+export const Context = createContext<ContextType | null>(null);
 
 interface Props {
   children: ReactNode;
 }
 
-const TodoProvider: FC<Props> = ({ children }) => {
+export const QuestionProvider: FC<Props> = ({ children }) => {
   const [editMod, setEditMod] = useState(false);
-  const [questions, setQuestions] = useState<ITodo[]>([]);
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [editingQuestionData, setEditingQuestionData] = useState<ITodo>(
-    {} as ITodo
+  const [editingQuestionData, setEditingQuestionData] = useState<IQuestion>(
+    {} as IQuestion
   );
 
   useEffect(() => {
@@ -27,8 +27,8 @@ const TodoProvider: FC<Props> = ({ children }) => {
       });
   }, []);
 
-  const saveQuestion = ({ questionText, answerType }: ITodo) => {
-    const newQuestion: Omit<ITodo, "_id"> = {
+  const saveQuestion = ({ questionText, answerType }: IQuestion) => {
+    const newQuestion: Omit<IQuestion, "_id"> = {
       questionText,
       answerType: answerType || AnswerType.text,
     };
@@ -51,23 +51,25 @@ const TodoProvider: FC<Props> = ({ children }) => {
       });
   };
 
-  const removeTodo = (id: number) => {
-    const filtered = questions.filter((todo: ITodo) => todo._id !== id);
+  const removeQuestion = (id: number) => {
+    const filtered = questions.filter(({ _id }: IQuestion) => _id !== id);
     setQuestions(filtered);
   };
 
   const editQuestion = (id: number) => {
     toggleModal(true);
     setEditingQuestionData(
-      questions[questions.findIndex((question) => question._id === id)]
+      questions[questions.findIndex(({ _id }) => _id === id)]
     );
   };
 
-  const saveEditedQuestion = (editedQuestion: ITodo) => {
+  const saveEditedQuestion = (editedQuestion: IQuestion) => {
     const { _id: questionId } = editedQuestion;
-    const copyTodos: ITodo[] = JSON.parse(JSON.stringify(questions));
+    const copyTodos: IQuestion[] = JSON.parse(JSON.stringify(questions));
     const finded =
-      copyTodos[copyTodos.findIndex(({ _id }: ITodo) => _id === questionId)];
+      copyTodos[
+        copyTodos.findIndex(({ _id }: IQuestion) => _id === questionId)
+      ];
     finded.questionText = editedQuestion.questionText;
     finded.answerType = editedQuestion.answerType;
     setQuestions([...copyTodos]);
@@ -78,13 +80,13 @@ const TodoProvider: FC<Props> = ({ children }) => {
   };
 
   return (
-    <TodoContext.Provider
+    <Context.Provider
       value={{
         editMod,
         setEditMod,
         questions,
         saveQuestion,
-        removeTodo,
+        removeQuestion,
         editQuestion,
         toggleModal,
         modalIsOpen,
@@ -93,8 +95,6 @@ const TodoProvider: FC<Props> = ({ children }) => {
       }}
     >
       {children}
-    </TodoContext.Provider>
+    </Context.Provider>
   );
 };
-
-export default TodoProvider;
