@@ -6,11 +6,11 @@ export const create = async (req: Request, res: Response) => {
   try {
     const { questionText, answerType } = req.body;
     const newQuestion = new Question({ questionText, answerType });
-    await newQuestion.save();
+    const data = await newQuestion.save();
     const message = `Question ${questionText.split(' ')[0]} created successfully`;
 
-    res.status(201).json({ question: newQuestion, message });
-    console.log(message);
+    res.status(201).json({ data, message });
+    console.log(message, data);
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });

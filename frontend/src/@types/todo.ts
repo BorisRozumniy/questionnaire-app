@@ -8,13 +8,13 @@ export enum AnswerType {
   scale = 'scale'
 }
 export interface ITodo {
-  id: number;
+  _id: number;
   questionText: string;
   answerType: AnswerType;
 }
 export type TodoContextType = {
-  todos: ITodo[];
-  saveTodo: (todo: ITodo) => void;
+  questions: ITodo[];
+  saveQuestion: (todo: ITodo) => void;
   editQuestion: (id: number) => void;
   removeTodo: (id: number) => void;
   toggleModal: (question: boolean) => void;

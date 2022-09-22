@@ -15,7 +15,7 @@ export interface IQuestion {
 
 const schema = new Schema<IQuestion>({
   questionText: { type: String, required: true, unique: false },
-  answerType: String,
+  answerType: { type: String, required: true, unique: false },
 });
 
 export const Question = model<IQuestion>("Question", schema);

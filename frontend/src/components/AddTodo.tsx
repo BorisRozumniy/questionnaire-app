@@ -12,7 +12,7 @@ type OnChange = (
 ) => void;
 
 const AddTodo: FC = () => {
-  const { saveTodo, editMod } = useContext(TodoContext) as TodoContextType;
+  const { saveQuestion, editMod } = useContext(TodoContext) as TodoContextType;
   const [formData, setFormData] = useState({} as ITodo);
 
   const handleForm = (e: FormEvent<HTMLInputElement>): void => {
@@ -32,23 +32,7 @@ const AddTodo: FC = () => {
 
   const handleSaveTodo = (e: FormEvent, formData: ITodo | any) => {
     e.preventDefault();
-    saveTodo(formData);
-
-    const config = {
-      headers: { "Content-Type": "application/json" },
-      method: "POST",
-      body: JSON.stringify(formData),
-    };
-
-    const url = "/questions/";
-    fetch(url, config)
-      .then((res) => res.json())
-      .then(({ data, message }) => {
-        console.log(data, message);
-      })
-      .catch((error) => {
-        console.log("error fff", error);
-      });
+    saveQuestion(formData);
   };
 
   if (editMod)

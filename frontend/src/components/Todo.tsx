@@ -18,8 +18,8 @@ const Todo: FC<Props> = ({ todo }) => {
           <h3>{todo.questionText}</h3>
           <span>{todo.answerType}</span>
         </div>
-        <Button onClick={() => editQuestion(todo.id)}>edit</Button>
-        <Button onClick={() => removeTodo(todo.id)}>remove</Button>
+        <Button onClick={() => editQuestion(todo._id)}>edit</Button>
+        <Button onClick={() => removeTodo(todo._id)}>remove</Button>
       </div>
     );
   return <h3>{todo.questionText}</h3>;

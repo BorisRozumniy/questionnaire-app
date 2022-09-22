@@ -4,13 +4,12 @@ import { TodoContext } from "../context/todoContext";
 import Todo from "../components/Todo";
 
 const Todos = () => {
-  const { todos } = useContext(TodoContext) as TodoContextType;
+  const { questions } = useContext(TodoContext) as TodoContextType;
   return (
     <>
       <h2>Questions list</h2>
-      {todos.map((todo: ITodo) => (
-        <Todo key={todo.id} todo={todo} />
-      ))}
+      {questions?.length > 0 &&
+        questions.map((todo: ITodo) => <Todo key={todo._id} todo={todo} />)}
     </>
   );
 };
