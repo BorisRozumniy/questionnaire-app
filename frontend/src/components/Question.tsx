@@ -1,6 +1,8 @@
 import { FC, useContext } from "react";
+import styled from "styled-components";
 import { IQuestion, ContextType } from "../@types/question";
 import { Context } from "../context/context";
+import { AnswerTypeComponent } from "./AnswerType";
 import { Button } from "./Styled/Button";
 
 type Props = {
@@ -14,14 +16,26 @@ export const Question: FC<Props> = ({ question }) => {
   ) as ContextType;
   if (editMod)
     return (
-      <div>
+      <Wrapper>
         <div>
           <h3>{questionText}</h3>
-          <span>{answerType}</span>
+          <AnswerTypeComponent answerType={answerType} />
         </div>
         <Button onClick={() => editQuestion(_id)}>edit</Button>
         <Button onClick={() => removeQuestion(_id)}>remove</Button>
-      </div>
+      </Wrapper>
     );
-  return <h3>{questionText}</h3>;
+  return (
+    <>
+      <Wrapper>{questionText}</Wrapper>
+      <AnswerTypeComponent answerType={answerType} />
+    </>
+  );
 };
+
+const Wrapper = styled.div`
+  margin: 2px 0;
+  border: green solid 2px;
+  border-radius: 3px;
+  padding: 8px 16px;
+`;
