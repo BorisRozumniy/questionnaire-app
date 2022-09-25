@@ -56,8 +56,8 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       headers: { "Content-Type": "application/json" },
       method: "DELETE",
     };
-
     const url = "/questions/" + id;
+
     fetch(url, config)
       .then((res) => res.json())
       .then(({ data, message }) => {
@@ -78,14 +78,31 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
 
   const saveEditedQuestion = (editedQuestion: IQuestion) => {
     const { _id: questionId } = editedQuestion;
-    const copyTodos: IQuestion[] = JSON.parse(JSON.stringify(questions));
-    const finded =
-      copyTodos[
-        copyTodos.findIndex(({ _id }: IQuestion) => _id === questionId)
-      ];
-    finded.questionText = editedQuestion.questionText;
-    finded.answerType = editedQuestion.answerType;
-    setQuestions([...copyTodos]);
+
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      method: "PATCH",
+      body: JSON.stringify(editedQuestion),
+    };
+    const url = "/questions/" + questionId;
+
+    fetch(url, config)
+      .then((res) => res.json())
+      .then(({ message }) => {
+        console.log(message);
+        const copyTodos: IQuestion[] = JSON.parse(JSON.stringify(questions));
+        const finded = copyTodos.find(
+          ({ _id }: IQuestion) => _id === questionId
+        );
+        if(finded) {
+          finded.questionText = editedQuestion.questionText;
+          finded.answerType = editedQuestion.answerType;
+        } 
+        setQuestions([...copyTodos]);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
   };
 
   const toggleModal = (toggle: boolean) => {

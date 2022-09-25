@@ -29,14 +29,11 @@ export const read = async (req: Request, res: Response) => {
 
 export const update = async (req: Request, res: Response) => {
   try {
-    const { questionText } = req.body;
-    await Question.findByIdAndUpdate(req.params.id, req.body);
-    const message = `Task "${questionText}" changed successfully`;
+    const id = req.params.id;
+    await Question.findByIdAndUpdate(id, req.body);
+    const message = `Question "${id}" changed successfully`;
     console.log(message);
-    res.json({
-      editedQuestion: req.body,
-      message,
-    });
+    res.json({ message });
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });
@@ -46,13 +43,10 @@ export const update = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
-    const deletedQuestion = await Question.findByIdAndDelete(id);
+    await Question.findByIdAndDelete(id);
     const message = `Question ${id} removed successfully`;
-    console.log(message, deletedQuestion);
-    res.json({
-      data: deletedQuestion,
-      message,
-    });
+    console.log(message);
+    res.json({ message });
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });
