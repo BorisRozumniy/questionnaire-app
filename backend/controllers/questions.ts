@@ -45,11 +45,12 @@ export const update = async (req: Request, res: Response) => {
 
 export const remove = async (req: Request, res: Response) => {
   try {
-    const deletedQuestion = await Question.findByIdAndDelete(req.params.id);
-    const message = `Task ${req.body.questionText} removed successfully`;
-    console.log(message);
+    const id = req.params.id;
+    const deletedQuestion = await Question.findByIdAndDelete(id);
+    const message = `Question ${id} removed successfully`;
+    console.log(message, deletedQuestion);
     res.json({
-      deletedQuestion,
+      data: deletedQuestion,
       message,
     });
   } catch (error) {

@@ -23,7 +23,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
         setQuestions(data);
       })
       .catch((error) => {
-        console.log("error fff", error);
+        console.log("error", error);
       });
   }, []);
 
@@ -52,8 +52,21 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
   };
 
   const removeQuestion = (id: number) => {
-    const filtered = questions.filter(({ _id }: IQuestion) => _id !== id);
-    setQuestions(filtered);
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      method: "DELETE",
+    };
+
+    const url = "/questions/" + id;
+    fetch(url, config)
+      .then((res) => res.json())
+      .then(({ data, message }) => {
+        const filtered = questions.filter(({ _id }: IQuestion) => _id !== id);
+        setQuestions([...filtered]);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
   };
 
   const editQuestion = (id: number) => {
