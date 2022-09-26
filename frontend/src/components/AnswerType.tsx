@@ -1,13 +1,23 @@
-import { FC, useContext } from "react";
-import { AnswerType, ContextType } from "../@types/question";
+import { Dispatch, FC, SetStateAction, useContext } from "react";
+import { AnswerType, ContextType, IQuestion } from "../@types/question";
 import { Context } from "../context/context";
-import { PossibleAnswer } from "./PossibleAnswer";
+import { PossibleAnswerList } from "./PossibleAnswer";
 
 type AnswerTypeProps = {
   answerType: string;
+  answerOptions?: IQuestion["answerOptions"];
+  onAddOption: () => void;
+  inputValue: string;
+  setInputValue: Dispatch<SetStateAction<string>>;
 };
 
-export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {
+export const AnswerTypeComponent: FC<AnswerTypeProps> = ({
+  answerType,
+  answerOptions,
+  onAddOption,
+  inputValue,
+  setInputValue,
+}) => {
   const { editMod } = useContext(Context) as ContextType;
   switch (answerType) {
     case AnswerType.text:
@@ -15,15 +25,26 @@ export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {
     case AnswerType.data:
       return <input type="date" disabled={editMod} />;
     case AnswerType.oneOfTheList:
-      return <PossibleAnswer />;
-    case AnswerType.aFewFromTheList:
-      return <PossibleAnswer isSeveral />;
-    case AnswerType.scale:
       return (
-        <>
-          <input type="range" />
-        </>
+        <PossibleAnswerList
+          options={answerOptions || []}
+          onAddOption={onAddOption}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+        />
       );
+    case AnswerType.aFewFromTheList:
+      return (
+        <PossibleAnswerList
+          options={answerOptions || []}
+          isSeveral
+          onAddOption={onAddOption}
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+        />
+      );
+    case AnswerType.scale:
+      return <input type="range" />;
 
     default:
       return null;

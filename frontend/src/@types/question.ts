@@ -5,11 +5,22 @@ export enum AnswerType {
   aFewFromTheList = 'a few from the list',
   scale = 'scale'
 }
+
+export type TPossibleAnswerItem = {
+  title: string;
+  id: number;
+};
+
 export interface IQuestion {
   _id: number;
   questionText: string;
   answerType: AnswerType;
+  answer?: { type: AnswerType, item: TPossibleAnswerItem };
+  userAnswer?: string | string[] | number;
+  answerOptions?: TPossibleAnswerItem[];
 }
+
+
 export type ContextType = {
   questions: IQuestion[];
   saveQuestion: (data: IQuestion) => void;

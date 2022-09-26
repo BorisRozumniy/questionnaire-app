@@ -4,10 +4,10 @@ import { Request, Response } from 'express';
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const { questionText, answerType } = req.body;
-    const newQuestion = new Question({ questionText, answerType });
+    const { questionText } = req.body;
+    const newQuestion = new Question(req.body);
     const data = await newQuestion.save();
-    const message = `Question ${questionText.split(' ')[0]} created successfully`;
+    const message = `Question ${questionText} created successfully`;
 
     res.status(201).json({ data, message });
     console.log(message, data);

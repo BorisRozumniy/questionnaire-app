@@ -1,35 +1,55 @@
-import { EventHandler, FormEvent, useContext, useEffect, useState } from "react";
-import { ContextType } from "../@types/question";
+import {
+  Dispatch,
+  EventHandler,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { ContextType, TPossibleAnswerItem } from "../@types/question";
 import { Context } from "../context/context";
+import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
-
-type TPossibleAnswers = {
-  title: string;
-  selected: boolean;
-  id: number;
-};
 
 type Props = {
   isSeveral?: boolean;
+  options: TPossibleAnswerItem[];
+  onAddOption: () => void;
+  inputValue: string;
+  setInputValue: Dispatch<SetStateAction<string>>;
 };
 
-export const PossibleAnswer = ({ isSeveral }: Props) => {
-  const [possibleAnswers, setPossibleAnswers] =
-    useState<TPossibleAnswers[]>(mockData);
+export const PossibleAnswerList = ({
+  isSeveral,
+  options,
+  onAddOption,
+  inputValue,
+  setInputValue,
+}: Props) => {
+  const handleChangeNewItem = ({
+    currentTarget,
+  }: FormEvent<HTMLInputElement>): void => {
+    setInputValue(currentTarget.value);
+  };
 
-  // const [inputValue, setInputValue] = useState("");
-  // console.log("inputValue", inputValue, "possibleAnswers", possibleAnswers);
+  const handleAddNewItem = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    setInputValue("");
+    onAddOption();
+  };
 
-  const handleChange = (
-    { currentTarget }: FormEvent<HTMLInputElement>,
-    currentId: number
-  ): void => {
-    const index = possibleAnswers.findIndex(({ id }) => id === currentId);
+  const handleChange = ({
+    currentTarget,
+  }: FormEvent<HTMLInputElement>): // currentId: string
+  // currentId: number
+  void => {
+    // const index = possibleAnswers.findIndex(({ id }) => id === currentId);
 
     // setInputValue(currentTarget.value);
     // possibleAnswers[index].title = currentTarget.value;
-    setPossibleAnswers([...possibleAnswers]);
-    console.log("change handler", index);
+    // setPossibleAnswers([...possibleAnswers]);
+    console.log("change handler", currentTarget);
   };
 
   const handleFocus = ({
@@ -46,7 +66,7 @@ export const PossibleAnswer = ({ isSeveral }: Props) => {
 
   return (
     <>
-      {possibleAnswers?.map((item) => (
+      {options?.map((item) => (
         <PossibleAnswerItem
           key={item.title}
           item={item}
@@ -55,24 +75,19 @@ export const PossibleAnswer = ({ isSeveral }: Props) => {
           onBlur={handleBlur}
         />
       ))}
-      {/* <input
-        type="text"
-        value={inputValue}
-        onChange={handleChange}
-        onFocus={handleFocus}
-      />
-      <button>add new option</button> */}
+      <Input value={inputValue} onChange={handleChangeNewItem} />
+      <Button onClick={handleAddNewItem}>add new option</Button>
     </>
   );
 };
 
 type PAProps = {
-  item: TPossibleAnswers;
-  onChange: (e: FormEvent<HTMLInputElement>, id: number) => void;
+  item: TPossibleAnswerItem;
+  onChange: (e: FormEvent<HTMLInputElement>, item: TPossibleAnswerItem) => void;
   onFocus: EventHandler<FormEvent<HTMLInputElement>>;
   onBlur: (e: FormEvent<HTMLInputElement>, value: string) => void;
-  // onBlur: EventHandler<FormEvent<HTMLInputElement>>;
 };
+
 export const PossibleAnswerItem = ({
   item,
   onChange,
@@ -90,10 +105,11 @@ export const PossibleAnswerItem = ({
   if (editMod)
     return (
       <Input
-        onChange={(e) => onChange(e, item.id)}
+        onChange={(e) => onChange(e, item)}
+        // onChange={(e) => onChange(e, item.id)}
         // onChange={(e) => setInputValue(e.currentTarget.value)}
         onFocus={onFocus}
-        onBlur={(e) => onBlur(e, inputValue)}
+        // onBlur={(e) => onBlur(e, inputValue)}
         // value={item.title}
         value={inputValue}
       />
@@ -103,32 +119,14 @@ export const PossibleAnswerItem = ({
       <input
         // type="checkbox"
         type="radio"
-        name={item.title}
-        checked={item.selected}
+        name={String(item.id)}
+        // checked={item.selected}
         // onChange={onChange}
         onFocus={onFocus}
         // onBlur={onBlur}
         onBlur={(e) => onBlur(e, inputValue)}
       />
-      <label htmlFor={item.title}>{item.title}</label>
+      <label htmlFor={String(item.id)}>{item.title}</label>
     </>
   );
 };
-
-const mockData = [
-  {
-    title: "item 1",
-    selected: false,
-    id: 0o1,
-  },
-  {
-    title: "item 2",
-    selected: false,
-    id: 0o2,
-  },
-  {
-    title: "item 3",
-    selected: true,
-    id: 0o3,
-  },
-];

@@ -1,10 +1,11 @@
 import { FC, FormEvent, useContext, useState } from "react";
+import { ActionMeta, SingleValue } from "react-select";
 import { Context } from "../context/context";
 import { ContextType, IQuestion, AnswerType, Option } from "../@types/question";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { AnswerTypeSelect } from "./AnswerTypeSelect";
-import { ActionMeta, SingleValue } from "react-select";
+import { AnswerTypeComponent } from "./AnswerType";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -15,7 +16,9 @@ export const AddQuestion: FC = () => {
   const { saveQuestion, editMod } = useContext(Context) as ContextType;
   const [formData, setFormData] = useState({} as IQuestion);
 
-  const handleForm = (e: FormEvent<HTMLInputElement>): void => {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
     setFormData({
       ...formData,
       questionText: e.currentTarget.value,
@@ -23,10 +26,30 @@ export const AddQuestion: FC = () => {
   };
 
   const handleChangeSelect: OnChange = (selected) => {
+    const isNeedList =
+      selected?.value === AnswerType.oneOfTheList ||
+      selected?.value === AnswerType.aFewFromTheList;
+
     selected &&
       setFormData({
         ...formData,
         answerType: selected?.value,
+      });
+
+    isNeedList &&
+      setFormData({
+        ...formData,
+        answerType: selected?.value,
+        answerOptions: [],
+      });
+  };
+
+  const handleAddOption = () => {
+    const option = { title: inputValue, id: Date.now() };
+    formData.answerOptions &&
+      setFormData({
+        ...formData,
+        answerOptions: [...formData.answerOptions, option],
       });
   };
 
@@ -43,13 +66,24 @@ export const AddQuestion: FC = () => {
           <div>
             <div>
               <label htmlFor="questionText">Question</label>
-              <Input onChange={handleForm} type="text" name="questionText" />
+              <Input
+                onChange={handleQuestionText}
+                type="text"
+                name="questionText"
+              />
             </div>
             <div>
               <label>Answer type</label>
               <AnswerTypeSelect onChange={handleChangeSelect} />
             </div>
           </div>
+          <AnswerTypeComponent
+            answerType={formData.answerType}
+            answerOptions={formData.answerOptions}
+            onAddOption={handleAddOption}
+            inputValue={inputValue}
+            setInputValue={setInputValue}
+          />
           <Button disabled={!formData.questionText ? true : false}>
             Add Question
           </Button>

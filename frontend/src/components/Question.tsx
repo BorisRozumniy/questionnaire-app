@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const Question: FC<Props> = ({ question }) => {
-  const { _id, questionText, answerType } = question;
+  const { _id, questionText, answerType, answer } = question;
   const { removeQuestion, editQuestion, editMod } = useContext(
     Context
   ) as ContextType;
@@ -19,7 +19,8 @@ export const Question: FC<Props> = ({ question }) => {
       <Wrapper>
         <div>
           <h3>{questionText}</h3>
-          <AnswerTypeComponent answerType={answerType} />
+          <p>{answerType}</p>
+          {/* <AnswerTypeComponent answerType={answerType} answer={answer} /> */}
         </div>
         <Button onClick={() => editQuestion(_id)}>edit</Button>
         <Button onClick={() => removeQuestion(_id)}>remove</Button>
@@ -27,8 +28,11 @@ export const Question: FC<Props> = ({ question }) => {
     );
   return (
     <>
-      <Wrapper>{questionText}</Wrapper>
-      <AnswerTypeComponent answerType={answerType} />
+      <Wrapper>
+        {questionText}
+        <p>{answerType}</p>
+      </Wrapper>
+      {/* <AnswerTypeComponent answerType={answerType} answer={answer} /> */}
     </>
   );
 };
@@ -39,3 +43,21 @@ const Wrapper = styled.div`
   border-radius: 3px;
   padding: 8px 16px;
 `;
+
+const mockData = [
+  {
+    title: "item 1",
+    selected: false,
+    id: 0o1,
+  },
+  {
+    title: "item 2",
+    selected: false,
+    id: 0o2,
+  },
+  {
+    title: "item 3",
+    selected: true,
+    id: 0o3,
+  },
+];

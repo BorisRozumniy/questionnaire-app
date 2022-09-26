@@ -27,10 +27,15 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       });
   }, []);
 
-  const saveQuestion = ({ questionText, answerType }: IQuestion) => {
+  const saveQuestion = ({
+    questionText,
+    answerType,
+    answerOptions,
+  }: IQuestion) => {
     const newQuestion: Omit<IQuestion, "_id"> = {
       questionText,
       answerType: answerType || AnswerType.text,
+      answerOptions,
     };
 
     const config = {
@@ -47,7 +52,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
         setQuestions([...questions, data]);
       })
       .catch((error) => {
-        console.log("error fff", error);
+        console.log("error", error);
       });
   };
 
@@ -94,10 +99,10 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
         const finded = copyTodos.find(
           ({ _id }: IQuestion) => _id === questionId
         );
-        if(finded) {
+        if (finded) {
           finded.questionText = editedQuestion.questionText;
           finded.answerType = editedQuestion.answerType;
-        } 
+        }
         setQuestions([...copyTodos]);
       })
       .catch((error) => {

@@ -1,12 +1,16 @@
 export enum AnswerType {
     text = 'text',
     data = 'data',
-    oneOfTheList = 'one of the list',
-    aFewFromTheList = 'a few from the list',
-    scale = 'scale'
+    scale = 'scale',
+    oneOfList = 'oneOfList',
+    fewOfList = 'fewOfList',
 }
 
+type PossibleAnswer = {
+    title: string;
+};
 export interface IQuestion {
     questionText: string;
     answerType: AnswerType;
+    answerOptions: PossibleAnswer[],
 }
