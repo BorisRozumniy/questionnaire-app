@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useContext } from "react";
+import { FC, useContext } from "react";
 import { AnswerType, ContextType, IQuestion } from "../@types/question";
 import { Context } from "../context/context";
 import { PossibleAnswerList } from "./PossibleAnswer";
@@ -8,7 +8,7 @@ type AnswerTypeProps = {
   answerOptions?: IQuestion["answerOptions"];
   onAddOption: () => void;
   inputValue: string;
-  setInputValue: Dispatch<SetStateAction<string>>;
+  setInputValue: (newValue: string) => void;
 };
 
 export const AnswerTypeComponent: FC<AnswerTypeProps> = ({
@@ -36,8 +36,8 @@ export const AnswerTypeComponent: FC<AnswerTypeProps> = ({
     case AnswerType.aFewFromTheList:
       return (
         <PossibleAnswerList
-          options={answerOptions || []}
           isSeveral
+          options={answerOptions || []}
           onAddOption={onAddOption}
           inputValue={inputValue}
           setInputValue={setInputValue}

@@ -6,6 +6,7 @@ import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { AnswerTypeSelect } from "./AnswerTypeSelect";
 import { AnswerTypeComponent } from "./AnswerType";
+import { useInput } from "../useInput";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -16,7 +17,7 @@ export const AddQuestion: FC = () => {
   const { saveQuestion, editMod } = useContext(Context) as ContextType;
   const [formData, setFormData] = useState({} as IQuestion);
 
-  const [inputValue, setInputValue] = useState("");
+  const [newOptionValue, setNewOptionValue] = useInput("");
 
   const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
     setFormData({
@@ -45,7 +46,7 @@ export const AddQuestion: FC = () => {
   };
 
   const handleAddOption = () => {
-    const option = { title: inputValue, id: Date.now() };
+    const option = { title: newOptionValue, id: Date.now() };
     formData.answerOptions &&
       setFormData({
         ...formData,
@@ -81,8 +82,8 @@ export const AddQuestion: FC = () => {
             answerType={formData.answerType}
             answerOptions={formData.answerOptions}
             onAddOption={handleAddOption}
-            inputValue={inputValue}
-            setInputValue={setInputValue}
+            inputValue={newOptionValue}
+            setInputValue={setNewOptionValue}
           />
           <Button disabled={!formData.questionText ? true : false}>
             Add Question

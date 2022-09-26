@@ -95,15 +95,14 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       .then((res) => res.json())
       .then(({ message }) => {
         console.log(message);
-        const copyTodos: IQuestion[] = JSON.parse(JSON.stringify(questions));
-        const finded = copyTodos.find(
-          ({ _id }: IQuestion) => _id === questionId
-        );
+        const copy: IQuestion[] = JSON.parse(JSON.stringify(questions));
+        const finded = copy.find(({ _id }: IQuestion) => _id === questionId);
         if (finded) {
           finded.questionText = editedQuestion.questionText;
           finded.answerType = editedQuestion.answerType;
+          finded.answerOptions = editedQuestion.answerOptions;
         }
-        setQuestions([...copyTodos]);
+        setQuestions([...copy]);
       })
       .catch((error) => {
         console.log("error", error);

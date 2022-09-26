@@ -1,14 +1,7 @@
-import {
-  Dispatch,
-  EventHandler,
-  FormEvent,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { ContextType, TPossibleAnswerItem } from "../@types/question";
-import { Context } from "../context/context";
+import { FormEvent, MouseEvent } from "react";
+import { TPossibleAnswerItem } from "../@types/question";
+import { useInput } from "../useInput";
+import { PossibleAnswerItem } from "./PossibleAnswerItem";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 
@@ -17,7 +10,7 @@ type Props = {
   options: TPossibleAnswerItem[];
   onAddOption: () => void;
   inputValue: string;
-  setInputValue: Dispatch<SetStateAction<string>>;
+  setInputValue: (newValue: string) => void;
 };
 
 export const PossibleAnswerList = ({
@@ -27,13 +20,16 @@ export const PossibleAnswerList = ({
   inputValue,
   setInputValue,
 }: Props) => {
+  // const [optionValue, setOptionValue] = useState();
+  // cosnt [] = useInput
+
   const handleChangeNewItem = ({
     currentTarget,
   }: FormEvent<HTMLInputElement>): void => {
     setInputValue(currentTarget.value);
   };
 
-  const handleAddNewItem = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddNewItem = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     setInputValue("");
     onAddOption();
@@ -49,7 +45,7 @@ export const PossibleAnswerList = ({
     // setInputValue(currentTarget.value);
     // possibleAnswers[index].title = currentTarget.value;
     // setPossibleAnswers([...possibleAnswers]);
-    console.log("change handler", currentTarget);
+    console.log("change handler", currentTarget.value);
   };
 
   const handleFocus = ({
@@ -77,56 +73,6 @@ export const PossibleAnswerList = ({
       ))}
       <Input value={inputValue} onChange={handleChangeNewItem} />
       <Button onClick={handleAddNewItem}>add new option</Button>
-    </>
-  );
-};
-
-type PAProps = {
-  item: TPossibleAnswerItem;
-  onChange: (e: FormEvent<HTMLInputElement>, item: TPossibleAnswerItem) => void;
-  onFocus: EventHandler<FormEvent<HTMLInputElement>>;
-  onBlur: (e: FormEvent<HTMLInputElement>, value: string) => void;
-};
-
-export const PossibleAnswerItem = ({
-  item,
-  onChange,
-  onFocus,
-  onBlur,
-}: PAProps) => {
-  const [inputValue, setInputValue] = useState(item.title);
-
-  useEffect(() => {
-    setInputValue(item.title);
-  }, [item]);
-
-  const { editMod } = useContext(Context) as ContextType;
-
-  if (editMod)
-    return (
-      <Input
-        onChange={(e) => onChange(e, item)}
-        // onChange={(e) => onChange(e, item.id)}
-        // onChange={(e) => setInputValue(e.currentTarget.value)}
-        onFocus={onFocus}
-        // onBlur={(e) => onBlur(e, inputValue)}
-        // value={item.title}
-        value={inputValue}
-      />
-    );
-  return (
-    <>
-      <input
-        // type="checkbox"
-        type="radio"
-        name={String(item.id)}
-        // checked={item.selected}
-        // onChange={onChange}
-        onFocus={onFocus}
-        // onBlur={onBlur}
-        onBlur={(e) => onBlur(e, inputValue)}
-      />
-      <label htmlFor={String(item.id)}>{item.title}</label>
     </>
   );
 };

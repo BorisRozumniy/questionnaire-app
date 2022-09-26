@@ -2,6 +2,7 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 import { IQuestion, ContextType } from "../@types/question";
 import { Context } from "../context/context";
+import { useInput } from "../useInput";
 import { AnswerTypeComponent } from "./AnswerType";
 import { Button } from "./Styled/Button";
 
@@ -10,17 +11,35 @@ type Props = {
 };
 
 export const Question: FC<Props> = ({ question }) => {
-  const { _id, questionText, answerType, answer } = question;
-  const { removeQuestion, editQuestion, editMod } = useContext(
-    Context
-  ) as ContextType;
+  const { _id, questionText, answerType, answerOptions } = question;
+  const { removeQuestion, editQuestion, saveEditedQuestion, editMod } =
+    useContext(Context) as ContextType;
+  const [newOptionValue, setNewOptionValue] = useInput("");
+
+  const handleAddOption = () => {
+    const option = { title: newOptionValue, id: Date.now() };
+    question.answerOptions &&
+      saveEditedQuestion({
+        ...question,
+        answerOptions: [...question.answerOptions, option],
+      });
+  };
+
   if (editMod)
     return (
       <Wrapper>
         <div>
           <h3>{questionText}</h3>
           <p>{answerType}</p>
-          {/* <AnswerTypeComponent answerType={answerType} answer={answer} /> */}
+          <AnswerTypeComponent
+            answerType={answerType}
+            answerOptions={answerOptions}
+            // answerType={formData.answerType}
+            // answerOptions={formData.answerOptions}
+            onAddOption={handleAddOption}
+            inputValue={newOptionValue}
+            setInputValue={setNewOptionValue}
+          />
         </div>
         <Button onClick={() => editQuestion(_id)}>edit</Button>
         <Button onClick={() => removeQuestion(_id)}>remove</Button>
@@ -32,7 +51,7 @@ export const Question: FC<Props> = ({ question }) => {
         {questionText}
         <p>{answerType}</p>
       </Wrapper>
-      {/* <AnswerTypeComponent answerType={answerType} answer={answer} /> */}
+      {/* <AnswerTypeComponent answerType={answerType} answerOptions={answerOptions} /> */}
     </>
   );
 };
@@ -43,21 +62,3 @@ const Wrapper = styled.div`
   border-radius: 3px;
   padding: 8px 16px;
 `;
-
-const mockData = [
-  {
-    title: "item 1",
-    selected: false,
-    id: 0o1,
-  },
-  {
-    title: "item 2",
-    selected: false,
-    id: 0o2,
-  },
-  {
-    title: "item 3",
-    selected: true,
-    id: 0o3,
-  },
-];
