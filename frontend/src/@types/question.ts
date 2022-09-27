@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export enum AnswerType {
   text = 'text',
   data = 'data',
@@ -15,14 +17,14 @@ export interface IQuestion {
   _id: number;
   questionText: string;
   answerType: AnswerType;
-  answer?: { type: AnswerType, item: TPossibleAnswerItem };
-  userAnswer?: string | string[] | number;
   answerOptions?: TPossibleAnswerItem[];
+  userAnswer?: string | string[] | number;
 }
 
 
 export type ContextType = {
   questions: IQuestion[];
+  setQuestions: Dispatch<SetStateAction<IQuestion[]>>;
   saveQuestion: (data: IQuestion) => void;
   editQuestion: (id: number) => void;
   removeQuestion: (id: number) => void;
@@ -36,3 +38,4 @@ export type ContextType = {
 
 export type Option = { label: AnswerType; value: AnswerType };
 
+export type QuestionItemContextType = { question: IQuestion }

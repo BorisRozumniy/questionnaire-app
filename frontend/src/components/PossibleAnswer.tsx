@@ -1,8 +1,14 @@
-import { FormEvent, MouseEvent, useContext } from "react";
+import { FormEvent, MouseEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
-import { ContextType, TPossibleAnswerItem } from "../@types/question";
+import {
+  ContextType,
+  IQuestion,
+  QuestionItemContextType,
+  TPossibleAnswerItem,
+} from "../@types/question";
+import { saveEditedQuestion } from "../actions/saveEditedQuestion";
 import { Context } from "../context/context";
-import { useInput } from "../useInput";
+import { QuestionItemContext } from "../context/questionItemContext";
 import { useSelectedOne } from "../useSelected";
 import { PossibleAnswerItem } from "./PossibleAnswerItem";
 import { Button } from "./Styled/Button";
@@ -48,9 +54,24 @@ export const PossibleAnswerList = ({
     console.log("change handler", currentTarget.value);
   };
 
-  const { editMod } = useContext(Context) as ContextType;
+  const { editMod, questions, setQuestions } = useContext(
+    Context
+  ) as ContextType;
+  const { question } = useContext(
+    QuestionItemContext
+  ) as QuestionItemContextType;
 
   const [selectedOption, setSelectedOption] = useSelectedOne("");
+
+  useEffect(() => {
+    if (selectedOption) {
+      const questionUpdate: IQuestion = {
+        ...question,
+        userAnswer: selectedOption,
+      };
+      saveEditedQuestion(questionUpdate, questions, setQuestions);
+    }
+  }, [selectedOption]);
 
   return (
     <OptionWrapper>

@@ -2,6 +2,7 @@ import { FC, useContext } from "react";
 import styled from "styled-components";
 import { IQuestion, ContextType } from "../@types/question";
 import { Context } from "../context/context";
+import { QuestionItemProvider } from "../context/questionItemContext";
 import { useInput } from "../useInput";
 import { AnswerTypeComponent } from "./AnswerType";
 import { Button } from "./Styled/Button";
@@ -26,25 +27,27 @@ export const Question: FC<Props> = ({ question }) => {
   };
 
   return (
-    <Wrapper>
-      <div>
-        <h3>{questionText}</h3>
-        <p>{answerType}</p>
-        <AnswerTypeComponent
-          answerType={answerType}
-          answerOptions={answerOptions}
-          onAddOption={handleAddOption}
-          inputValue={newOptionValue}
-          setInputValue={setNewOptionValue}
-        />
-      </div>
-      {editMod && (
-        <>
-          <Button onClick={() => editQuestion(_id)}>edit</Button>
-          <Button onClick={() => removeQuestion(_id)}>remove</Button>
-        </>
-      )}
-    </Wrapper>
+    <QuestionItemProvider question={question}>
+      <Wrapper>
+        <div>
+          <h3>{questionText}</h3>
+          <p>{answerType}</p>
+          <AnswerTypeComponent
+            answerType={answerType}
+            answerOptions={answerOptions}
+            onAddOption={handleAddOption}
+            inputValue={newOptionValue}
+            setInputValue={setNewOptionValue}
+          />
+        </div>
+        {editMod && (
+          <>
+            <Button onClick={() => editQuestion(_id)}>edit</Button>
+            <Button onClick={() => removeQuestion(_id)}>remove</Button>
+          </>
+        )}
+      </Wrapper>
+    </QuestionItemProvider>
   );
 };
 

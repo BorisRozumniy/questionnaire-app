@@ -119,6 +119,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
         editMod,
         setEditMod,
         questions,
+        setQuestions,
         saveQuestion,
         removeQuestion,
         editQuestion,
