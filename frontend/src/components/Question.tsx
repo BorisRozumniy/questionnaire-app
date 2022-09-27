@@ -25,34 +25,26 @@ export const Question: FC<Props> = ({ question }) => {
       });
   };
 
-  if (editMod)
-    return (
-      <Wrapper>
-        <div>
-          <h3>{questionText}</h3>
-          <p>{answerType}</p>
-          <AnswerTypeComponent
-            answerType={answerType}
-            answerOptions={answerOptions}
-            // answerType={formData.answerType}
-            // answerOptions={formData.answerOptions}
-            onAddOption={handleAddOption}
-            inputValue={newOptionValue}
-            setInputValue={setNewOptionValue}
-          />
-        </div>
-        <Button onClick={() => editQuestion(_id)}>edit</Button>
-        <Button onClick={() => removeQuestion(_id)}>remove</Button>
-      </Wrapper>
-    );
   return (
-    <>
-      <Wrapper>
-        {questionText}
+    <Wrapper>
+      <div>
+        <h3>{questionText}</h3>
         <p>{answerType}</p>
-      </Wrapper>
-      {/* <AnswerTypeComponent answerType={answerType} answerOptions={answerOptions} /> */}
-    </>
+        <AnswerTypeComponent
+          answerType={answerType}
+          answerOptions={answerOptions}
+          onAddOption={handleAddOption}
+          inputValue={newOptionValue}
+          setInputValue={setNewOptionValue}
+        />
+      </div>
+      {editMod && (
+        <>
+          <Button onClick={() => editQuestion(_id)}>edit</Button>
+          <Button onClick={() => removeQuestion(_id)}>remove</Button>
+        </>
+      )}
+    </Wrapper>
   );
 };
 

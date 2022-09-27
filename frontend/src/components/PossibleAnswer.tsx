@@ -1,6 +1,9 @@
-import { FormEvent, MouseEvent } from "react";
-import { TPossibleAnswerItem } from "../@types/question";
+import { FormEvent, MouseEvent, useContext } from "react";
+import styled from "styled-components";
+import { ContextType, TPossibleAnswerItem } from "../@types/question";
+import { Context } from "../context/context";
 import { useInput } from "../useInput";
+import { useSelectedOne } from "../useSelected";
 import { PossibleAnswerItem } from "./PossibleAnswerItem";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
@@ -20,9 +23,6 @@ export const PossibleAnswerList = ({
   inputValue,
   setInputValue,
 }: Props) => {
-  // const [optionValue, setOptionValue] = useState();
-  // cosnt [] = useInput
-
   const handleChangeNewItem = ({
     currentTarget,
   }: FormEvent<HTMLInputElement>): void => {
@@ -48,31 +48,33 @@ export const PossibleAnswerList = ({
     console.log("change handler", currentTarget.value);
   };
 
-  const handleFocus = ({
-    currentTarget,
-  }: FormEvent<HTMLInputElement>): void => {
-    console.log(currentTarget, currentTarget.value);
-    // setInputValue(currentTarget.value);
-  };
+  const { editMod } = useContext(Context) as ContextType;
 
-  const handleBlur = (e: FormEvent<HTMLInputElement>, value: string) => {
-    console.dir(/* "blur", value, e.currentTarget.value, */ e.currentTarget);
-    // setInputValue("");
-  };
+  const [selectedOption, setSelectedOption] = useSelectedOne("");
 
   return (
-    <>
+    <OptionWrapper>
       {options?.map((item) => (
         <PossibleAnswerItem
           key={item.title}
           item={item}
           onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
         />
       ))}
-      <Input value={inputValue} onChange={handleChangeNewItem} />
-      <Button onClick={handleAddNewItem}>add new option</Button>
-    </>
+      {editMod && (
+        <>
+          <Input value={inputValue} onChange={handleChangeNewItem} />
+          <Button onClick={handleAddNewItem}>add new option</Button>
+        </>
+      )}
+    </OptionWrapper>
   );
 };
+
+const OptionWrapper = styled.form`
+  padding: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
