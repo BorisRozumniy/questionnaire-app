@@ -5,10 +5,9 @@ import {
   useEffect,
   useState,
 } from "react";
-import styled from "styled-components";
 import { ContextType, TPossibleAnswerItem } from "../@types/question";
 import { Context } from "../context/context";
-import { useSelectedOne } from "../useSelected";
+import { PossibleOneAnswerItem } from "./PossibleOneAnswerItem";
 import { Input } from "./Styled/Input";
 
 type Props = {
@@ -17,7 +16,7 @@ type Props = {
   onFocus?: EventHandler<FormEvent<HTMLInputElement>>;
   onBlur?: (e: FormEvent<HTMLInputElement>, value: string) => void;
   selectedOption?: string;
-  setSelectedOption?: (item: string) => void;
+  setSelectedOption: (item: string) => void;
 };
 
 export const PossibleAnswerItem = ({
@@ -34,11 +33,6 @@ export const PossibleAnswerItem = ({
 
   const { editMod } = useContext(Context) as ContextType;
 
-  const onValueChange = (event: FormEvent<HTMLInputElement>): void => {
-    console.log(event.currentTarget);
-    setSelectedOption && setSelectedOption(event.currentTarget.value);
-  };
-
   if (editMod)
     return (
       <Input
@@ -49,36 +43,6 @@ export const PossibleAnswerItem = ({
     );
 
   return (
-    // <OptionWrapper>
-    <Label>
-      <InputRadio
-        type="radio"
-        id={String(item.id)}
-        value={item.title}
-        // checked={true}
-        checked={selectedOption === item.title}
-        // value={checkedOption}
-        // value={item.title}
-        onChange={onValueChange}
-        // onFocus={onFocus}
-        // onBlur={(e) => onBlur(e, inputValue)}
-      />
-      {item.title}
-    </Label>
-    //   <Label htmlFor={String(item.id)}>{item.title}</Label>
-    // </OptionWrapper>
+    <PossibleOneAnswerItem {...{ item, setSelectedOption, selectedOption }} />
   );
 };
-
-const OptionWrapper = styled.div`
-  padding: 4px;
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-`;
-
-const InputRadio = styled(Input)`
-  cursor: pointer;
-`;
-const Label = styled.label`
-  cursor: pointer;
-`;
