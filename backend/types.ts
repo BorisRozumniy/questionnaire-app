@@ -13,4 +13,5 @@ export interface IQuestion {
     questionText: string;
     answerType: AnswerType;
     answerOptions: PossibleAnswer[],
+    userAnswer?: string | string[] | number;
 }

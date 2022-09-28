@@ -61,10 +61,16 @@ export const PossibleAnswerList = ({
     QuestionItemContext
   ) as QuestionItemContextType;
 
-  const [selectedOption, setSelectedOption] = useSelectedOne("");
+  const [selectedOption, setSelectedOption] = useSelectedOne();
 
   useEffect(() => {
-    if (selectedOption) {
+    typeof question.userAnswer === "string" &&
+      selectedOption === "" &&
+      setSelectedOption(question.userAnswer);
+  }, [question]);
+
+  useEffect(() => {
+    if (selectedOption && question.userAnswer !== selectedOption) {
       const questionUpdate: IQuestion = {
         ...question,
         userAnswer: selectedOption,
