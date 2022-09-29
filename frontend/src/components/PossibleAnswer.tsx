@@ -76,26 +76,12 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
     setNewOptionValue("");
   };
 
-  const handleChange = ({
-    currentTarget,
-  }: FormEvent<HTMLInputElement>): // currentId: string
-  // currentId: number
-  void => {
-    // const index = possibleAnswers.findIndex(({ id }) => id === currentId);
-
-    // setNewOptionValue(currentTarget.value);
-    // possibleAnswers[index].title = currentTarget.value;
-    // setPossibleAnswers([...possibleAnswers]);
-    console.log("change handler", currentTarget.value);
-  };
-
   return (
     <OptionWrapper>
       {question.answerOptions?.map((item) => (
         <PossibleAnswerItem
           key={item.title}
           item={item}
-          onChange={handleChange}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
         />
