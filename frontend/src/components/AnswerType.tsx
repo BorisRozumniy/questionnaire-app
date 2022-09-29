@@ -1,6 +1,7 @@
 import { FC, useContext } from "react";
 import { AnswerType, ContextType, IQuestion } from "../@types/question";
 import { Context } from "../context/context";
+import { DateField } from "./DateField";
 import { PossibleAnswerList } from "./PossibleAnswer";
 import { TextField } from "./TextField";
 
@@ -14,7 +15,7 @@ export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {
     case AnswerType.text:
       return <TextField {...{ editMod }} />;
     case AnswerType.data:
-      return <input type="date" disabled={editMod} />;
+      return <DateField {...{ editMod }} />;
     case AnswerType.oneOfTheList:
       return <PossibleAnswerList />;
     case AnswerType.aFewFromTheList:
