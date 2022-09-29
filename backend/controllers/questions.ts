@@ -5,6 +5,12 @@ import { Request, Response } from 'express';
 export const create = async (req: Request, res: Response) => {
   try {
     const { questionText } = req.body;
+    const existing = await Question.findOne({ questionText });
+    if (existing) {
+      const message = `Question "${questionText}" already exists`;
+      console.log(message);
+      return res.status(400).json({ message });
+    }
     const newQuestion = new Question(req.body);
     const data = await newQuestion.save();
     const message = `Question ${questionText} created successfully`;
