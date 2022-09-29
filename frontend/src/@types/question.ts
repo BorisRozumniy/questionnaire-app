@@ -38,4 +38,8 @@ export type ContextType = {
 
 export type Option = { label: AnswerType; value: AnswerType };
 
-export type QuestionItemContextType = { question: IQuestion }
+export type QuestionItemContextType = {
+  question: IQuestion,
+  newOptionValue: string;
+  setNewOptionValue: (newValue: string) => void;
+}

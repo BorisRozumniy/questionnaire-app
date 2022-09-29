@@ -17,8 +17,6 @@ export const AddQuestion: FC = () => {
   const { saveQuestion, editMod } = useContext(Context) as ContextType;
   const [formData, setFormData] = useState({} as IQuestion);
 
-  const [newOptionValue, setNewOptionValue] = useInput("");
-
   const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
     setFormData({
       ...formData,
@@ -42,15 +40,6 @@ export const AddQuestion: FC = () => {
         ...formData,
         answerType: selected?.value,
         answerOptions: [],
-      });
-  };
-
-  const handleAddOption = () => {
-    const option = { title: newOptionValue, id: Date.now() };
-    formData.answerOptions &&
-      setFormData({
-        ...formData,
-        answerOptions: [...formData.answerOptions, option],
       });
   };
 
@@ -78,13 +67,7 @@ export const AddQuestion: FC = () => {
               <AnswerTypeSelect onChange={handleChangeSelect} />
             </div>
           </div>
-          <AnswerTypeComponent
-            answerType={formData.answerType}
-            answerOptions={formData.answerOptions}
-            onAddOption={handleAddOption}
-            inputValue={newOptionValue}
-            setInputValue={setNewOptionValue}
-          />
+          <AnswerTypeComponent answerType={formData.answerType} />
           <Button disabled={!formData.questionText ? true : false}>
             Add Question
           </Button>

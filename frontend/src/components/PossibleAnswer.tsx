@@ -4,7 +4,6 @@ import {
   ContextType,
   IQuestion,
   QuestionItemContextType,
-  TPossibleAnswerItem,
 } from "../@types/question";
 import { saveEditedQuestion } from "../actions/saveEditedQuestion";
 import { Context } from "../context/context";
@@ -16,48 +15,14 @@ import { Input } from "./Styled/Input";
 
 type Props = {
   isSeveral?: boolean;
-  options: TPossibleAnswerItem[];
-  onAddOption: () => void;
-  inputValue: string;
-  setInputValue: (newValue: string) => void;
 };
 
-export const PossibleAnswerList = ({
-  isSeveral,
-  options,
-  onAddOption,
-  inputValue,
-  setInputValue,
-}: Props) => {
-  const handleChangeNewItem = ({
-    currentTarget,
-  }: FormEvent<HTMLInputElement>): void => {
-    setInputValue(currentTarget.value);
-  };
-
-  const handleAddNewItem = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    setInputValue("");
-    onAddOption();
-  };
-
-  const handleChange = ({
-    currentTarget,
-  }: FormEvent<HTMLInputElement>): // currentId: string
-  // currentId: number
-  void => {
-    // const index = possibleAnswers.findIndex(({ id }) => id === currentId);
-
-    // setInputValue(currentTarget.value);
-    // possibleAnswers[index].title = currentTarget.value;
-    // setPossibleAnswers([...possibleAnswers]);
-    console.log("change handler", currentTarget.value);
-  };
-
+export const PossibleAnswerList = ({ isSeveral }: Props) => {
   const { editMod, questions, setQuestions } = useContext(
     Context
   ) as ContextType;
-  const { question } = useContext(
+
+  const { question, newOptionValue, setNewOptionValue } = useContext(
     QuestionItemContext
   ) as QuestionItemContextType;
 
@@ -79,9 +44,41 @@ export const PossibleAnswerList = ({
     }
   }, [selectedOption]);
 
+  const handleChangeNewItem = ({
+    currentTarget,
+  }: FormEvent<HTMLInputElement>): void => {
+    setNewOptionValue(currentTarget.value);
+  };
+
+  const handleAddNewItem = (event: MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    if (question.answerOptions) {
+      const option = { title: newOptionValue, id: Date.now() };
+      const questionUpdate: IQuestion = {
+        ...question,
+        answerOptions: [...question.answerOptions, option],
+      };
+      saveEditedQuestion(questionUpdate, questions, setQuestions);
+    }
+    setNewOptionValue("");
+  };
+
+  const handleChange = ({
+    currentTarget,
+  }: FormEvent<HTMLInputElement>): // currentId: string
+  // currentId: number
+  void => {
+    // const index = possibleAnswers.findIndex(({ id }) => id === currentId);
+
+    // setNewOptionValue(currentTarget.value);
+    // possibleAnswers[index].title = currentTarget.value;
+    // setPossibleAnswers([...possibleAnswers]);
+    console.log("change handler", currentTarget.value);
+  };
+
   return (
     <OptionWrapper>
-      {options?.map((item) => (
+      {question.answerOptions?.map((item) => (
         <PossibleAnswerItem
           key={item.title}
           item={item}
@@ -92,7 +89,7 @@ export const PossibleAnswerList = ({
       ))}
       {editMod && (
         <>
-          <Input value={inputValue} onChange={handleChangeNewItem} />
+          <Input value={newOptionValue} onChange={handleChangeNewItem} />
           <Button onClick={handleAddNewItem}>add new option</Button>
         </>
       )}
@@ -100,7 +97,7 @@ export const PossibleAnswerList = ({
   );
 };
 
-const OptionWrapper = styled.form`
+const OptionWrapper = styled.div`
   padding: 4px;
   display: grid;
   grid-template-columns: 1fr 1fr;
