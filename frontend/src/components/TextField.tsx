@@ -11,12 +11,10 @@ import { Input } from "./Styled/Input";
 
 type onChangeT = (e: FormEvent<HTMLInputElement>) => void;
 
-type Props = {
-  editMod: boolean;
-};
-
-export const TextField: FC<Props> = ({ editMod }) => {
-  const { questions, setQuestions } = useContext(Context) as ContextType;
+export const TextField: FC = () => {
+  const { editMod, questions, setQuestions } = useContext(
+    Context
+  ) as ContextType;
 
   const { question } = useContext(
     QuestionItemContext
@@ -28,11 +26,13 @@ export const TextField: FC<Props> = ({ editMod }) => {
     setValue(currentTarget.value);
 
   const onBlur = (): void => {
-    const questionUpdate: IQuestion = {
-      ...question,
-      userAnswer: value,
-    };
-    saveEditedQuestion(questionUpdate, questions, setQuestions);
+    if (question.userAnswer !== value) {
+      const questionUpdate: IQuestion = {
+        ...question,
+        userAnswer: value,
+      };
+      saveEditedQuestion(questionUpdate, questions, setQuestions);
+    }
   };
 
   return <Input {...{ disabled: editMod, onChange, value, onBlur }} />;

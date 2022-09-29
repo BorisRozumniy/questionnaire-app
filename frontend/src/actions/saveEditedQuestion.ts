@@ -16,14 +16,13 @@ export const saveEditedQuestion = (
         .then((res) => res.json())
         .then(({ message }) => {
             console.log(message);
-            const copy: IQuestion[] = JSON.parse(JSON.stringify(questions));
-            const finded = copy.find(({ _id }: IQuestion) => _id === questionId);
-            if (finded) {
-                finded.questionText = editedQuestion.questionText;
-                finded.answerType = editedQuestion.answerType;
-                finded.answerOptions = editedQuestion.answerOptions;
-            }
-            setQuestions([...copy]);
+            const newQuestions: IQuestion[] =
+                questions.map((item: IQuestion) => {
+                    if (item._id === questionId)
+                        return { ...item, ...editedQuestion };
+                    return item;
+                });
+            setQuestions(newQuestions);
         })
         .catch((error) => {
             console.log("error", error);

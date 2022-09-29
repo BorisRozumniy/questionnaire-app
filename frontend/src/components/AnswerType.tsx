@@ -1,6 +1,5 @@
-import { FC, useContext } from "react";
-import { AnswerType, ContextType, IQuestion } from "../@types/question";
-import { Context } from "../context/context";
+import { FC } from "react";
+import { AnswerType } from "../@types/question";
 import { DateField } from "./DateField";
 import { PossibleAnswerList } from "./PossibleAnswer";
 import { TextField } from "./TextField";
@@ -10,12 +9,11 @@ type AnswerTypeProps = {
 };
 
 export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {
-  const { editMod } = useContext(Context) as ContextType;
   switch (answerType) {
     case AnswerType.text:
-      return <TextField {...{ editMod }} />;
+      return <TextField />;
     case AnswerType.data:
-      return <DateField {...{ editMod }} />;
+      return <DateField />;
     case AnswerType.oneOfTheList:
       return <PossibleAnswerList />;
     case AnswerType.aFewFromTheList:
