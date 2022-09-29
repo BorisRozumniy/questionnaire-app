@@ -18,9 +18,13 @@ type Props = {
 };
 
 export const PossibleAnswerList = ({ isSeveral }: Props) => {
-  const { editMod, questions, setQuestions } = useContext(
-    Context
-  ) as ContextType;
+  const {
+    editMod,
+    questions,
+    setQuestions,
+    temporaryQuestion,
+    setTemporaryQuestion,
+  } = useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue } = useContext(
     QuestionItemContext
@@ -52,13 +56,22 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
 
   const handleAddNewItem = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+
     if (question.answerOptions) {
       const option = { title: newOptionValue, id: Date.now() };
       const questionUpdate: IQuestion = {
         ...question,
         answerOptions: [...question.answerOptions, option],
       };
-      saveEditedQuestion(questionUpdate, questions, setQuestions);
+
+      question._id &&
+        saveEditedQuestion(questionUpdate, questions, setQuestions);
+
+      temporaryQuestion &&
+        setTemporaryQuestion({
+          ...temporaryQuestion,
+          answerOptions: [...(temporaryQuestion.answerOptions || []), option],
+        });
     }
     setNewOptionValue("");
   };

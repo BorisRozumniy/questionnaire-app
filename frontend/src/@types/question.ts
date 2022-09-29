@@ -30,7 +30,8 @@ export type ContextType = {
   removeQuestion: (id: number) => void;
   toggleModal: (question: boolean) => void;
   modalIsOpen: boolean;
-  editingQuestionData: IQuestion;
+  temporaryQuestion: IQuestion;
+  setTemporaryQuestion: React.Dispatch<React.SetStateAction<IQuestion>>;
   saveEditedQuestion: (data: IQuestion) => void;
   editMod: boolean;
   setEditMod: (val: boolean) => void;

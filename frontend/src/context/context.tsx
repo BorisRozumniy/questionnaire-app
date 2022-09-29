@@ -11,7 +11,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
   const [editMod, setEditMod] = useState(false);
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [editingQuestionData, setEditingQuestionData] = useState<IQuestion>(
+  const [temporaryQuestion, setTemporaryQuestion] = useState<IQuestion>(
     {} as IQuestion
   );
 
@@ -76,7 +76,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
 
   const editQuestion = (id: number) => {
     toggleModal(true);
-    setEditingQuestionData(
+    setTemporaryQuestion(
       questions[questions.findIndex(({ _id }) => _id === id)]
     );
   };
@@ -125,7 +125,8 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
         editQuestion,
         toggleModal,
         modalIsOpen,
-        editingQuestionData,
+        temporaryQuestion,
+        setTemporaryQuestion,
         saveEditedQuestion,
       }}
     >

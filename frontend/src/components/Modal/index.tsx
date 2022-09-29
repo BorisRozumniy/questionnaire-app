@@ -20,14 +20,14 @@ import {
 } from "./styles";
 
 export const Modal = () => {
-  const { modalIsOpen, toggleModal, editingQuestionData, saveEditedQuestion } =
+  const { modalIsOpen, toggleModal, temporaryQuestion, saveEditedQuestion } =
     useContext(Context) as ContextType;
 
-  const [formData, setFormData] = useState(editingQuestionData as IQuestion);
+  const [formData, setFormData] = useState(temporaryQuestion as IQuestion);
 
   useEffect(() => {
-    setFormData(editingQuestionData);
-  }, [editingQuestionData]);
+    setFormData(temporaryQuestion);
+  }, [temporaryQuestion]);
 
   const handleForm = (
     e: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>

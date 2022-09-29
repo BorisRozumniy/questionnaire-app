@@ -1,4 +1,4 @@
-import { FC, FormEvent, useContext, useState } from "react";
+import { FC, FormEvent, useContext } from "react";
 import { ActionMeta, SingleValue } from "react-select";
 import { Context } from "../context/context";
 import { ContextType, IQuestion, AnswerType, Option } from "../@types/question";
@@ -6,7 +6,7 @@ import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { AnswerTypeSelect } from "./AnswerTypeSelect";
 import { AnswerTypeComponent } from "./AnswerType";
-import { useInput } from "../useInput";
+import { QuestionItemProvider } from "../context/questionItemContext";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -14,12 +14,12 @@ type OnChange = (
 ) => void;
 
 export const AddQuestion: FC = () => {
-  const { saveQuestion, editMod } = useContext(Context) as ContextType;
-  const [formData, setFormData] = useState({} as IQuestion);
+  const { saveQuestion, editMod, temporaryQuestion, setTemporaryQuestion } =
+    useContext(Context) as ContextType;
 
   const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
-    setFormData({
-      ...formData,
+    setTemporaryQuestion({
+      ...temporaryQuestion,
       questionText: e.currentTarget.value,
     });
   };
@@ -30,29 +30,32 @@ export const AddQuestion: FC = () => {
       selected?.value === AnswerType.aFewFromTheList;
 
     selected &&
-      setFormData({
-        ...formData,
+      setTemporaryQuestion({
+        ...temporaryQuestion,
         answerType: selected?.value,
       });
 
     isNeedList &&
-      setFormData({
-        ...formData,
+      setTemporaryQuestion({
+        ...temporaryQuestion,
         answerType: selected?.value,
         answerOptions: [],
       });
   };
 
-  const handleSave = (e: FormEvent, formData: IQuestion | any) => {
+  const handleSave = (e: FormEvent, temporaryQuestion: IQuestion | any) => {
     e.preventDefault();
-    saveQuestion(formData);
+    saveQuestion(temporaryQuestion);
   };
 
   if (editMod)
     return (
-      <>
+      <QuestionItemProvider {...{ question: temporaryQuestion }}>
         <h2>Create question</h2>
-        <form className="Form" onSubmit={(e) => handleSave(e, formData)}>
+        <form
+          className="Form"
+          onSubmit={(e) => handleSave(e, temporaryQuestion)}
+        >
           <div>
             <div>
               <label htmlFor="questionText">Question</label>
@@ -67,12 +70,12 @@ export const AddQuestion: FC = () => {
               <AnswerTypeSelect onChange={handleChangeSelect} />
             </div>
           </div>
-          <AnswerTypeComponent answerType={formData.answerType} />
-          <Button disabled={!formData.questionText ? true : false}>
+          <AnswerTypeComponent answerType={temporaryQuestion.answerType} />
+          <Button disabled={!temporaryQuestion.questionText ? true : false}>
             Add Question
           </Button>
         </form>
-      </>
+      </QuestionItemProvider>
     );
 
   return null;
