@@ -23,6 +23,8 @@ export interface IQuestion {
 
 
 export type ContextType = {
+  questionMod: boolean,
+  setQuestionMod: Dispatch<SetStateAction<boolean>>,
   questions: IQuestion[];
   setQuestions: Dispatch<SetStateAction<IQuestion[]>>;
   saveQuestion: (data: IQuestion) => void;

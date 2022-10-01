@@ -8,6 +8,7 @@ interface Props {
 }
 
 export const QuestionProvider: FC<Props> = ({ children }) => {
+  const [questionMod, setQuestionMod] = useState(false);
   const [editMod, setEditMod] = useState(false);
   const [questions, setQuestions] = useState<IQuestion[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -116,6 +117,8 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
   return (
     <Context.Provider
       value={{
+        questionMod,
+        setQuestionMod,
         editMod,
         setEditMod,
         questions,
