@@ -9,9 +9,16 @@ export enum AnswerType {
 type PossibleAnswer = {
     title: string;
 };
+type TUserAnswer = {
+    answers: string[];
+};
 export interface IQuestion {
     questionText: string;
     answerType: AnswerType;
     answerOptions: PossibleAnswer[],
     userAnswer?: string | string[] | number;
+}
+export interface IQuestionnaire {
+    companyName: string;
+    userAnswers: TUserAnswer
 }

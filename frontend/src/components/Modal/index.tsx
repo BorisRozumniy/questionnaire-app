@@ -20,6 +20,18 @@ import {
 } from "./styles";
 
 export const Modal = () => {
+  useEffect(() => {
+    const url = "/questionnaire/";
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }, []);
+
   const { modalIsOpen, toggleModal, temporaryQuestion, saveEditedQuestion } =
     useContext(Context) as ContextType;
 
