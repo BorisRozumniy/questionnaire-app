@@ -21,7 +21,7 @@ export const RespondentAddButton: FC<Props> = ({
   };
 
   const onClick = () => {
-    const url = apiUrls.questionnaire;
+    const url = apiUrls.questionnaires;
     const requestBody: Omit<IRespondent, "_id"> = { companyName: value };
     setQuestionMod(true);
     postRequest({ url, requestBody, dispatch: respondentsDispatch });

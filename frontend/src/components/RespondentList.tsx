@@ -12,7 +12,7 @@ export const RespondentList = () => {
   const { respondents } = respondentsState;
 
   useEffect(() => {
-    const url = apiUrls.questionnaire;
+    const url = apiUrls.questionnaires;
     getRequest({
       url,
       dispatch: respondentsDispatch,
