@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { IRespondent } from "../types";
+import { IQuestionnaire } from "../types";
 const { Schema, model } = mongoose;
 
-const schema = new Schema<IRespondent>({
-    companyName: { type: String, required: true, unique: true },
-    userAnswers: [{ type: Schema.Types.ObjectId, ref: 'Question' }]
+const schema = new Schema<IQuestionnaire>({
+    name: { type: String, required: true, unique: true },
+    questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }]
 });
 
-export const Questionnaire = model<IRespondent>("Questionnaire", schema);
+export const Questionnaire = model<IQuestionnaire>("Questionnaire", schema);

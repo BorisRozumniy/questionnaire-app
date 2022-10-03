@@ -5,6 +5,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import questionRoute from "./routes/question.routes";
 import questionnaireRoute from "./routes/questionnaire.routes";
+import respondentRoute from "./routes/respondent.routes";
 
 
 dotenv.config();
@@ -20,6 +21,7 @@ app.use(cors(options));
 app.use(express.json());
 app.use(questionRoute);
 app.use(questionnaireRoute);
+app.use(respondentRoute);
 
 
 const url = process.env.DB_URL;

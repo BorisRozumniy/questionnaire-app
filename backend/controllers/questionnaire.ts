@@ -4,8 +4,8 @@ import { Request, Response } from 'express';
 
 export const create = async (req: Request, res: Response) => {
     try {
-        const { companyName } = req.body;
-        console.log(req.body, companyName);
+        const { name } = req.body;
+        console.log(req.body, name);
 
         // const existing = await Question.findOne({ questionText });
         // if (existing) {
@@ -15,10 +15,10 @@ export const create = async (req: Request, res: Response) => {
         // }
         const newQuestionnaire = new Questionnaire(req.body);
         const data = await newQuestionnaire.save();
-        const message = `Questionnaire for ${companyName} created successfully`;
+        const message = `Questionnaire for ${name} created successfully`;
 
         res.status(201).json({ data, message });
-        // res.status(201).json({ message: companyName });
+        // res.status(201).json({ message: name });
         // console.log(message, data);
     } catch (error) {
         console.log(`error: `, error);

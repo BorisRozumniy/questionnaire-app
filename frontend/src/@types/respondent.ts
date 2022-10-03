@@ -4,8 +4,8 @@ type TUserAnswer = {
 
 export interface IRespondent {
     _id: string;
-    companyName: string;
-    userAnswers?: TUserAnswer
+    name: string;
+    answers?: TUserAnswer
 }
 
 export interface IState {
