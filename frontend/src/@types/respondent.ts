@@ -2,7 +2,8 @@ type TUserAnswer = {
     answers: string[];
 };
 
-export interface IQuestionnaire {
+export interface IRespondent {
+    _id: string;
     companyName: string;
     userAnswers: TUserAnswer
 }

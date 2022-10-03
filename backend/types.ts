@@ -18,7 +18,7 @@ export interface IQuestion {
     answerOptions: PossibleAnswer[],
     userAnswer?: string | string[] | number;
 }
-export interface IQuestionnaire {
+export interface IRespondent {
     companyName: string;
     userAnswers: TUserAnswer
 }

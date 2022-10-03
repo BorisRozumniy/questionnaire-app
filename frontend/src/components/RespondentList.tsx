@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { ContextType } from "../@types/question";
-import { IQuestionnaire } from "../@types/questionnaire";
+import { IRespondent } from "../@types/respondent";
 import { getRequest } from "../actions/getRequest";
 import { Context } from "../context/context";
 import { RespondentAddButton } from "./RespondentAddButton";
@@ -8,7 +8,7 @@ import { RespondentAddButton } from "./RespondentAddButton";
 export const RespondentList = () => {
   const { questionMod, setQuestionMod } = useContext(Context) as ContextType;
 
-  const [questionnaires, setQuestionnaires] = useState<IQuestionnaire[]>([]);
+  const [questionnaires, setQuestionnaires] = useState<IRespondent[]>([]);
 
   useEffect(() => {
     const url = "/questionnaire/";
