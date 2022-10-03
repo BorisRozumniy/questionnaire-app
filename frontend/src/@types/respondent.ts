@@ -5,7 +5,7 @@ type TUserAnswer = {
 export interface IRespondent {
     _id: string;
     companyName: string;
-    userAnswers: TUserAnswer
+    userAnswers?: TUserAnswer
 }
 
 export interface IState {
@@ -26,4 +26,7 @@ export enum ActionKind {
 export type ACTIONTYPE =
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_START }
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_SUCCESS; payload: IRespondent[] }
-    | { type: ActionKind.GET_REQUEST_RESPONDENTS_ERROR; payload: any };
+    | { type: ActionKind.GET_REQUEST_RESPONDENTS_ERROR; payload: any }
+    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_START }
+    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS; payload: IRespondent[] }
+    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR; payload: any };

@@ -26,7 +26,7 @@ export const RespondentList = () => {
       {respondents.map((item) => (
         <p key={item._id}>{item.companyName}</p>
       ))}
-      <RespondentAddButton setQuestionMod={setQuestionMod} />
+      <RespondentAddButton {...{ setQuestionMod, respondentsDispatch }} />
     </>
   );
 };
