@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { ACTIONTYPE, IState } from "./respondent";
 
 export enum AnswerType {
   text = 'text',
@@ -25,6 +26,10 @@ export interface IQuestion {
 export type ContextType = {
   questionMod: boolean,
   setQuestionMod: Dispatch<SetStateAction<boolean>>,
+  respondentsState: IState,
+  respondentsDispatch: Dispatch<ACTIONTYPE>,
+
+
   questions: IQuestion[];
   setQuestions: Dispatch<SetStateAction<IQuestion[]>>;
   saveQuestion: (data: IQuestion) => void;

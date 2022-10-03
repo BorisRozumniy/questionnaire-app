@@ -1,15 +1,20 @@
+import { Dispatch } from "react";
+import { ActionKind, ACTIONTYPE } from "../@types/respondent";
+
 type Params = {
   url: string,
-  setState: (data: any) => void
+  dispatch: Dispatch<ACTIONTYPE>,
 }
 
-export const getRequest = ({ url, setState }: Params) => {
+export const getRequest = ({ url, dispatch }: Params) => {
+  dispatch({ type: ActionKind.GET_REQUEST_RESPONDENTS_START })
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      setState(data);
+      dispatch({ type: ActionKind.GET_REQUEST_RESPONDENTS_SUCCESS, payload: data });
     })
     .catch((error) => {
       console.log("error", error);
+      dispatch({ type: ActionKind.GET_REQUEST_RESPONDENTS_ERROR, payload: error })
     })
 }

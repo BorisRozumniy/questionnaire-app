@@ -1,18 +1,21 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { ContextType } from "../@types/question";
-import { IRespondent } from "../@types/respondent";
 import { getRequest } from "../actions/getRequest";
 import { Context } from "../context/context";
 import { RespondentAddButton } from "./RespondentAddButton";
 
 export const RespondentList = () => {
-  const { questionMod, setQuestionMod } = useContext(Context) as ContextType;
+  const { questionMod, setQuestionMod, respondentsDispatch, respondentsState } =
+    useContext(Context) as ContextType;
 
-  const [questionnaires, setQuestionnaires] = useState<IRespondent[]>([]);
+  const { respondents } = respondentsState;
 
   useEffect(() => {
     const url = "/questionnaire/";
-    getRequest({ url, setState: setQuestionnaires });
+    getRequest({
+      url,
+      dispatch: respondentsDispatch,
+    });
   }, []);
 
   if (questionMod) return null;
@@ -20,10 +23,10 @@ export const RespondentList = () => {
   return (
     <>
       <h1>RespondentList</h1>
-      {questionnaires.map((item) => (
-        <p>{item.companyName}</p>
+      {respondents.map((item) => (
+        <p key={item._id}>{item.companyName}</p>
       ))}
-      <RespondentAddButton onClick={() => setQuestionMod(true)} />
+      <RespondentAddButton setQuestionMod={setQuestionMod} />
     </>
   );
 };

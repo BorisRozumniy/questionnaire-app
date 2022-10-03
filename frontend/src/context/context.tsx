@@ -1,5 +1,13 @@
-import { useState, createContext, FC, ReactNode, useEffect } from "react";
+import {
+  useState,
+  createContext,
+  FC,
+  ReactNode,
+  useEffect,
+  useReducer,
+} from "react";
 import { ContextType, IQuestion, AnswerType } from "../@types/question";
+import { initialState, respondentReducer } from "../reducers/respondentReducer";
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -114,11 +122,19 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
     setModalIsOpen(toggle);
   };
 
+  const [respondentsState, respondentsDispatch] = useReducer(
+    respondentReducer,
+    initialState
+  );
+
   return (
     <Context.Provider
       value={{
         questionMod,
         setQuestionMod,
+        respondentsState,
+        respondentsDispatch,
+
         editMod,
         setEditMod,
         questions,
