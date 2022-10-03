@@ -2,6 +2,7 @@ import { useEffect, useContext } from "react";
 import { ContextType } from "../@types/question";
 import { getRequest } from "../actions/getRequest";
 import { Context } from "../context/context";
+import { apiUrls } from "./apiUrls";
 import { RespondentAddButton } from "./RespondentAddButton";
 
 export const RespondentList = () => {
@@ -11,7 +12,7 @@ export const RespondentList = () => {
   const { respondents } = respondentsState;
 
   useEffect(() => {
-    const url = "/questionnaire/";
+    const url = apiUrls.questionnaire;
     getRequest({
       url,
       dispatch: respondentsDispatch,

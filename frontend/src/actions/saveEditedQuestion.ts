@@ -1,4 +1,5 @@
 import { IQuestion } from "../@types/question";
+import { apiUrls } from "../components/apiUrls";
 
 export const saveEditedQuestion = (
     editedQuestion: IQuestion, questions: IQuestion[], setQuestions: (q: IQuestion[]) => void
@@ -10,7 +11,7 @@ export const saveEditedQuestion = (
         method: "PATCH",
         body: JSON.stringify(editedQuestion),
     };
-    const url = "/questions/" + questionId;
+    const url = apiUrls.questions + questionId;
 
     fetch(url, config)
         .then((res) => res.json())

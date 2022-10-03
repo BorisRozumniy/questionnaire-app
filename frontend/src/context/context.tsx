@@ -7,6 +7,7 @@ import {
   useReducer,
 } from "react";
 import { ContextType, IQuestion, AnswerType } from "../@types/question";
+import { apiUrls } from "../components/apiUrls";
 import { initialState, respondentReducer } from "../reducers/respondentReducer";
 
 export const Context = createContext<ContextType | null>(null);
@@ -25,7 +26,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
   );
 
   useEffect(() => {
-    const url = "/questions/";
+    const url = apiUrls.questions;
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
@@ -53,7 +54,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       body: JSON.stringify(newQuestion),
     };
 
-    const url = "/questions/";
+    const url = apiUrls.questions;
     fetch(url, config)
       .then((res) => res.json())
       .then(({ data, message }) => {
@@ -70,7 +71,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       headers: { "Content-Type": "application/json" },
       method: "DELETE",
     };
-    const url = "/questions/" + id;
+    const url = apiUrls.questions + id;
 
     fetch(url, config)
       .then((res) => res.json())
@@ -98,7 +99,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       method: "PATCH",
       body: JSON.stringify(editedQuestion),
     };
-    const url = "/questions/" + questionId;
+    const url = apiUrls.questions + questionId;
 
     fetch(url, config)
       .then((res) => res.json())

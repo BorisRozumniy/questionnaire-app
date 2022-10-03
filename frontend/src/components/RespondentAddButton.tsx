@@ -1,6 +1,7 @@
 import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react";
 import { ACTIONTYPE, IRespondent } from "../@types/respondent";
 import { postRequest } from "../actions/postRequest";
+import { apiUrls } from "./apiUrls";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 
@@ -20,7 +21,7 @@ export const RespondentAddButton: FC<Props> = ({
   };
 
   const onClick = () => {
-    const url = "/questionnaire/";
+    const url = apiUrls.questionnaire;
     const requestBody: Omit<IRespondent, "_id"> = { companyName: value };
     setQuestionMod(true);
     postRequest({ url, requestBody, dispatch: respondentsDispatch });
