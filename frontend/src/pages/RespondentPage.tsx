@@ -2,17 +2,23 @@ import { useEffect, useContext } from "react";
 import { ContextType } from "../@types/question";
 import { getRequest } from "../actions/getRequest";
 import { Context } from "../context/context";
-import { apiUrls } from "./apiUrls";
-import { RespondentAddButton } from "./RespondentAddButton";
+import { apiUrls } from "../urls/apiUrls";
+import { RespondentAddButton } from "../components/RespondentAddButton";
 
-export const RespondentList = () => {
-  const { questionMod, setQuestionMod, respondentsDispatch, respondentsState } =
-    useContext(Context) as ContextType;
+export const RespondentPage = () => {
+  const {
+    questionMod,
+    setQuestionMod,
+    respondentsDispatch,
+    respondentsState,
+    questionnaireState,
+  } = useContext(Context) as ContextType;
 
   const { respondents } = respondentsState;
+  const { questionnaires } = questionnaireState;
 
   useEffect(() => {
-    const url = apiUrls.questionnaires;
+    const url = apiUrls.respondents;
     getRequest({
       url,
       dispatch: respondentsDispatch,
@@ -27,7 +33,9 @@ export const RespondentList = () => {
       {respondents.map((item) => (
         <p key={item._id}>{item.name}</p>
       ))}
-      <RespondentAddButton {...{ setQuestionMod, respondentsDispatch }} />
+      <RespondentAddButton
+        {...{ setQuestionMod, respondentsDispatch, questionnaires }}
+      />
     </>
   );
 };

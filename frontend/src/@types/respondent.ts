@@ -2,10 +2,14 @@ type TUserAnswer = {
     answers: string[];
 };
 
+type TQuestionnaireId = string;
+
 export interface IRespondent {
     _id: string;
     name: string;
-    answers?: TUserAnswer
+    answers?: TUserAnswer,
+    questionnaire: TQuestionnaireId;
+
 }
 
 export interface IState {

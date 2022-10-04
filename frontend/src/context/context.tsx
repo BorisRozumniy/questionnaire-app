@@ -7,8 +7,12 @@ import {
   useReducer,
 } from "react";
 import { ContextType, IQuestion, AnswerType } from "../@types/question";
-import { apiUrls } from "../components/apiUrls";
+import { apiUrls } from "../urls/apiUrls";
 import { initialState, respondentReducer } from "../reducers/respondentReducer";
+import {
+  questionnaireInitialState,
+  questionnairesReducer,
+} from "../reducers/questionnairesReducer";
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -123,6 +127,11 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
     setModalIsOpen(toggle);
   };
 
+  const [questionnaireState, questionnaireDispatch] = useReducer(
+    questionnairesReducer,
+    questionnaireInitialState
+  );
+
   const [respondentsState, respondentsDispatch] = useReducer(
     respondentReducer,
     initialState
@@ -131,6 +140,8 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
   return (
     <Context.Provider
       value={{
+        questionnaireState,
+        questionnaireDispatch,
         questionMod,
         setQuestionMod,
         respondentsState,

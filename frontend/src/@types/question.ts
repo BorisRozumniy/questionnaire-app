@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { IQuestionnaireState, QUESTIONNAIRES_ACTIONTYPE } from "./questionnaire";
 import { ACTIONTYPE, IState } from "./respondent";
 
 export enum AnswerType {
@@ -26,6 +27,8 @@ export interface IQuestion {
 export type ContextType = {
   questionMod: boolean,
   setQuestionMod: Dispatch<SetStateAction<boolean>>,
+  questionnaireState: IQuestionnaireState,
+  questionnaireDispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>,
   respondentsState: IState,
   respondentsDispatch: Dispatch<ACTIONTYPE>,
 

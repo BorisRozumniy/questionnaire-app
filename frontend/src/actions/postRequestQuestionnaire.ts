@@ -1,13 +1,13 @@
 import { Dispatch } from "react";
-import { ActionKind, ACTIONTYPE } from "../@types/respondent";
+import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE } from "../@types/questionnaire";
 
 type Params = {
   requestBody: object;
   url: string,
-  dispatch: Dispatch<ACTIONTYPE>,
+  dispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>,
 }
 
-export const postRequest = ({
+export const postRequestQuestionnaire = ({
   requestBody,
   url,
   dispatch,
@@ -21,13 +21,15 @@ export const postRequest = ({
     body: JSON.stringify(requestBody),
   };
 
+  dispatch({ type: ActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_START })
   fetch(url, config)
     .then((res) => res.json())
     .then(({ data, message }) => {
       console.log(data, message);
-      dispatch({ type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS, payload: data })
+      dispatch({ type: ActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_SUCCESS, payload: data })
     })
     .catch((error) => {
       console.log("error", error);
+      dispatch({ type: ActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_ERROR, payload: error })
     });
 };
