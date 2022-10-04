@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { RespondentPage } from "../pages/RespondentPage";
-import { QuestionnairesPage } from "../pages/QuestionnairesPage";
+import { QuestionnairesPage } from "../pages/Questionnaires/QuestionnairesPage";
 import ErrorPage from "../pages/ErrorPage";
 import { frontendUrls } from "../urls/frontendUrls";
 
