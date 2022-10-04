@@ -11,10 +11,10 @@ export const Header = () => {
             <Link to={frontendUrls.home}>home</Link>
           </li>
           <li>
-            <Link to={frontendUrls.questionnaires}>questionnaires</Link>
+            <Link to={frontendUrls.respondents}>respondents</Link>
           </li>
           <li>
-            <Link to={frontendUrls.respondents}>respondents</Link>
+            <Link to={frontendUrls.results}>results</Link>
           </li>
         </ul>
       </nav>

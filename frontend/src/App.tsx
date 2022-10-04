@@ -15,20 +15,25 @@ import { Container } from "./components/Styled/Container";
 import { RespondentPage } from "./pages/RespondentPage";
 
 import { QuestionnairesPage } from "./pages/QuestionnairesPage";
-import Root from "./routes/root";
 import ErrorPage from "./pages/ErrorPage";
 import { Header } from "./components/Header";
+import { frontendUrls } from "./urls/frontendUrls";
 
 export const App = () => (
   <QuestionProvider>
-    {/* <RouterProvider router={router} /> */}
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Root />} errorElement={<ErrorPage />} />
-        <Route path="questionnaires/" element={<QuestionnairesPage />} />
-        <Route path="respondents/" element={<RespondentPage />} />
-      </Routes>
+      <Container>
+        <Header />
+        <Routes>
+          <Route
+            path={frontendUrls.home}
+            element={<QuestionnairesPage />}
+            errorElement={<ErrorPage />}
+          />
+          <Route path={frontendUrls.respondents} element={<RespondentPage />} />
+          <Route path={frontendUrls.results} element={<h1>Rsults</h1>} />
+        </Routes>
+      </Container>
     </BrowserRouter>
 
     {/* <Container mt={40}>

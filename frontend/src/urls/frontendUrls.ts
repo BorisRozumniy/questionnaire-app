@@ -3,4 +3,5 @@ export const frontendUrls = {
   questions: "/questions/",
   respondents: "/respondents/",
   questionnaires: "/questionnaires/",
+  results: "/results/",
 }
