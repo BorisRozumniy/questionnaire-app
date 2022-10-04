@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 export const create = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
-    console.log(req.body, name);
+    console.log('body:', req.body, name);
 
     const existing = await Respondent.findOne({ name });
     if (existing) {
@@ -16,11 +16,10 @@ export const create = async (req: Request, res: Response) => {
 
     const newRespondent = new Respondent(req.body);
     const data = await newRespondent.save();
-    const message = `Respondent for ${name} created successfully`;
+    const message = `Respondent for "${name}" created successfully`;
 
     res.status(201).json({ data, message });
-    // res.status(201).json({ message: name });
-    // console.log(message, data);
+    console.log(message, data);
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });

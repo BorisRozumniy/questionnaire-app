@@ -7,19 +7,18 @@ export const create = async (req: Request, res: Response) => {
         const { name } = req.body;
         console.log(req.body, name);
 
-        // const existing = await Question.findOne({ questionText });
-        // if (existing) {
-        //   const message = `Question "${questionText}" already exists`;
-        //   console.log(message);
-        //   return res.status(400).json({ message });
-        // }
+        const existing = await Questionnaire.findOne({ name });
+        if (existing) {
+            const message = `Questionnaire "${name}" already exists`;
+            console.log(message);
+            return res.status(400).json({ message });
+        }
         const newQuestionnaire = new Questionnaire(req.body);
         const data = await newQuestionnaire.save();
-        const message = `Questionnaire for ${name} created successfully`;
+        const message = `Questionnaire for "${name}" created successfully`;
 
         res.status(201).json({ data, message });
-        // res.status(201).json({ message: name });
-        // console.log(message, data);
+        console.log(message, data);
     } catch (error) {
         console.log(`error: `, error);
         res.status(500).json({ message: "Something went wrong, please try again" });

@@ -14,7 +14,7 @@ type PossibleAnswer = {
 
 type TUserAnswer = string[];
 
-type TQuestionsIds = string[];
+type TId = string;
 
 type TQuestionnaireId = mongoose.SchemaDefinitionProperty<string>;
 
@@ -33,5 +33,5 @@ export interface IRespondent {
 
 export interface IQuestionnaire {
     name: string;
-    questions: TQuestionsIds;
+    questions?: [];
 }
