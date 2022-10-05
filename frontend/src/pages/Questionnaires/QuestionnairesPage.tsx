@@ -32,8 +32,8 @@ export const QuestionnairesPage = () => {
 };
 
 const ListWrapper = styled.div`
-  margin: 16px 0;
+  margin: 32px 0;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 16px;
+  grid-gap: 32px;
 `;

@@ -5,7 +5,7 @@ export const Card = styled.div`
   border-radius: 6px;
   box-shadow: ${({ theme }) => theme.colors.light} 0 0 8px 0;
   box-sizing: border-box;
-  padding: 8px 16px;
+  padding: 16px 32px;
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
 
