@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { IQuestionnaireState, QUESTIONNAIRES_ACTIONTYPE } from "./questionnaire";
-import { ACTIONTYPE, IState } from "./respondent";
+import { ACTIONTYPE as RESPONDENTS_ACTIONTYPE, IState as IRespondentState } from "./respondent";
 
 export enum AnswerType {
   text = 'text',
@@ -29,8 +29,8 @@ export type ContextType = {
   setQuestionMod: Dispatch<SetStateAction<boolean>>,
   questionnaireState: IQuestionnaireState,
   questionnaireDispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>,
-  respondentsState: IState,
-  respondentsDispatch: Dispatch<ACTIONTYPE>,
+  respondentsState: IRespondentState,
+  respondentsDispatch: Dispatch<RESPONDENTS_ACTIONTYPE>,
 
 
   questions: IQuestion[];
@@ -54,3 +54,27 @@ export type QuestionItemContextType = {
   newOptionValue: string;
   setNewOptionValue: (newValue: string) => void;
 }
+
+
+export interface IQuestionsState {
+  questions: IQuestion[];
+  questionsError: Error | null;
+  questionsLoading: boolean;
+}
+
+export enum ActionKind {
+  GET_REQUEST_QUESTIONS_START = 'GET_REQUEST_QUESTIONS_START',
+  GET_REQUEST_QUESTIONS_SUCCESS = 'GET_REQUEST_QUESTIONS_SUCCESS',
+  GET_REQUEST_QUESTIONS_ERROR = 'GET_REQUEST_QUESTIONS_ERROR',
+  POST_REQUEST_CREATE_QUESTION_START = 'POST_REQUEST_CREATE_QUESTION_START',
+  POST_REQUEST_CREATE_QUESTION_SUCCESS = 'POST_REQUEST_CREATE_QUESTION_SUCCESS',
+  POST_REQUEST_CREATE_QUESTION_ERROR = 'POST_REQUEST_CREATE_QUESTION_ERROR',
+}
+
+export type ACTIONTYPE =
+  | { type: ActionKind.GET_REQUEST_QUESTIONS_START }
+  | { type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS; payload: IQuestion[] }
+  | { type: ActionKind.GET_REQUEST_QUESTIONS_ERROR; payload: any }
+  | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_START }
+  | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS; payload: IQuestion[] }
+  | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_ERROR; payload: any };

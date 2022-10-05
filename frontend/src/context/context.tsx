@@ -13,6 +13,7 @@ import {
   questionnaireInitialState,
   questionnairesReducer,
 } from "../reducers/questionnairesReducer";
+import { getRequestQuestions } from "../actions/getRequestQuestions";
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -29,6 +30,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
     {} as IQuestion
   );
 
+  // getRequestQuestions({dispatch});
   useEffect(() => {
     const url = apiUrls.questions;
     fetch(url)
