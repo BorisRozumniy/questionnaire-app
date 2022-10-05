@@ -31,9 +31,10 @@ export type QuestionItemContextType = {
   setNewOptionValue: (newValue: string) => void;
 }
 
+type QuestionsByValues = Record<TMongoId, IQuestion[]>
 
 export interface IQuestionsState {
-  questions: IQuestion[];
+  questionsByValues: QuestionsByValues;
   questionsError: Error | null;
   questionsLoading: boolean;
 }
@@ -49,7 +50,7 @@ export enum ActionKind {
 
 export type ACTIONTYPE =
   | { type: ActionKind.GET_REQUEST_QUESTIONS_START }
-  | { type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS; payload: IQuestion[] }
+  | { type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS; payload: IQuestion[], questionnaireId: TMongoId }
   | { type: ActionKind.GET_REQUEST_QUESTIONS_ERROR; payload: any }
   | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_START }
   | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS; payload: IQuestion[] }

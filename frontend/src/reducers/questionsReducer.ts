@@ -1,7 +1,7 @@
 import { ActionKind, ACTIONTYPE, IQuestionsState } from "../@types/question";
 
 export const questionInitialState: IQuestionsState = {
-  questions: [],
+  questionsByValues: {},
   questionsError: null,
   questionsLoading: false
 }
@@ -17,9 +17,10 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
       };
 
     case ActionKind.GET_REQUEST_QUESTIONS_SUCCESS:
+      const questionnaireWithquestions = { [action.questionnaireId]: action.payload }
       return {
         ...state,
-        questions: action.payload,
+        questionsByValues: { ...state.questionsByValues, ...questionnaireWithquestions },
         questionsLoading: false,
       };
 

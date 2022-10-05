@@ -1,20 +1,22 @@
 import { useContext, useEffect } from "react";
+import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
 import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires";
-import { apiUrls } from "../../urls/apiUrls";
 import { QuestionnaireAddForm } from "./QuestionnaireAddForm";
 import { Context } from "../../context/context";
-import styled from "styled-components";
 import { Questionnaire } from "./Questionnaire";
 
 export const QuestionnairesPage = () => {
   const { questionnaireDispatch, questionnaireState, setQuestionMod } =
     useContext(Context) as ContextType;
 
+  let params = useParams();
+
   useEffect(() => {
     getRequestQuestionnaires({
-      url: apiUrls.questionnaires,
       dispatch: questionnaireDispatch,
+      id: params.id,
     });
   }, []);
 

@@ -6,16 +6,21 @@ import { frontendUrls } from "../urls/frontendUrls";
 type Params = {
   dispatch: Dispatch<ACTIONTYPE>,
   questionsIds: TMongoId[];
+  questionnaireId: TMongoId;
 }
 
-export const getRequestQuestions = ({ dispatch, questionsIds }: Params) => {
+export const getRequestQuestions = ({ dispatch, questionsIds, questionnaireId }: Params) => {
   const url = `${frontendUrls.questions}${questionsIds}`;
 
   dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_START })
   fetch(url)
     .then((res) => res.json())
-    .then((data) => {
-      dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS, payload: data });
+    .then((questions) => {
+      dispatch({
+        type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS,
+        payload: questions,
+        questionnaireId
+      });
     })
     .catch((error) => {
       console.log("error", error);
