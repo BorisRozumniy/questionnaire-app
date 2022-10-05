@@ -25,14 +25,15 @@ export interface IQuestion {
 
 
 export type ContextType = {
-  questionMod: boolean,
-  setQuestionMod: Dispatch<SetStateAction<boolean>>,
   questionnaireState: IQuestionnaireState,
   questionnaireDispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>,
   respondentsState: IRespondentState,
   respondentsDispatch: Dispatch<RESPONDENTS_ACTIONTYPE>,
+  questionsState: IQuestionsState,
+  questionsDispatch: Dispatch<ACTIONTYPE>,
 
-
+  questionMod: boolean,
+  setQuestionMod: Dispatch<SetStateAction<boolean>>,
   questions: IQuestion[];
   setQuestions: Dispatch<SetStateAction<IQuestion[]>>;
   saveQuestion: (data: IQuestion) => void;

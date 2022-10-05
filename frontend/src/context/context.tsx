@@ -14,6 +14,10 @@ import {
   questionnairesReducer,
 } from "../reducers/questionnairesReducer";
 import { getRequestQuestions } from "../actions/getRequestQuestions";
+import {
+  questionInitialState,
+  questionsReducer,
+} from "../reducers/questionsReducer";
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -139,16 +143,23 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
     initialState
   );
 
+  const [questionsState, questionsDispatch] = useReducer(
+    questionsReducer,
+    questionInitialState
+  );
+
   return (
     <Context.Provider
       value={{
         questionnaireState,
         questionnaireDispatch,
-        questionMod,
-        setQuestionMod,
         respondentsState,
         respondentsDispatch,
-
+        questionsState,
+        questionsDispatch,
+        
+        questionMod,
+        setQuestionMod,
         editMod,
         setEditMod,
         questions,
