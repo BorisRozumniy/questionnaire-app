@@ -1,3 +1,4 @@
+import { TMongoId } from "./common";
 
 export enum AnswerType {
   text = 'text',
@@ -13,7 +14,7 @@ export type TPossibleAnswerItem = {
 };
 
 export interface IQuestion {
-  _id: number;
+  _id: TMongoId;
   questionText: string;
   answerType: AnswerType;
   answerOptions?: TPossibleAnswerItem[];

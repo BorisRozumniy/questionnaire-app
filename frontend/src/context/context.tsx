@@ -3,7 +3,6 @@ import {
   createContext,
   FC,
   ReactNode,
-  useEffect,
   useReducer,
 } from "react";
 import { IQuestion, AnswerType } from "../@types/question";
@@ -13,12 +12,12 @@ import {
   questionnaireInitialState,
   questionnairesReducer,
 } from "../reducers/questionnairesReducer";
-import { getRequestQuestions } from "../actions/getRequestQuestions";
 import {
   questionInitialState,
   questionsReducer,
 } from "../reducers/questionsReducer";
 import { ContextType } from "../@types/context";
+import { TMongoId } from "../@types/common";
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -34,19 +33,6 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
   const [temporaryQuestion, setTemporaryQuestion] = useState<IQuestion>(
     {} as IQuestion
   );
-
-  // getRequestQuestions({dispatch});
-  useEffect(() => {
-    const url = apiUrls.questions;
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setQuestions(data);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  }, []);
 
   const saveQuestion = ({
     questionText,
@@ -77,7 +63,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       });
   };
 
-  const removeQuestion = (id: number) => {
+  const removeQuestion = (id: TMongoId) => {
     const config = {
       headers: { "Content-Type": "application/json" },
       method: "DELETE",
@@ -95,7 +81,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
       });
   };
 
-  const editQuestion = (id: number) => {
+  const editQuestion = (id: TMongoId) => {
     toggleModal(true);
     setTemporaryQuestion(
       questions[questions.findIndex(({ _id }) => _id === id)]

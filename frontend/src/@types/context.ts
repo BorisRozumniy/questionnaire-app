@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 import { IQuestionnaireState, QUESTIONNAIRES_ACTIONTYPE } from "./questionnaire";
 import { ACTIONTYPE as RESPONDENTS_ACTIONTYPE, IState as IRespondentState } from "./respondent";
 import { ACTIONTYPE as QUESTIONS_ACTIONTYPE, IQuestion, IQuestionsState } from "./question";
+import { TMongoId } from "./common";
 
 
 export type ContextType = {
@@ -17,8 +18,8 @@ export type ContextType = {
   questions: IQuestion[];
   setQuestions: Dispatch<SetStateAction<IQuestion[]>>;
   saveQuestion: (data: IQuestion) => void;
-  editQuestion: (id: number) => void;
-  removeQuestion: (id: number) => void;
+  editQuestion: (id: TMongoId) => void;
+  removeQuestion: (id: TMongoId) => void;
   toggleModal: (question: boolean) => void;
   modalIsOpen: boolean;
   temporaryQuestion: IQuestion;
