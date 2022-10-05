@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { create, read, update, remove } from "../controllers/questions";
+import { create, update, remove, getMany } from "../controllers/questions";
 const router = Router();
 
 router.post("/questions/", create);
-router.get("/questions/", read);
+router.get("/questions/:ids", getMany);
 router.patch("/questions/:id", update);
 router.delete("/questions/:id", remove);
 

@@ -23,13 +23,14 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
-export const read = async (req: Request, res: Response) => {
+export const getMany = async (req: Request, res: Response) => {
   try {
-    const questions = await Question.find();
+    const ids = req.params.ids.split(',');
+    const questions = await Question.find({ '_id': { $in: ids } });
     res.json(questions);
   } catch (error) {
     console.log(`error: `, error);
-    res.status(500).json({ message: "Something went wrong, please try again" });
+    res.status(500).json({ message: "Something went wrong, please try again", error });
   }
 };
 
