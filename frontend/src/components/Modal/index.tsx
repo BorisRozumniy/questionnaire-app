@@ -6,7 +6,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { AnswerType, IQuestion, ContextType } from "../../@types/question";
+import { ContextType } from "../../@types/context";
+import { AnswerType, IQuestion } from "../../@types/question";
 import { Context } from "../../context/context";
 import { useOnClickOutside } from "../../useOnClickOutside";
 import { Button } from "../Styled/Button";

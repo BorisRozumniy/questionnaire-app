@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { ContextType } from "../../@types/question";
+import { ContextType } from "../../@types/context";
 import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires";
 import { apiUrls } from "../../urls/apiUrls";
 import { QuestionnaireAddForm } from "./QuestionnaireAddForm";

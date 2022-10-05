@@ -1,5 +1,5 @@
 import { useEffect, useContext } from "react";
-import { ContextType } from "../@types/question";
+import { ContextType } from "../@types/context";
 import { getRequest } from "../actions/getRequest";
 import { Context } from "../context/context";
 import { apiUrls } from "../urls/apiUrls";

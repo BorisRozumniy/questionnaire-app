@@ -6,7 +6,7 @@ import {
   useEffect,
   useReducer,
 } from "react";
-import { ContextType, IQuestion, AnswerType } from "../@types/question";
+import { IQuestion, AnswerType } from "../@types/question";
 import { apiUrls } from "../urls/apiUrls";
 import { initialState, respondentReducer } from "../reducers/respondentReducer";
 import {
@@ -18,6 +18,7 @@ import {
   questionInitialState,
   questionsReducer,
 } from "../reducers/questionsReducer";
+import { ContextType } from "../@types/context";
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -157,7 +158,7 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
         respondentsDispatch,
         questionsState,
         questionsDispatch,
-        
+
         questionMod,
         setQuestionMod,
         editMod,

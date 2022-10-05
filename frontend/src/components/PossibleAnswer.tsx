@@ -1,10 +1,7 @@
 import { FormEvent, MouseEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
-import {
-  ContextType,
-  IQuestion,
-  QuestionItemContextType,
-} from "../@types/question";
+import { ContextType } from "../@types/context";
+import { IQuestion, QuestionItemContextType } from "../@types/question";
 import { saveEditedQuestion } from "../actions/saveEditedQuestion";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";

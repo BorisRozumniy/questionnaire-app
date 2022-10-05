@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { ContextType, TPossibleAnswerItem } from "../@types/question";
+import { ContextType } from "../@types/context";
+import { TPossibleAnswerItem } from "../@types/question";
 import { Context } from "../context/context";
 import { AnswerItemInput } from "./AnswerItemInput";
 import { PossibleOneAnswerItem } from "./PossibleOneAnswerItem";

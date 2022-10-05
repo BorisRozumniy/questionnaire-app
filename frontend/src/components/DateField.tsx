@@ -1,6 +1,6 @@
 import { FC, FormEvent, useContext, useState } from "react";
+import { ContextType } from "../@types/context";
 import {
-  ContextType,
   IQuestion,
   QuestionItemContextType,
 } from "../@types/question";

@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { ContextType, IQuestion } from "../@types/question";
+import { ContextType } from "../@types/context";
+import { IQuestion } from "../@types/question";
 import { Context } from "../context/context";
 import { Question } from "./Question";
 

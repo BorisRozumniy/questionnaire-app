@@ -1,7 +1,7 @@
 import { FC, FormEvent, useContext, useState } from "react";
 import styled from "styled-components";
+import { ContextType } from "../@types/context";
 import {
-  ContextType,
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";

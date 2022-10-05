@@ -1,12 +1,13 @@
 import { FC, FormEvent, useContext } from "react";
 import { ActionMeta, SingleValue } from "react-select";
 import { Context } from "../context/context";
-import { ContextType, IQuestion, AnswerType, Option } from "../@types/question";
+import { IQuestion, AnswerType, Option } from "../@types/question";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { AnswerTypeSelect } from "./AnswerTypeSelect";
 import { AnswerTypeComponent } from "./AnswerType";
 import { QuestionItemProvider } from "../context/questionItemContext";
+import { ContextType } from "../@types/context";
 
 type OnChange = (
   newValue: SingleValue<Option>,

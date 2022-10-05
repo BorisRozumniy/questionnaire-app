@@ -1,6 +1,7 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
-import { IQuestion, ContextType } from "../@types/question";
+import { ContextType } from "../@types/context";
+import { IQuestion } from "../@types/question";
 import { Context } from "../context/context";
 import { QuestionItemProvider } from "../context/questionItemContext";
 import { AnswerTypeComponent } from "./AnswerType";

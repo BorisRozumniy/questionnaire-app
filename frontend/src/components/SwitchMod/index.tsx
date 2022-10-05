@@ -1,5 +1,5 @@
 import { FormEvent, useContext } from "react";
-import { ContextType } from "../../@types/question";
+import { ContextType } from "../../@types/context";
 import { Context } from "../../context/context";
 import { CheckBox, CheckBoxLabel, CheckBoxWrapper } from "./style";
 
