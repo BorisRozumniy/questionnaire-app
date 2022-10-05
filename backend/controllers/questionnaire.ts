@@ -27,11 +27,17 @@ export const create = async (req: Request, res: Response) => {
 
 export const read = async (req: Request, res: Response) => {
     try {
-        const questionnaire = await Questionnaire.find();
+        let questionnaire
+
+        if (req.params.id)
+            questionnaire = [await Questionnaire.findById(req.params.id)];
+        else
+            questionnaire = await Questionnaire.find();
+
         res.json(questionnaire);
     } catch (error) {
         console.log(`error: `, error);
-        res.status(500).json({ message: "Something went wrong, please try again" });
+        res.status(500).json({ message: "Something went wrong, please try again", error });
     }
 };
 
