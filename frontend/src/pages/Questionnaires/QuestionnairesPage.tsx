@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { Dispatch, FC, SetStateAction, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
@@ -7,18 +7,31 @@ import { QuestionnaireAddForm } from "./QuestionnaireAddForm";
 import { Context } from "../../context/context";
 import { Questionnaire } from "./Questionnaire";
 
-export const QuestionnairesPage = () => {
+type Props = {
+  lastRequestWasFromQuestionairePage: boolean;
+  setLastRequestWasFromQuestionairePage: Dispatch<SetStateAction<boolean>>;
+};
+
+export const QuestionnairesPage: FC<Props> = ({
+  lastRequestWasFromQuestionairePage,
+  setLastRequestWasFromQuestionairePage,
+}) => {
   const { questionnaireDispatch, questionnaireState, setQuestionMod } =
     useContext(Context) as ContextType;
 
   let params = useParams();
 
+  const { questionnaires } = questionnaireState;
+
   useEffect(() => {
-    getRequestQuestionnaires({
-      dispatch: questionnaireDispatch,
-      id: params.id,
-    });
-  }, []);
+    if (!questionnaires.length || lastRequestWasFromQuestionairePage) {
+      setLastRequestWasFromQuestionairePage(false);
+      getRequestQuestionnaires({
+        dispatch: questionnaireDispatch,
+        id: params.id,
+      });
+    }
+  }, [questionnaires, lastRequestWasFromQuestionairePage]);
 
   return (
     <>
