@@ -1,22 +1,36 @@
 import { Question } from "../models/Question";
 import { Request, Response } from 'express';
+import { Questionnaire } from "../models/Questionnaire";
 
 
 export const create = async (req: Request, res: Response) => {
   try {
     const { questionText } = req.body;
+
     const existing = await Question.findOne({ questionText });
     if (existing) {
       const message = `Question "${questionText}" already exists`;
       console.log(message);
       return res.status(400).json({ message });
     }
-    const newQuestion = new Question(req.body);
-    const data = await newQuestion.save();
-    const message = `Question ${questionText} created successfully`;
 
-    res.status(201).json({ data, message });
-    console.log(message, data);
+    const newQuestion = new Question(req.body);
+    const savedQuestion = await newQuestion.save()
+    let message = `Question "${questionText}" created successfully`;
+    let savedQuestionnaire
+    const afterСolon = /\/:(.*)/;
+    const match = afterСolon.exec(req.get('Referer') || '');
+    if (match) {
+      const questionnaireId = match[1]
+      const questionnaire = await Questionnaire.findById(questionnaireId)
+      questionnaire?.questions?.push(savedQuestion._id)
+      savedQuestionnaire = await questionnaire?.save()
+      message += ` and added to the "${savedQuestionnaire?.name}" Questionnayre`
+    }
+
+
+    res.status(201).json({ data: savedQuestion, message });
+    console.log(message, savedQuestion, savedQuestionnaire);
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });
