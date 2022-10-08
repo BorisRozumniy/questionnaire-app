@@ -8,6 +8,7 @@ import { AnswerTypeSelect } from "./AnswerTypeSelect";
 import { AnswerTypeComponent } from "./AnswerType";
 import { QuestionItemProvider } from "../context/questionItemContext";
 import { ContextType } from "../@types/context";
+import { postRequestQuestion } from "../actions/postRequestQuestion";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -15,7 +16,7 @@ type OnChange = (
 ) => void;
 
 export const AddQuestion: FC = () => {
-  const { saveQuestion, editMod, temporaryQuestion, setTemporaryQuestion } =
+  const { temporaryQuestion, setTemporaryQuestion, questionsDispatch } =
     useContext(Context) as ContextType;
 
   const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
@@ -44,42 +45,39 @@ export const AddQuestion: FC = () => {
       });
   };
 
-  const handleSave = (e: FormEvent, temporaryQuestion: IQuestion | any) => {
+  const handleSave = (e: FormEvent, temporaryQuestion: IQuestion) => {
     e.preventDefault();
-    saveQuestion(temporaryQuestion);
+    postRequestQuestion({
+      requestBody: temporaryQuestion,
+      dispatch: questionsDispatch,
+    });
   };
 
-  if (editMod)
-    return (
-      <QuestionItemProvider {...{ question: temporaryQuestion }}>
-        <h2>Create question</h2>
-        <form
-          className="Form"
-          onSubmit={(e) => handleSave(e, temporaryQuestion)}
-        >
+  return (
+    <QuestionItemProvider {...{ question: temporaryQuestion }}>
+      <h2>Create question</h2>
+      <form className="Form" onSubmit={(e) => handleSave(e, temporaryQuestion)}>
+        <div>
           <div>
-            <div>
-              <label htmlFor="questionText">Question</label>
-              <Input
-                onChange={handleQuestionText}
-                type="text"
-                name="questionText"
-              />
-            </div>
-            <div>
-              <label>Answer type</label>
-              <AnswerTypeSelect onChange={handleChangeSelect} />
-            </div>
+            <label htmlFor="questionText">Question</label>
+            <Input
+              onChange={handleQuestionText}
+              type="text"
+              name="questionText"
+            />
           </div>
-          <AnswerTypeComponent answerType={temporaryQuestion.answerType} />
-          <Button disabled={!temporaryQuestion.questionText ? true : false}>
-            Add Question
-          </Button>
-        </form>
-      </QuestionItemProvider>
-    );
-
-  return null;
+          <div>
+            <label>Answer type</label>
+            <AnswerTypeSelect onChange={handleChangeSelect} />
+          </div>
+        </div>
+        <AnswerTypeComponent answerType={temporaryQuestion.answerType} />
+        <Button disabled={!temporaryQuestion.questionText ? true : false}>
+          Add Question
+        </Button>
+      </form>
+    </QuestionItemProvider>
+  );
 };
 
 export const options = [

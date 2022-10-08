@@ -20,7 +20,7 @@ export const QuestionnairePage: FC<Props> = ({
   ) as ContextType;
 
   const questionnaire = questionnaireState.questionnaires.find(
-    (item) => item._id === id || {}
+    (item) => item._id === id
   );
 
   useEffect(() => {
