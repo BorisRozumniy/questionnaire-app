@@ -9,13 +9,18 @@ import { AnswerTypeComponent } from "./AnswerType";
 import { QuestionItemProvider } from "../context/questionItemContext";
 import { ContextType } from "../@types/context";
 import { postRequestQuestion } from "../actions/postRequestQuestion";
+import { TMongoId } from "../@types/common";
 
 type OnChange = (
   newValue: SingleValue<Option>,
   actionMeta: ActionMeta<Option>
 ) => void;
 
-export const AddQuestion: FC = () => {
+type Pros = {
+  questionnaireId: TMongoId;
+};
+
+export const AddQuestion: FC<Pros> = ({ questionnaireId }) => {
   const { temporaryQuestion, setTemporaryQuestion, questionsDispatch } =
     useContext(Context) as ContextType;
 
@@ -50,6 +55,7 @@ export const AddQuestion: FC = () => {
     postRequestQuestion({
       requestBody: temporaryQuestion,
       dispatch: questionsDispatch,
+      questionnaireId,
     });
   };
 

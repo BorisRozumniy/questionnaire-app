@@ -37,7 +37,7 @@ export const QuestionnairePage: FC<Props> = ({
     <>
       <h1>Questionnaire: {questionnaire?.name}</h1>
       <Questions questionsIds={questionnaire?.questions} questionnaireId={id} />
-      <AddQuestion />
+      <AddQuestion questionnaireId={id} />
     </>
   );
 };
