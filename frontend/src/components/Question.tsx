@@ -1,5 +1,6 @@
 import { FC, useContext } from "react";
 import styled from "styled-components";
+import { TMongoId } from "../@types/common";
 import { ContextType } from "../@types/context";
 import { IQuestion } from "../@types/question";
 import { deleteRequestQuestion } from "../actions/deleteRequestQuestion";
@@ -10,13 +11,13 @@ import { Button } from "./Styled/Button";
 
 type Props = {
   question: IQuestion;
+  questionnaireId: TMongoId;
 };
 
-export const Question: FC<Props> = ({ question }) => {
+export const Question: FC<Props> = ({ question, questionnaireId }) => {
   const { _id, questionText, answerType } = question;
 
-  const { removeQuestion, editQuestion, editMod, questionsDispatch } =
-    useContext(Context) as ContextType;
+  const { questionsDispatch } = useContext(Context) as ContextType;
 
   return (
     <QuestionItemProvider {...{ question }}>
@@ -28,14 +29,18 @@ export const Question: FC<Props> = ({ question }) => {
         </div>
         {/* {editMod && ( */}
         <>
+          <Button onClick={() => console.log("edit")}>edit</Button>
           <Button
             onClick={() =>
-              deleteRequestQuestion({ id: _id, dispatch: questionsDispatch })
+              deleteRequestQuestion({
+                removedQuestionId: _id,
+                questionnaireId,
+                dispatch: questionsDispatch,
+              })
             }
           >
-            edit
+            remove
           </Button>
-          <Button onClick={() => removeQuestion(_id)}>remove</Button>
         </>
         {/* )} */}
       </Wrapper>

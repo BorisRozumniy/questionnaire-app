@@ -59,5 +59,5 @@ export type ACTIONTYPE =
   | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS; payload: IQuestion[], questionnaireId: TMongoId }
   | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_ERROR; payload: any }
   | { type: ActionKind.DELETE_REQUEST_QUESTION_START }
-  | { type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS; payload: { message: string } }
+  | { type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS; payload: { message: string, questionnaireId: TMongoId, removedQuestionId: TMongoId } }
   | { type: ActionKind.DELETE_REQUEST_QUESTION_ERROR; payload: any };

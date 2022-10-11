@@ -1,4 +1,4 @@
-import { ActionKind, ACTIONTYPE, IQuestionsState, QuestionsByValues } from "../@types/question";
+import { ActionKind, ACTIONTYPE, IQuestion, IQuestionsState, QuestionsByValues } from "../@types/question";
 
 export const questionInitialState: IQuestionsState = {
   questionsByValues: {} as QuestionsByValues,
@@ -7,6 +7,10 @@ export const questionInitialState: IQuestionsState = {
 }
 
 export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => {
+  let prevState
+  let newState
+  let questionsByValues: QuestionsByValues
+
   switch (action.type) {
 
     case ActionKind.GET_REQUEST_QUESTIONS_START:
@@ -17,10 +21,11 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
       };
 
     case ActionKind.GET_REQUEST_QUESTIONS_SUCCESS:
-      const questionnaireWithQuestions = { [action.questionnaireId]: action.payload }
+      questionsByValues = { [action.questionnaireId]: action.payload }
+
       return {
         ...state,
-        questionsByValues: { ...state.questionsByValues, ...questionnaireWithQuestions },
+        questionsByValues: { ...state.questionsByValues, ...questionsByValues },
         questionsLoading: false,
       };
 
@@ -39,9 +44,10 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
       };
 
     case ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS:
-      const prevState = state.questionsByValues[action.questionnaireId]
-      const newState = [...prevState, action.payload]
-      const questionsByValues: QuestionsByValues = { ...state.questionsByValues, [action.questionnaireId]: newState }
+      prevState = state.questionsByValues[action.questionnaireId]
+      newState = [...prevState, action.payload]
+      questionsByValues = { ...state.questionsByValues, [action.questionnaireId]: newState }
+
       return {
         ...state,
         questionsByValues,
@@ -49,7 +55,31 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
       };
 
     case ActionKind.POST_REQUEST_CREATE_QUESTION_ERROR:
+      return {
+        ...state,
+        questionsError: action.payload,
+        questionsLoading: false,
+      };
 
+    case ActionKind.DELETE_REQUEST_QUESTION_START:
+      return {
+        ...state,
+        questionsError: null,
+        questionsLoading: true,
+      };
+
+    case ActionKind.DELETE_REQUEST_QUESTION_SUCCESS:
+      prevState = state.questionsByValues[action.payload.questionnaireId]
+      newState = prevState.filter(({ _id }: IQuestion) => _id !== action.payload.removedQuestionId);
+      questionsByValues = { ...state.questionsByValues, [action.payload.questionnaireId]: newState }
+
+      return {
+        ...state,
+        questionsByValues: questionsByValues,
+        questionsLoading: false,
+      };
+
+    case ActionKind.DELETE_REQUEST_QUESTION_ERROR:
       return {
         ...state,
         questionsError: action.payload,

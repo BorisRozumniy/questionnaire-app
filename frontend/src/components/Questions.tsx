@@ -35,7 +35,11 @@ export const Questions: FC<Props> = ({ questionsIds, questionnaireId }) => {
       <h2>Questions list</h2>
       {questions?.length > 0 &&
         questions.map((question: IQuestion) => (
-          <Question key={question._id} question={question} />
+          <Question
+            key={question._id}
+            question={question}
+            questionnaireId={questionnaireId}
+          />
         ))}
     </>
   );

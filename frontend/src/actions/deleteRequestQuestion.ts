@@ -4,17 +4,18 @@ import { ActionKind, ACTIONTYPE } from "../@types/question";
 import { apiUrls } from "../urls/apiUrls";
 
 type Params = {
-  id: TMongoId;
+  removedQuestionId: TMongoId;
+  questionnaireId: TMongoId;
   dispatch: Dispatch<ACTIONTYPE>,
 }
 
-export const deleteRequestQuestion = ({ id, dispatch }: Params) => {
+export const deleteRequestQuestion = ({ removedQuestionId, questionnaireId, dispatch }: Params) => {
   const config = {
     headers: { "Content-Type": "application/json" },
     method: "DELETE",
   };
 
-  const url = apiUrls.questions + id;
+  const url = apiUrls.questions + removedQuestionId;
 
   dispatch({ type: ActionKind.DELETE_REQUEST_QUESTION_START })
 
@@ -22,9 +23,10 @@ export const deleteRequestQuestion = ({ id, dispatch }: Params) => {
     .then((res) => res.json())
     .then(({ data, message }) => {
       console.log(data, message);
-      dispatch({ type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS, payload: data })
-      // const filtered = questions.filter(({ _id }: IQuestion) => _id !== id);
-      // setQuestions([...filtered]);
+      dispatch({
+        type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS,
+        payload: { message, removedQuestionId, questionnaireId },
+      })
     })
     .catch((error) => {
       console.log("error", error);
