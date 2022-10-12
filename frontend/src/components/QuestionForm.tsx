@@ -15,25 +15,30 @@ type OnChange = (
 ) => void;
 
 type Pros = {
-  isEditForm?: boolean;
   questionnaireId: TMongoId;
-  question: IQuestion;
+  question?: Partial<IQuestion>;
   dispatch: Dispatch<ACTIONTYPE>;
-  setEditMod: Dispatch<SetStateAction<boolean>>;
+  isEditForm?: boolean;
+  setEditMod?: Dispatch<SetStateAction<boolean>>;
+};
+
+const initialQuestion = {
+  questionText: "",
+  answerType: AnswerType.text,
 };
 
 export const QuestionForm: FC<Pros> = ({
   isEditForm,
   questionnaireId,
-  question,
+  question = initialQuestion,
   dispatch,
   setEditMod,
 }) => {
-  const [requestBody, setRequestBody] = useState<IQuestion>(question);
+  const [currentQuestion, setCurrentQuestion] = useState(question);
 
   const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
-    setRequestBody({
-      ...requestBody,
+    setCurrentQuestion({
+      ...currentQuestion,
       questionText: e.currentTarget.value,
     });
   };
@@ -44,37 +49,38 @@ export const QuestionForm: FC<Pros> = ({
       selected?.value === AnswerType.aFewFromTheList;
 
     selected &&
-      setRequestBody({
-        ...requestBody,
+      setCurrentQuestion({
+        ...currentQuestion,
         answerType: selected?.value,
       });
 
     isNeedList &&
-      setRequestBody({
-        ...requestBody,
+      setCurrentQuestion({
+        ...currentQuestion,
         answerType: selected?.value,
         answerOptions: [],
       });
   };
 
-  const handleSave = (e: FormEvent, requestBody: IQuestion) => {
+  const handleSave = (e: FormEvent, currentQuestion: Partial<IQuestion>) => {
     e.preventDefault();
     const request = isEditForm ? patchRequestEditQuestion : postRequestQuestion;
     request({
-      requestBody,
+      requestBody: currentQuestion as IQuestion,
       questionnaireId,
       dispatch,
     });
-    setEditMod(false);
+    setEditMod && setEditMod(false);
+    setCurrentQuestion(initialQuestion);
   };
 
   return (
-    <form onSubmit={(e) => handleSave(e, requestBody)}>
+    <form onSubmit={(e) => handleSave(e, currentQuestion)}>
       <div>
         <div>
           <label htmlFor="questionText">Question</label>
           <Input
-            value={requestBody.questionText}
+            value={currentQuestion.questionText}
             onChange={handleQuestionText}
             type="text"
             name="questionText"
@@ -84,13 +90,15 @@ export const QuestionForm: FC<Pros> = ({
           <label>Answer type</label>
           <AnswerTypeSelect
             onChange={handleChangeSelect}
-            value={requestBody.answerType}
+            value={currentQuestion.answerType}
           />
         </div>
       </div>
-      <AnswerTypeComponent answerType={requestBody.answerType} />
-      <Button disabled={!requestBody.questionText ? true : false}>
-        Save changes
+      {currentQuestion.answerType && (
+        <AnswerTypeComponent answerType={currentQuestion.answerType} />
+      )}
+      <Button disabled={!currentQuestion.questionText ? true : false}>
+        {isEditForm ? "Save changes" : "Save question"}
       </Button>
     </form>
   );
