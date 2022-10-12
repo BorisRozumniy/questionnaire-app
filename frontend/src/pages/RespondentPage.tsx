@@ -7,8 +7,8 @@ import { RespondentAddButton } from "../components/RespondentAddButton";
 
 export const RespondentPage = () => {
   const {
-    questionMod,
-    setQuestionMod,
+    // questionMod,
+    // setQuestionMod,
     respondentsDispatch,
     respondentsState,
     questionnaireState,
@@ -25,7 +25,7 @@ export const RespondentPage = () => {
     });
   }, []);
 
-  if (questionMod) return null;
+  // if (questionMod) return null;
 
   return (
     <>
@@ -33,9 +33,7 @@ export const RespondentPage = () => {
       {respondents.map((item) => (
         <p key={item._id}>{item.name}</p>
       ))}
-      <RespondentAddButton
-        {...{ setQuestionMod, respondentsDispatch, questionnaires }}
-      />
+      <RespondentAddButton {...{ respondentsDispatch, questionnaires }} />
     </>
   );
 };

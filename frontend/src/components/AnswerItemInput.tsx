@@ -1,12 +1,12 @@
 import { FC, FormEvent, useContext, useState } from "react";
 import styled from "styled-components";
-import { ContextType } from "../@types/context";
+// import { ContextType } from "../@types/context";
 import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-import { saveEditedQuestion } from "../actions/saveEditedQuestion";
-import { Context } from "../context/context";
+// import { saveEditedQuestion } from "../actions/saveEditedQuestion";
+// import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { Input } from "./Styled/Input";
 

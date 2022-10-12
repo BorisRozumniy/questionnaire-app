@@ -15,13 +15,13 @@ type Props = {
 };
 
 export const PossibleAnswerList = ({ isSeveral }: Props) => {
-  const {
-    editMod,
-    questions,
-    setQuestions,
-    temporaryQuestion,
-    setTemporaryQuestion,
-  } = useContext(Context) as ContextType;
+  // const {
+  //   editMod,
+  //   questions,
+  //   setQuestions,
+  //   temporaryQuestion,
+  //   setTemporaryQuestion,
+  // } = useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue } = useContext(
     QuestionItemContext
@@ -41,7 +41,7 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
         ...question,
         userAnswer: selectedOption,
       };
-      saveEditedQuestion(questionUpdate, questions, setQuestions);
+      // saveEditedQuestion(questionUpdate, questions, setQuestions);
     }
   }, [selectedOption]);
 
@@ -61,14 +61,14 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
         answerOptions: [...question.answerOptions, option],
       };
 
-      question._id &&
-        saveEditedQuestion(questionUpdate, questions, setQuestions);
+      // question._id &&
+      //   saveEditedQuestion(questionUpdate, questions, setQuestions);
 
-      temporaryQuestion &&
-        setTemporaryQuestion({
-          ...temporaryQuestion,
-          answerOptions: [...(temporaryQuestion.answerOptions || []), option],
-        });
+      // temporaryQuestion &&
+      //   setTemporaryQuestion({
+      //     ...temporaryQuestion,
+      //     answerOptions: [...(temporaryQuestion.answerOptions || []), option],
+      //   });
     }
     setNewOptionValue("");
   };
@@ -83,12 +83,12 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
           setSelectedOption={setSelectedOption}
         />
       ))}
-      {editMod && (
+      {/* {editMod && (
         <>
           <Input value={newOptionValue} onChange={handleChangeNewItem} />
           <Button onClick={handleAddNewItem}>add new option</Button>
         </>
-      )}
+      )} */}
     </OptionWrapper>
   );
 };
