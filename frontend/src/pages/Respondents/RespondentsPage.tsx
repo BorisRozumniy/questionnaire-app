@@ -2,7 +2,6 @@ import { useEffect, useContext } from "react";
 import { ContextType } from "../../@types/context";
 import { getRequestRespondents } from "../../actions/getRequestRespondents";
 import { Context } from "../../context/context";
-import { apiUrls } from "../../urls/apiUrls";
 import { RespondentAddButton } from "../../components/RespondentAddButton";
 import { RespondentCard } from "./RespondentCard";
 import styled from "styled-components";
@@ -15,9 +14,7 @@ export const RespondentsPage = () => {
   const { questionnaires } = questionnaireState;
 
   useEffect(() => {
-    const url = apiUrls.respondents;
     getRequestRespondents({
-      url,
       dispatch: respondentsDispatch,
     });
   }, []);

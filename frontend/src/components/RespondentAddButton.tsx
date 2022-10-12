@@ -37,7 +37,6 @@ export const RespondentAddButton: FC<Props> = ({
 
   useEffect(() => {
     getRequestRespondents({
-      url: apiUrls.questionnaires,
       dispatch: respondentsDispatch,
     });
   }, []);
