@@ -14,10 +14,12 @@ export const RespondentsPage = () => {
   const { questionnaires } = questionnaireState;
 
   useEffect(() => {
-    getRequestRespondents({
-      dispatch: respondentsDispatch,
-    });
-  }, []);
+    if (respondents.length === 0) {
+      getRequestRespondents({
+        dispatch: respondentsDispatch,
+      });
+    }
+  }, [respondents]);
 
   return (
     <>

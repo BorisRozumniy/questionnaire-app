@@ -2,7 +2,6 @@ import { Dispatch, FC, FormEvent, useEffect, useState } from "react";
 import ReactSelect from "react-select";
 import { IQuestionnaire } from "../@types/questionnaire";
 import { ACTIONTYPE, IRespondent } from "../@types/respondent";
-import { getRequestRespondents } from "../actions/getRequestRespondents";
 import { postRequest } from "../actions/postRequest";
 import { apiUrls } from "../urls/apiUrls";
 import { useSelectedOne } from "../useSelected";
@@ -34,12 +33,6 @@ export const RespondentAddButton: FC<Props> = ({
     };
     postRequest({ url, requestBody, dispatch: respondentsDispatch });
   };
-
-  useEffect(() => {
-    getRequestRespondents({
-      dispatch: respondentsDispatch,
-    });
-  }, []);
 
   const options = questionnaires.map((item) => {
     return { label: item.name, value: item._id };
