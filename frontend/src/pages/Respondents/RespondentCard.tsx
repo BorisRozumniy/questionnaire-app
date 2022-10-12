@@ -2,6 +2,7 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { frontendUrls } from "../../urls/frontendUrls";
 import { IRespondent } from "../../@types/respondent";
+import { Card } from "../../components/Styled/Card";
 
 type Props = {
   respondent: IRespondent;
@@ -13,9 +14,5 @@ export const RespondentCard: FC<Props> = ({ respondent }) => {
   const onClick = () => {
     navigate(`${frontendUrls.respondents}:${respondent._id}`);
   };
-  return (
-    <>
-      <h3 {...{ onClick }}>{respondent.name}</h3>
-    </>
-  );
+  return <Card {...{ onClick }}>{respondent.name}</Card>;
 };

@@ -5,6 +5,7 @@ import { Context } from "../../context/context";
 import { apiUrls } from "../../urls/apiUrls";
 import { RespondentAddButton } from "../../components/RespondentAddButton";
 import { RespondentCard } from "./RespondentCard";
+import styled from "styled-components";
 
 export const RespondentsPage = () => {
   const { respondentsDispatch, respondentsState, questionnaireState } =
@@ -24,10 +25,18 @@ export const RespondentsPage = () => {
   return (
     <>
       <h1>RespondentList</h1>
-      {respondents.map((item) => (
-        <RespondentCard key={item._id} respondent={item} />
-      ))}
+      <List>
+        {respondents.map((item) => (
+          <RespondentCard key={item._id} respondent={item} />
+        ))}
+      </List>
       <RespondentAddButton {...{ respondentsDispatch, questionnaires }} />
     </>
   );
 };
+
+const List = styled.div`
+  margin: 32px 0;
+  display: grid;
+  grid-gap: 8px;
+`;
