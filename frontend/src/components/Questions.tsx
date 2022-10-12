@@ -21,7 +21,7 @@ export const Questions: FC<Props> = ({ questionsIds, questionnaireId }) => {
   const questions = questionsByValues[questionnaireId];
 
   useEffect(() => {
-    if (questionsIds && !questions?.length) {
+    if (questionsIds?.length && !questions?.length) {
       getRequestQuestions({
         dispatch: questionsDispatch,
         questionsIds,
@@ -35,7 +35,11 @@ export const Questions: FC<Props> = ({ questionsIds, questionnaireId }) => {
       <h2>Questions list</h2>
       {questions?.length > 0 &&
         questions.map((question: IQuestion) => (
-          <Question key={question._id} question={question} />
+          <Question
+            key={question._id}
+            question={question}
+            questionnaireId={questionnaireId}
+          />
         ))}
     </>
   );

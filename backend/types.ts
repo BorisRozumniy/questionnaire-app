@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 
 export enum AnswerType {
     text = 'text',
@@ -13,8 +13,6 @@ type PossibleAnswer = {
 };
 
 type TUserAnswer = string[];
-
-type TId = string;
 
 type TQuestionnaireId = mongoose.SchemaDefinitionProperty<string>;
 
@@ -33,5 +31,5 @@ export interface IRespondent {
 
 export interface IQuestionnaire {
     name: string;
-    questions?: [];
+    questions?: Types.ObjectId[];
 }

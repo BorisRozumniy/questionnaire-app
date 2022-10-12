@@ -1,37 +1,61 @@
-import { FC, useContext } from "react";
+import { FC, useContext, useState } from "react";
 import styled from "styled-components";
+import { TMongoId } from "../@types/common";
 import { ContextType } from "../@types/context";
 import { IQuestion } from "../@types/question";
+import { deleteRequestQuestion } from "../actions/deleteRequestQuestion";
 import { Context } from "../context/context";
 import { QuestionItemProvider } from "../context/questionItemContext";
 import { AnswerTypeComponent } from "./AnswerType";
+import { QuestionForm } from "./QuestionForm";
 import { Button } from "./Styled/Button";
 
 type Props = {
   question: IQuestion;
+  questionnaireId: TMongoId;
 };
 
-export const Question: FC<Props> = ({ question }) => {
+export const Question: FC<Props> = ({ question, questionnaireId }) => {
   const { _id, questionText, answerType } = question;
 
-  const { removeQuestion, editQuestion, editMod } = useContext(
-    Context
-  ) as ContextType;
+  const { questionsDispatch } = useContext(Context) as ContextType;
+
+  const [editMod, setEditMod] = useState(false);
 
   return (
     <QuestionItemProvider {...{ question }}>
       <Wrapper>
-        <div>
-          <h3>{questionText}</h3>
-          <p>{answerType}</p>
-          <AnswerTypeComponent answerType={answerType} />
-        </div>
-        {editMod && (
-          <>
-            <Button onClick={() => editQuestion(_id)}>edit</Button>
-            <Button onClick={() => removeQuestion(_id)}>remove</Button>
-          </>
+        {!editMod ? (
+          <div>
+            <h3>{questionText}</h3>
+            <p>{answerType}</p>
+            <AnswerTypeComponent answerType={answerType} />
+          </div>
+        ) : (
+          <QuestionForm
+            {...{
+              isEditForm: true,
+              dispatch: questionsDispatch,
+              questionnaireId,
+              question,
+              setEditMod,
+            }}
+          />
         )}
+        <>
+          <Button onClick={() => setEditMod(true)}>edit mod</Button>
+          <Button
+            onClick={() =>
+              deleteRequestQuestion({
+                removedQuestionId: _id,
+                questionnaireId,
+                dispatch: questionsDispatch,
+              })
+            }
+          >
+            remove
+          </Button>
+        </>
       </Wrapper>
     </QuestionItemProvider>
   );
