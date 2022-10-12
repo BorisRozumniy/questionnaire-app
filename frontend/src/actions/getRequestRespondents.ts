@@ -6,7 +6,7 @@ type Params = {
   dispatch: Dispatch<ACTIONTYPE>,
 }
 
-export const getRequest = ({ url, dispatch }: Params) => {
+export const getRequestRespondents = ({ url, dispatch }: Params) => {
   dispatch({ type: ActionKind.GET_REQUEST_RESPONDENTS_START })
   fetch(url)
     .then((res) => res.json())

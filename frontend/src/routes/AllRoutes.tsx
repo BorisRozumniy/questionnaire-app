@@ -1,9 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import { RespondentPage } from "../pages/RespondentPage";
+import { RespondentsPage } from "../pages/Respondents/RespondentsPage";
+import { RespondentPage } from "../pages/Respondents/RespondentPage";
 import { QuestionnairesPage } from "../pages/Questionnaires/QuestionnairesPage";
+import { QuestionnairePage } from "../pages/Questionnaire/QuestionnairePage";
 import ErrorPage from "../pages/ErrorPage";
 import { frontendUrls } from "../urls/frontendUrls";
-import { QuestionnairePage } from "../pages/Questionnaire/QuestionnairePage";
 import { useState } from "react";
 
 export const AllRoutes = () => {
@@ -31,8 +32,13 @@ export const AllRoutes = () => {
         element={
           <QuestionnairePage {...{ setLastRequestWasFromQuestionairePage }} />
         }
+        errorElement={<ErrorPage />}
       />
-      <Route path={frontendUrls.respondents} element={<RespondentPage />} />
+      <Route path={frontendUrls.respondents} element={<RespondentsPage />} />
+      <Route
+        path={`${frontendUrls.respondents}:id`}
+        element={<RespondentPage />}
+      />
       <Route path={frontendUrls.results} element={<h1>Rsults</h1>} />
     </Routes>
   );
