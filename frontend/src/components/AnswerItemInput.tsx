@@ -19,7 +19,7 @@ type Props = {
 export const AnswerItemInput: FC<Props> = ({ item }) => {
   const [value, setValue] = useState(item.title);
 
-  const { questions, setQuestions } = useContext(Context) as ContextType;
+  // const { questions, setQuestions } = useContext(Context) as ContextType;
 
   const { question } = useContext(
     QuestionItemContext
@@ -39,7 +39,7 @@ export const AnswerItemInput: FC<Props> = ({ item }) => {
         ...question,
         answerOptions: newAnswerOptions,
       };
-      saveEditedQuestion(questionUpdate, questions, setQuestions);
+      // saveEditedQuestion(questionUpdate, questions, setQuestions);
     }
   };
 

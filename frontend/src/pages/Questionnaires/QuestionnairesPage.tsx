@@ -16,8 +16,9 @@ export const QuestionnairesPage: FC<Props> = ({
   lastRequestWasFromQuestionairePage,
   setLastRequestWasFromQuestionairePage,
 }) => {
-  const { questionnaireDispatch, questionnaireState, setQuestionMod } =
-    useContext(Context) as ContextType;
+  const { questionnaireDispatch, questionnaireState } = useContext(
+    Context
+  ) as ContextType;
 
   let params = useParams();
 
@@ -41,7 +42,7 @@ export const QuestionnairesPage: FC<Props> = ({
           <Questionnaire key={item._id} questionnaire={item} />
         ))}
       </ListWrapper>
-      <QuestionnaireAddForm {...{ setQuestionMod, questionnaireDispatch }} />
+      <QuestionnaireAddForm {...{ questionnaireDispatch }} />
     </>
   );
 };
