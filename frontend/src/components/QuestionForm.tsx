@@ -8,6 +8,7 @@ import { AnswerTypeComponent } from "./AnswerType";
 import { postRequestQuestion } from "../actions/postRequestQuestion";
 import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
 import { TMongoId } from "../@types/common";
+import styled from "styled-components";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -75,31 +76,52 @@ export const QuestionForm: FC<Pros> = ({
   };
 
   return (
-    <form onSubmit={(e) => handleSave(e, currentQuestion)}>
-      <div>
-        <div>
-          <label htmlFor="questionText">Question</label>
-          <Input
-            value={currentQuestion.questionText}
-            onChange={handleQuestionText}
-            type="text"
-            name="questionText"
-          />
-        </div>
-        <div>
-          <label>Answer type</label>
-          <AnswerTypeSelect
-            onChange={handleChangeSelect}
-            value={currentQuestion.answerType}
-          />
-        </div>
-      </div>
+    <Form onSubmit={(e) => handleSave(e, currentQuestion)}>
+      <Field>
+        <Label htmlFor="questionText">Question</Label>
+        <Input
+          value={currentQuestion.questionText}
+          onChange={handleQuestionText}
+          type="text"
+          name="questionText"
+        />
+      </Field>
+      <Field>
+        <Label>Answer type</Label>
+        <AnswerTypeSelect
+          onChange={handleChangeSelect}
+          value={currentQuestion.answerType}
+        />
+      </Field>
       {currentQuestion.answerType && (
         <AnswerTypeComponent answerType={currentQuestion.answerType} />
       )}
       <Button disabled={!currentQuestion.questionText ? true : false}>
         {isEditForm ? "Save changes" : "Save question"}
       </Button>
-    </form>
+    </Form>
   );
 };
+
+const Form = styled.form`
+  background-color: ${({ theme }) => theme.colors.light};
+  border-radius: 6px;
+`;
+
+const Field = styled.div`
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (min-width: 620px) {
+    flex-direction: row;
+    align-items: center;
+  }
+`;
+
+const Label = styled.label`
+  margin-right: 8px;
+  font-weight: 600;
+  @media only screen and (min-width: 620px) {
+    min-width: 130px;
+  }
+`;
