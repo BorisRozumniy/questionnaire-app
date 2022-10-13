@@ -33,7 +33,11 @@ export const PossibleOneAnswerItem = ({
 
 const InputRadio = styled(Input)`
   cursor: pointer;
+  margin-right: 4px;
 `;
 const Label = styled.label`
   cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
 `;

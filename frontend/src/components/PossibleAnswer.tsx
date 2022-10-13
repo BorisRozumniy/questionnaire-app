@@ -73,27 +73,48 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
   };
 
   return (
-    <OptionWrapper>
-      {question.answerOptions?.map((item) => (
-        <PossibleAnswerItem
-          key={item.title}
-          item={item}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-        />
-      ))}
+    <>
+      <OptionWrapper>
+        {question.answerOptions?.map((item) => (
+          <PossibleAnswerItem
+            key={item.title}
+            item={item}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
+        ))}
+      </OptionWrapper>
       {editMode && !pollingMode && (
-        <>
+        <NewOptionField>
           <Input value={newOptionValue} onChange={handleChangeNewItem} />
           <Button onClick={handleAddNewItem}>add new option</Button>
-        </>
+        </NewOptionField>
       )}
-    </OptionWrapper>
+    </>
   );
 };
 
 const OptionWrapper = styled.div`
   padding: 4px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 90%;
+  justify-content: center;
+  @media only screen and (min-width: 620px) {
+    grid-template-columns: 1fr 1fr;
+  }
+  @media only screen and (min-width: 920px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+`;
+
+const NewOptionField = styled.div`
+  display: grid;
+  grid-gap: 8px;
+  margin-bottom: 8px;
+  padding: 16px;
+  grid-template-columns: minmax(175px, 300px);
+  justify-content: center;
+  @media only screen and (min-width: 620px) {
+    grid-template-columns: 3fr 1fr;
+  }
 `;
