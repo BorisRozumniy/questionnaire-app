@@ -9,6 +9,7 @@ import { QuestionItemProvider } from "../context/questionItemContext";
 import { AnswerTypeComponent } from "./AnswerType";
 import { QuestionForm } from "./QuestionForm";
 import { Button } from "./Styled/Button";
+import { SwitchButton } from "./SwitchButton";
 
 type Props = {
   question: IQuestion;
@@ -26,6 +27,8 @@ export const Question: FC<Props> = ({
   const { questionsDispatch } = useContext(Context) as ContextType;
 
   const [editMode, setEditMod] = useState(false);
+
+  const handleChange = () => setEditMod(!editMode);
 
   return (
     <QuestionItemProvider
@@ -51,7 +54,8 @@ export const Question: FC<Props> = ({
         )}
         {!pollingMode && (
           <>
-            <Button onClick={() => setEditMod(true)}>edit mod</Button>
+            {editMode && "edit mode"}
+            <SwitchButton {...{ id: _id, checked: editMode, handleChange }} />
             <Button
               onClick={() =>
                 deleteRequestQuestion({
