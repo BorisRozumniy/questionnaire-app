@@ -54,19 +54,24 @@ export const Question: FC<Props> = ({
         )}
         {!pollingMode && (
           <>
-            {editMode && "edit mode"}
-            <SwitchButton {...{ id: _id, checked: editMode, handleChange }} />
-            <Button
-              onClick={() =>
-                deleteRequestQuestion({
-                  removedQuestionId: _id,
-                  questionnaireId,
-                  dispatch: questionsDispatch,
-                })
-              }
-            >
-              remove
-            </Button>
+            <SwitchButtonWrapper>
+              <TextInfo>{editMode ? "edit mode" : "read mode"}</TextInfo>
+              <SwitchButton {...{ id: _id, checked: editMode, handleChange }} />
+            </SwitchButtonWrapper>
+            {editMode && (
+              <RemoveButton
+                onClick={() =>
+                  deleteRequestQuestion({
+                    removedQuestionId: _id,
+                    questionnaireId,
+                    dispatch: questionsDispatch,
+                  })
+                }
+                bg="red"
+              >
+                remove
+              </RemoveButton>
+            )}
           </>
         )}
       </Wrapper>
@@ -78,5 +83,26 @@ const Wrapper = styled.div`
   margin: 2px 0;
   border: green solid 2px;
   border-radius: 3px;
-  padding: 8px 16px;
+  padding: 40px 32px 16px;
+  position: relative;
+`;
+
+const SwitchButtonWrapper = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+`;
+
+const TextInfo = styled.span`
+  color: ${({ theme }) => theme.colors.blue};
+  margin-right: 8px;
+  text-transform: capitalize;
+`;
+
+const RemoveButton = styled(Button)`
+  position: absolute;
+  right: 32px;
+  bottom: 16px;
 `;
