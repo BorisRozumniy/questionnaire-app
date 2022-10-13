@@ -1,4 +1,5 @@
 import { createContext, FC, ReactNode } from "react";
+import { TMongoId } from "../@types/common";
 import { IQuestion, QuestionItemContextType } from "../@types/question";
 import { useInput } from "../useInput";
 
@@ -13,12 +14,16 @@ interface Props {
   children: ReactNode;
   question: IQuestion;
   pollingMode?: boolean;
+  editMode?: boolean;
+  questionnaireId?: TMongoId;
 }
 
 export const QuestionItemProvider: FC<Props> = ({
   children,
   question,
   pollingMode,
+  editMode,
+  questionnaireId,
 }) => {
   const [newOptionValue, setNewOptionValue] = useInput("");
 
@@ -27,6 +32,8 @@ export const QuestionItemProvider: FC<Props> = ({
     newOptionValue,
     setNewOptionValue,
     pollingMode,
+    editMode,
+    questionnaireId,
   };
   return (
     <QuestionItemContext.Provider value={value}>

@@ -25,12 +25,14 @@ export const Question: FC<Props> = ({
 
   const { questionsDispatch } = useContext(Context) as ContextType;
 
-  const [editMod, setEditMod] = useState(false);
+  const [editMode, setEditMod] = useState(false);
 
   return (
-    <QuestionItemProvider {...{ question, pollingMode }}>
+    <QuestionItemProvider
+      {...{ question, pollingMode, editMode, questionnaireId }}
+    >
       <Wrapper>
-        {!editMod ? (
+        {!editMode ? (
           <div>
             <h3>{questionText}</h3>
             {!pollingMode && <p>{answerType}</p>}

@@ -1,12 +1,12 @@
 import { FC, FormEvent, useContext, useState } from "react";
 import styled from "styled-components";
-// import { ContextType } from "../@types/context";
+import { ContextType } from "../@types/context";
 import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-// import { saveEditedQuestion } from "../actions/saveEditedQuestion";
-// import { Context } from "../context/context";
+import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
+import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { Input } from "./Styled/Input";
 
@@ -19,9 +19,9 @@ type Props = {
 export const AnswerItemInput: FC<Props> = ({ item }) => {
   const [value, setValue] = useState(item.title);
 
-  // const { questions, setQuestions } = useContext(Context) as ContextType;
+  const { questionsDispatch } = useContext(Context) as ContextType;
 
-  const { question } = useContext(
+  const { question, questionnaireId } = useContext(
     QuestionItemContext
   ) as QuestionItemContextType;
 
@@ -39,7 +39,13 @@ export const AnswerItemInput: FC<Props> = ({ item }) => {
         ...question,
         answerOptions: newAnswerOptions,
       };
-      // saveEditedQuestion(questionUpdate, questions, setQuestions);
+
+      questionnaireId &&
+        patchRequestEditQuestion({
+          requestBody: questionUpdate,
+          questionnaireId,
+          dispatch: questionsDispatch,
+        });
     }
   };
 

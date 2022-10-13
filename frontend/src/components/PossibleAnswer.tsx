@@ -2,7 +2,7 @@ import { FormEvent, MouseEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { ContextType } from "../@types/context";
 import { IQuestion, QuestionItemContextType } from "../@types/question";
-import { saveEditedQuestion } from "../actions/saveEditedQuestion";
+import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { useSelectedOne } from "../useSelected";
@@ -15,17 +15,16 @@ type Props = {
 };
 
 export const PossibleAnswerList = ({ isSeveral }: Props) => {
-  // const {
-  //   editMod,
-  //   questions,
-  //   setQuestions,
-  //   temporaryQuestion,
-  //   setTemporaryQuestion,
-  // } = useContext(Context) as ContextType;
+  const { questionsDispatch } = useContext(Context) as ContextType;
 
-  const { question, newOptionValue, setNewOptionValue } = useContext(
-    QuestionItemContext
-  ) as QuestionItemContextType;
+  const {
+    question,
+    newOptionValue,
+    setNewOptionValue,
+    pollingMode,
+    editMode,
+    questionnaireId,
+  } = useContext(QuestionItemContext) as QuestionItemContextType;
 
   const [selectedOption, setSelectedOption] = useSelectedOne();
 
@@ -41,7 +40,7 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
         ...question,
         userAnswer: selectedOption,
       };
-      // saveEditedQuestion(questionUpdate, questions, setQuestions);
+      console.log(questionUpdate);
     }
   }, [selectedOption]);
 
@@ -61,15 +60,15 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
         answerOptions: [...question.answerOptions, option],
       };
 
-      // question._id &&
-      //   saveEditedQuestion(questionUpdate, questions, setQuestions);
-
-      // temporaryQuestion &&
-      //   setTemporaryQuestion({
-      //     ...temporaryQuestion,
-      //     answerOptions: [...(temporaryQuestion.answerOptions || []), option],
-      //   });
+      question._id &&
+        questionnaireId &&
+        patchRequestEditQuestion({
+          requestBody: questionUpdate,
+          questionnaireId,
+          dispatch: questionsDispatch,
+        });
     }
+
     setNewOptionValue("");
   };
 
@@ -83,12 +82,12 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
           setSelectedOption={setSelectedOption}
         />
       ))}
-      {/* {editMod && (
+      {editMode && !pollingMode && (
         <>
           <Input value={newOptionValue} onChange={handleChangeNewItem} />
           <Button onClick={handleAddNewItem}>add new option</Button>
         </>
-      )} */}
+      )}
     </OptionWrapper>
   );
 };

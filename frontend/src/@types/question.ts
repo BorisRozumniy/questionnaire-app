@@ -30,6 +30,8 @@ export type QuestionItemContextType = {
   newOptionValue: string;
   setNewOptionValue: (newValue: string) => void;
   pollingMode?: boolean;
+  editMode?: boolean;
+  questionnaireId?: TMongoId;
 }
 
 export type QuestionsByValues = Record<TMongoId, IQuestion[]>

@@ -1,4 +1,4 @@
-import { Dispatch, FC, FormEvent, useEffect, useState } from "react";
+import { Dispatch, FC, FormEvent, useState } from "react";
 import ReactSelect from "react-select";
 import { IQuestionnaire } from "../@types/questionnaire";
 import { ACTIONTYPE, IRespondent } from "../@types/respondent";
@@ -44,7 +44,6 @@ export const RespondentAddButton: FC<Props> = ({
       <ReactSelect
         options={options}
         onChange={(option) => setQuestionnaire(option!.value)}
-        // styles={customStyles}
         defaultValue={options[0]}
       />
       <Button {...{ onClick }}>New Respondent</Button>

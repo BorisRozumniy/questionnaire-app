@@ -1,8 +1,10 @@
-// import { useContext } from "react";
-// import { ContextType } from "../@types/context";
-import { TPossibleAnswerItem } from "../@types/question";
-// import { Context } from "../context/context";
-// import { AnswerItemInput } from "./AnswerItemInput";
+import { useContext } from "react";
+import {
+  QuestionItemContextType,
+  TPossibleAnswerItem,
+} from "../@types/question";
+import { QuestionItemContext } from "../context/questionItemContext";
+import { AnswerItemInput } from "./AnswerItemInput";
 import { PossibleOneAnswerItem } from "./PossibleOneAnswerItem";
 
 type Props = {
@@ -16,9 +18,11 @@ export const PossibleAnswerItem = ({
   selectedOption,
   setSelectedOption,
 }: Props) => {
-  // const { editMod } = useContext(Context) as ContextType;
+  const { editMode } = useContext(
+    QuestionItemContext
+  ) as QuestionItemContextType;
 
-  // if (editMod) return <AnswerItemInput {...{ item }} />;
+  if (editMode) return <AnswerItemInput {...{ item }} />;
 
   return (
     <PossibleOneAnswerItem {...{ item, setSelectedOption, selectedOption }} />
