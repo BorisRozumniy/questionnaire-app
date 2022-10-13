@@ -7,12 +7,14 @@ type Props = {
   item: TPossibleAnswerItem;
   selectedOption?: string;
   setSelectedOption: (item: string) => void;
+  pollingMode?: boolean;
 };
 
 export const PossibleOneAnswerItem = ({
   item,
   selectedOption,
   setSelectedOption,
+  pollingMode,
 }: Props) => {
   const handleSelectChange = (event: FormEvent<HTMLInputElement>): void => {
     setSelectedOption(event.currentTarget.value);
@@ -25,6 +27,7 @@ export const PossibleOneAnswerItem = ({
         value={item.title}
         checked={selectedOption === item.title}
         onChange={handleSelectChange}
+        disabled={!pollingMode}
       />
       {item.title}
     </Label>
