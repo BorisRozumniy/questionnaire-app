@@ -13,9 +13,14 @@ import { Button } from "./Styled/Button";
 type Props = {
   question: IQuestion;
   questionnaireId: TMongoId;
+  pollingMode?: boolean;
 };
 
-export const Question: FC<Props> = ({ question, questionnaireId }) => {
+export const Question: FC<Props> = ({
+  question,
+  questionnaireId,
+  pollingMode,
+}) => {
   const { _id, questionText, answerType } = question;
 
   const { questionsDispatch } = useContext(Context) as ContextType;
@@ -23,12 +28,12 @@ export const Question: FC<Props> = ({ question, questionnaireId }) => {
   const [editMod, setEditMod] = useState(false);
 
   return (
-    <QuestionItemProvider {...{ question }}>
+    <QuestionItemProvider {...{ question, pollingMode }}>
       <Wrapper>
         {!editMod ? (
           <div>
             <h3>{questionText}</h3>
-            <p>{answerType}</p>
+            {!pollingMode && <p>{answerType}</p>}
             <AnswerTypeComponent answerType={answerType} />
           </div>
         ) : (
@@ -42,20 +47,22 @@ export const Question: FC<Props> = ({ question, questionnaireId }) => {
             }}
           />
         )}
-        <>
-          <Button onClick={() => setEditMod(true)}>edit mod</Button>
-          <Button
-            onClick={() =>
-              deleteRequestQuestion({
-                removedQuestionId: _id,
-                questionnaireId,
-                dispatch: questionsDispatch,
-              })
-            }
-          >
-            remove
-          </Button>
-        </>
+        {!pollingMode && (
+          <>
+            <Button onClick={() => setEditMod(true)}>edit mod</Button>
+            <Button
+              onClick={() =>
+                deleteRequestQuestion({
+                  removedQuestionId: _id,
+                  questionnaireId,
+                  dispatch: questionsDispatch,
+                })
+              }
+            >
+              remove
+            </Button>
+          </>
+        )}
       </Wrapper>
     </QuestionItemProvider>
   );

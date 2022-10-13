@@ -60,7 +60,7 @@ export const RespondentPage = () => {
 
   return (
     <>
-      {respondent?.name}
+      <h2>{respondent?.name}</h2>
       {questions?.length > 0 &&
         questionnaire?._id &&
         questions.map((question: IQuestion) => (
@@ -68,6 +68,7 @@ export const RespondentPage = () => {
             {...{
               question,
               questionnaireId: questionnaire?._id,
+              pollingMode: true,
               key: question._id,
             }}
           />

@@ -12,15 +12,21 @@ export const QuestionItemContext =
 interface Props {
   children: ReactNode;
   question: IQuestion;
+  pollingMode?: boolean;
 }
 
-export const QuestionItemProvider: FC<Props> = ({ children, question }) => {
+export const QuestionItemProvider: FC<Props> = ({
+  children,
+  question,
+  pollingMode,
+}) => {
   const [newOptionValue, setNewOptionValue] = useInput("");
 
   const value = {
     question,
     newOptionValue,
     setNewOptionValue,
+    pollingMode,
   };
   return (
     <QuestionItemContext.Provider value={value}>
