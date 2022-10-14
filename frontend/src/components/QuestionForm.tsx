@@ -76,7 +76,7 @@ export const QuestionForm: FC<Pros> = ({
   };
 
   return (
-    <Form onSubmit={(e) => handleSave(e, currentQuestion)}>
+    <form onSubmit={(e) => handleSave(e, currentQuestion)}>
       <Field>
         <Label htmlFor="questionText">Question</Label>
         <Input
@@ -99,14 +99,10 @@ export const QuestionForm: FC<Pros> = ({
       <Button disabled={!currentQuestion.questionText ? true : false}>
         {isEditForm ? "Save changes" : "Save question"}
       </Button>
-    </Form>
+    </form>
   );
 };
 
-const Form = styled.form`
-  background-color: ${({ theme }) => theme.colors.light};
-  border-radius: 6px;
-`;
 
 const Field = styled.div`
   margin-bottom: 8px;

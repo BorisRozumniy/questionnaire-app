@@ -34,7 +34,7 @@ export const Question: FC<Props> = ({
     <QuestionItemProvider
       {...{ question, pollingMode, editMode, questionnaireId }}
     >
-      <Wrapper>
+      <Wrapper {...{ editMode }}>
         {!editMode ? (
           <div>
             <h3>{questionText}</h3>
@@ -55,7 +55,9 @@ export const Question: FC<Props> = ({
         {!pollingMode && (
           <>
             <SwitchButtonWrapper>
-              <TextInfo>{editMode ? "edit mode" : "read mode"}</TextInfo>
+              <TextInfo {...{ editMode }}>
+                {editMode ? "edit mode" : "read mode"}
+              </TextInfo>
               <SwitchButton {...{ id: _id, checked: editMode, handleChange }} />
             </SwitchButtonWrapper>
             {editMode && (
@@ -79,12 +81,14 @@ export const Question: FC<Props> = ({
   );
 };
 
-const Wrapper = styled.div`
-  margin: 2px 0;
-  border: green solid 2px;
+const Wrapper = styled.div<{ editMode: boolean }>`
+  margin: 4px 0;
+  border: ${({ theme }) => theme.colors.main} solid 2px;
   border-radius: 3px;
   padding: 40px 32px 16px;
   position: relative;
+  background-color: ${({ theme, editMode }) =>
+    editMode && theme.colors.light}; ;
 `;
 
 const SwitchButtonWrapper = styled.div`
@@ -95,8 +99,9 @@ const SwitchButtonWrapper = styled.div`
   align-items: center;
 `;
 
-const TextInfo = styled.span`
-  color: ${({ theme }) => theme.colors.blue};
+const TextInfo = styled.span<{ editMode: boolean }>`
+  color: ${({ theme, editMode }) =>
+    editMode ? theme.colors.secondary : theme.colors.blue};
   margin-right: 8px;
   text-transform: capitalize;
 `;
