@@ -41,7 +41,6 @@ type Pros = {
 const initialQuestion = {
   questionText: "",
   answerType: AnswerType.text,
-  // _id: "",
 };
 
 export const QuestionForm: FC<Pros> = ({
@@ -115,7 +114,7 @@ export const QuestionForm: FC<Pros> = ({
       <Field>
         <Label htmlFor="questionText">Question</Label>
         <Input
-          value={temporaryQuestion.questionText}
+          value={temporaryQuestion.questionText || ""}
           onChange={handleQuestionText}
           type="text"
           name="questionText"
