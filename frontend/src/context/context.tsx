@@ -1,4 +1,4 @@
-import { createContext, FC, ReactNode, useReducer } from "react";
+import { createContext, FC, ReactNode, useReducer, useState } from "react";
 import { initialState, respondentReducer } from "../reducers/respondentReducer";
 import {
   questionnaireInitialState,
@@ -9,6 +9,7 @@ import {
   questionsReducer,
 } from "../reducers/questionsReducer";
 import { ContextType } from "../@types/context";
+import { IQuestion, NewQuestion } from "../@types/question";
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -32,6 +33,10 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
     questionInitialState
   );
 
+  const [temporaryQuestion, setTemporaryQuestion] = useState(
+    {} as NewQuestion | IQuestion
+  );
+
   return (
     <Context.Provider
       value={{
@@ -41,6 +46,8 @@ export const QuestionProvider: FC<Props> = ({ children }) => {
         respondentsDispatch,
         questionsState,
         questionsDispatch,
+        temporaryQuestion,
+        setTemporaryQuestion,
       }}
     >
       {children}

@@ -1,6 +1,19 @@
-import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useEffect,
+} from "react";
 import { ActionMeta, SingleValue } from "react-select";
-import { IQuestion, AnswerType, Option, ACTIONTYPE } from "../@types/question";
+import {
+  IQuestion,
+  AnswerType,
+  Option,
+  ACTIONTYPE,
+  NewQuestion,
+} from "../@types/question";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { AnswerTypeSelect } from "./AnswerTypeSelect";
@@ -9,6 +22,8 @@ import { postRequestQuestion } from "../actions/postRequestQuestion";
 import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
 import { TMongoId } from "../@types/common";
 import styled from "styled-components";
+import { Context } from "../context/context";
+import { ContextType } from "../@types/context";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -17,7 +32,7 @@ type OnChange = (
 
 type Pros = {
   questionnaireId: TMongoId;
-  question?: Partial<IQuestion>;
+  question?: IQuestion;
   dispatch: Dispatch<ACTIONTYPE>;
   isEditForm?: boolean;
   setEditMod?: Dispatch<SetStateAction<boolean>>;
@@ -26,20 +41,29 @@ type Pros = {
 const initialQuestion = {
   questionText: "",
   answerType: AnswerType.text,
+  // _id: "",
 };
 
 export const QuestionForm: FC<Pros> = ({
   isEditForm,
   questionnaireId,
-  question = initialQuestion,
+  question,
   dispatch,
   setEditMod,
 }) => {
-  const [currentQuestion, setCurrentQuestion] = useState(question);
+  const { temporaryQuestion, setTemporaryQuestion } = useContext(
+    Context
+  ) as ContextType;
+
+  useEffect(() => {
+    if (question) {
+      setTemporaryQuestion(question);
+    }
+  }, []);
 
   const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
-    setCurrentQuestion({
-      ...currentQuestion,
+    setTemporaryQuestion({
+      ...temporaryQuestion,
       questionText: e.currentTarget.value,
     });
   };
@@ -50,37 +74,48 @@ export const QuestionForm: FC<Pros> = ({
       selected?.value === AnswerType.aFewFromTheList;
 
     selected &&
-      setCurrentQuestion({
-        ...currentQuestion,
+      setTemporaryQuestion({
+        ...temporaryQuestion,
         answerType: selected?.value,
       });
 
     isNeedList &&
-      setCurrentQuestion({
-        ...currentQuestion,
+      setTemporaryQuestion({
+        ...temporaryQuestion,
         answerType: selected?.value,
         answerOptions: [],
       });
   };
 
-  const handleSave = (e: FormEvent, currentQuestion: Partial<IQuestion>) => {
+  const handleSave = (
+    e: FormEvent,
+    temporaryQuestion: NewQuestion | IQuestion
+  ) => {
     e.preventDefault();
-    const request = isEditForm ? patchRequestEditQuestion : postRequestQuestion;
-    request({
-      requestBody: currentQuestion as IQuestion,
-      questionnaireId,
-      dispatch,
-    });
+
+    if (temporaryQuestion._id) {
+      patchRequestEditQuestion({
+        requestBody: temporaryQuestion as IQuestion,
+        questionnaireId,
+        dispatch,
+      });
+    } else {
+      postRequestQuestion({
+        requestBody: temporaryQuestion,
+        questionnaireId,
+        dispatch,
+      });
+    }
     setEditMod && setEditMod(false);
-    setCurrentQuestion(initialQuestion);
+    setTemporaryQuestion(initialQuestion);
   };
 
   return (
-    <form onSubmit={(e) => handleSave(e, currentQuestion)}>
+    <form onSubmit={(e) => handleSave(e, temporaryQuestion)}>
       <Field>
         <Label htmlFor="questionText">Question</Label>
         <Input
-          value={currentQuestion.questionText}
+          value={temporaryQuestion.questionText}
           onChange={handleQuestionText}
           type="text"
           name="questionText"
@@ -90,19 +125,18 @@ export const QuestionForm: FC<Pros> = ({
         <Label>Answer type</Label>
         <AnswerTypeSelect
           onChange={handleChangeSelect}
-          value={currentQuestion.answerType}
+          value={temporaryQuestion.answerType}
         />
       </Field>
-      {currentQuestion.answerType && (
-        <AnswerTypeComponent answerType={currentQuestion.answerType} />
+      {temporaryQuestion.answerType && (
+        <AnswerTypeComponent answerType={temporaryQuestion.answerType} />
       )}
-      <Button disabled={!currentQuestion.questionText ? true : false}>
+      <Button disabled={!temporaryQuestion.questionText ? true : false}>
         {isEditForm ? "Save changes" : "Save question"}
       </Button>
     </form>
   );
 };
-
 
 const Field = styled.div`
   margin-bottom: 8px;

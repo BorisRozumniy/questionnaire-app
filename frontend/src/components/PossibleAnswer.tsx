@@ -2,7 +2,6 @@ import { FormEvent, MouseEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { ContextType } from "../@types/context";
 import { IQuestion, QuestionItemContextType } from "../@types/question";
-import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { useSelectedOne } from "../useSelected";
@@ -15,16 +14,12 @@ type Props = {
 };
 
 export const PossibleAnswerList = ({ isSeveral }: Props) => {
-  const { questionsDispatch } = useContext(Context) as ContextType;
+  const { temporaryQuestion, setTemporaryQuestion } = useContext(
+    Context
+  ) as ContextType;
 
-  const {
-    question,
-    newOptionValue,
-    setNewOptionValue,
-    pollingMode,
-    editMode,
-    questionnaireId,
-  } = useContext(QuestionItemContext) as QuestionItemContextType;
+  const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
+    useContext(QuestionItemContext) as QuestionItemContextType;
 
   const [selectedOption, setSelectedOption] = useSelectedOne();
 
@@ -53,29 +48,28 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
   const handleAddNewItem = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
-    if (question.answerOptions) {
+    if (temporaryQuestion.answerOptions) {
       const option = { title: newOptionValue, id: Date.now() };
-      const questionUpdate: IQuestion = {
-        ...question,
-        answerOptions: [...question.answerOptions, option],
+      const questionUpdate = {
+        ...temporaryQuestion,
+        answerOptions: temporaryQuestion.answerOptions && [
+          ...temporaryQuestion.answerOptions,
+          option,
+        ],
       };
 
-      question._id &&
-        questionnaireId &&
-        patchRequestEditQuestion({
-          requestBody: questionUpdate,
-          questionnaireId,
-          dispatch: questionsDispatch,
-        });
+      setTemporaryQuestion(questionUpdate);
     }
 
     setNewOptionValue("");
   };
 
+  const currentQuestion = editMode ? temporaryQuestion : question;
+
   return (
     <>
       <OptionWrapper>
-        {question.answerOptions?.map((item) => (
+        {currentQuestion.answerOptions?.map((item) => (
           <PossibleAnswerItem
             key={item.title}
             item={item}
