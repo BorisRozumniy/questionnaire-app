@@ -32,5 +32,5 @@ export type ACTIONTYPE =
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_SUCCESS; payload: IRespondent[] }
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_ERROR; payload: any }
     | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_START }
-    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS; payload: IRespondent[] }
+    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS; payload: IRespondent }
     | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR; payload: any };
