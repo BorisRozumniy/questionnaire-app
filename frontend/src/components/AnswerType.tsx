@@ -2,7 +2,7 @@ import { FC, useContext } from "react";
 import { AnswerType, QuestionItemContextType } from "../@types/question";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { DateField } from "./DateField";
-import { PossibleAnswerList } from "./PossibleAnswer";
+import { PossibleAnswerList } from "./PossibleAnswerList";
 import { TextField } from "./TextField";
 
 type AnswerTypeProps = {

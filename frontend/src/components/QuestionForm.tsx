@@ -86,12 +86,7 @@ export const QuestionForm: FC<Pros> = ({
       });
   };
 
-  const handleSave = (
-    e: FormEvent,
-    temporaryQuestion: NewQuestion | IQuestion
-  ) => {
-    e.preventDefault();
-
+  const handleSave = (temporaryQuestion: NewQuestion | IQuestion) => {
     if (temporaryQuestion._id) {
       patchRequestEditQuestion({
         requestBody: temporaryQuestion as IQuestion,
@@ -110,12 +105,15 @@ export const QuestionForm: FC<Pros> = ({
   };
 
   return (
-    <form onSubmit={(e) => handleSave(e, temporaryQuestion)}>
+    <div>
       <Field>
         <Label htmlFor="questionText">Question</Label>
         <Input
           value={temporaryQuestion.questionText || ""}
           onChange={handleQuestionText}
+          onKeyUp={({ key }) =>
+            key === "Enter" && handleSave(temporaryQuestion)
+          }
           type="text"
           name="questionText"
         />
@@ -130,10 +128,13 @@ export const QuestionForm: FC<Pros> = ({
       {temporaryQuestion.answerType && (
         <AnswerTypeComponent answerType={temporaryQuestion.answerType} />
       )}
-      <Button disabled={!temporaryQuestion.questionText ? true : false}>
+      <Button
+        onClick={() => handleSave(temporaryQuestion)}
+        disabled={!temporaryQuestion.questionText ? true : false}
+      >
         {isEditForm ? "Save changes" : "Save question"}
       </Button>
-    </form>
+    </div>
   );
 };
 

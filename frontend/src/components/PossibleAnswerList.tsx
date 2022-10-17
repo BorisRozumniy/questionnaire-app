@@ -1,7 +1,11 @@
-import { FormEvent, MouseEvent, useContext, useEffect } from "react";
+import { FormEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { ContextType } from "../@types/context";
-import { IQuestion, QuestionItemContextType } from "../@types/question";
+import {
+  IQuestion,
+  QuestionItemContextType,
+  TPossibleAnswerItem,
+} from "../@types/question";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { useSelectedOne } from "../useSelected";
@@ -45,9 +49,7 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
     setNewOptionValue(currentTarget.value);
   };
 
-  const handleAddNewItem = (event: MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-
+  const handleAddNewItem = () => {
     if (temporaryQuestion.answerOptions) {
       const option = { title: newOptionValue, id: Date.now() };
       const questionUpdate = {
@@ -64,23 +66,51 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
     setNewOptionValue("");
   };
 
+  const handleRemoveItem = (item: TPossibleAnswerItem) => {
+    if (temporaryQuestion.answerOptions) {
+      const answerOptions = temporaryQuestion.answerOptions.filter(
+        (option) => option.id !== item.id
+      );
+      const questionUpdate = {
+        ...temporaryQuestion,
+        answerOptions,
+      };
+      setTemporaryQuestion(questionUpdate);
+    }
+  };
+
   const currentQuestion = editMode ? temporaryQuestion : question;
 
   return (
     <>
       <OptionWrapper>
         {currentQuestion.answerOptions?.map((item) => (
-          <PossibleAnswerItem
-            key={item.title}
-            item={item}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-          />
+          <div>
+            <PossibleAnswerItem
+              key={item.id + item.title}
+              item={item}
+              selectedOption={selectedOption}
+              setSelectedOption={setSelectedOption}
+            />
+            {editMode && (
+              <Button
+                onClick={() => handleRemoveItem(item)}
+                key={item.id + "remove-button"}
+                bg="red"
+              >
+                x
+              </Button>
+            )}
+          </div>
         ))}
       </OptionWrapper>
       {editMode && !pollingMode && (
         <NewOptionField>
-          <Input value={newOptionValue} onChange={handleChangeNewItem} />
+          <Input
+            value={newOptionValue}
+            onChange={handleChangeNewItem}
+            onKeyUp={({ key }) => key === "Enter" && handleAddNewItem()}
+          />
           <Button onClick={handleAddNewItem}>add new option</Button>
         </NewOptionField>
       )}
