@@ -9,26 +9,36 @@ import { QuestionItemProvider } from "../context/questionItemContext";
 import { AnswerTypeComponent } from "./AnswerType";
 import { QuestionForm } from "./QuestionForm";
 import { Button } from "./Styled/Button";
+import { SwitchButton } from "./SwitchButton";
 
 type Props = {
   question: IQuestion;
   questionnaireId: TMongoId;
+  pollingMode?: boolean;
 };
 
-export const Question: FC<Props> = ({ question, questionnaireId }) => {
+export const Question: FC<Props> = ({
+  question,
+  questionnaireId,
+  pollingMode,
+}) => {
   const { _id, questionText, answerType } = question;
 
   const { questionsDispatch } = useContext(Context) as ContextType;
 
-  const [editMod, setEditMod] = useState(false);
+  const [editMode, setEditMod] = useState(false);
+
+  const handleChange = () => setEditMod(!editMode);
 
   return (
-    <QuestionItemProvider {...{ question }}>
-      <Wrapper>
-        {!editMod ? (
+    <QuestionItemProvider
+      {...{ question, pollingMode, editMode, questionnaireId }}
+    >
+      <Wrapper {...{ editMode }}>
+        {!editMode ? (
           <div>
             <h3>{questionText}</h3>
-            <p>{answerType}</p>
+            {!pollingMode && <p>{answerType}</p>}
             <AnswerTypeComponent answerType={answerType} />
           </div>
         ) : (
@@ -42,28 +52,62 @@ export const Question: FC<Props> = ({ question, questionnaireId }) => {
             }}
           />
         )}
-        <>
-          <Button onClick={() => setEditMod(true)}>edit mod</Button>
-          <Button
-            onClick={() =>
-              deleteRequestQuestion({
-                removedQuestionId: _id,
-                questionnaireId,
-                dispatch: questionsDispatch,
-              })
-            }
-          >
-            remove
-          </Button>
-        </>
+        {!pollingMode && (
+          <>
+            <SwitchButtonWrapper>
+              <TextInfo {...{ editMode }}>
+                {editMode ? "edit mode" : "read mode"}
+              </TextInfo>
+              <SwitchButton {...{ id: _id, checked: editMode, handleChange }} />
+            </SwitchButtonWrapper>
+            {editMode && (
+              <RemoveButton
+                onClick={() =>
+                  deleteRequestQuestion({
+                    removedQuestionId: _id,
+                    questionnaireId,
+                    dispatch: questionsDispatch,
+                  })
+                }
+                bg="red"
+              >
+                remove
+              </RemoveButton>
+            )}
+          </>
+        )}
       </Wrapper>
     </QuestionItemProvider>
   );
 };
 
-const Wrapper = styled.div`
-  margin: 2px 0;
-  border: green solid 2px;
+const Wrapper = styled.div<{ editMode: boolean }>`
+  margin: 4px 0;
+  border: ${({ theme }) => theme.colors.main} solid 2px;
   border-radius: 3px;
-  padding: 8px 16px;
+  padding: 40px 32px 16px;
+  position: relative;
+  background-color: ${({ theme, editMode }) =>
+    editMode && theme.colors.light}; ;
+`;
+
+const SwitchButtonWrapper = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+`;
+
+const TextInfo = styled.span<{ editMode: boolean }>`
+  color: ${({ theme, editMode }) =>
+    editMode ? theme.colors.secondary : theme.colors.blue};
+  margin-right: 8px;
+  text-transform: capitalize;
+`;
+
+const RemoveButton = styled(Button)`
+  position: absolute;
+  right: 32px;
+  bottom: 16px;
 `;

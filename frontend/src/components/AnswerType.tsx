@@ -1,7 +1,8 @@
-import { FC } from "react";
-import { AnswerType } from "../@types/question";
+import { FC, useContext } from "react";
+import { AnswerType, QuestionItemContextType } from "../@types/question";
+import { QuestionItemContext } from "../context/questionItemContext";
 import { DateField } from "./DateField";
-import { PossibleAnswerList } from "./PossibleAnswer";
+import { PossibleAnswerList } from "./PossibleAnswerList";
 import { TextField } from "./TextField";
 
 type AnswerTypeProps = {
@@ -9,17 +10,28 @@ type AnswerTypeProps = {
 };
 
 export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {
+  const { pollingMode } = useContext(
+    QuestionItemContext
+  ) as QuestionItemContextType;
+
   switch (answerType) {
     case AnswerType.text:
-      return <TextField />;
+      if (pollingMode) return <TextField />;
+      return null;
+
     case AnswerType.data:
-      return <DateField />;
+      if (pollingMode) return <DateField />;
+      return null;
+
     case AnswerType.oneOfTheList:
       return <PossibleAnswerList />;
+
     case AnswerType.aFewFromTheList:
       return <PossibleAnswerList isSeveral />;
+
     case AnswerType.scale:
-      return <input type="range" />;
+      if (pollingMode) return <input type="range" />;
+      return null;
 
     default:
       return null;

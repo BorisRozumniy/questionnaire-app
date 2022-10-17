@@ -9,12 +9,12 @@ import { Button } from "../../components/Styled/Button";
 import { Input } from "../../components/Styled/Input";
 
 type Props = {
-  setQuestionMod: Dispatch<SetStateAction<boolean>>;
+  // setQuestionMod: Dispatch<SetStateAction<boolean>>;
   questionnaireDispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>;
 };
 
 export const QuestionnaireAddForm: FC<Props> = ({
-  setQuestionMod,
+  // setQuestionMod,
   questionnaireDispatch,
 }) => {
   const [value, setValue] = useState("");
@@ -29,7 +29,7 @@ export const QuestionnaireAddForm: FC<Props> = ({
       name: value,
       questions: [],
     };
-    setQuestionMod(true);
+    // setQuestionMod(true);
     postRequestQuestionnaire({
       url,
       requestBody,

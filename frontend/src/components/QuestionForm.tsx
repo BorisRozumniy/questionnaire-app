@@ -1,6 +1,19 @@
-import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react";
+import {
+  Dispatch,
+  FC,
+  FormEvent,
+  SetStateAction,
+  useContext,
+  useEffect,
+} from "react";
 import { ActionMeta, SingleValue } from "react-select";
-import { IQuestion, AnswerType, Option, ACTIONTYPE } from "../@types/question";
+import {
+  IQuestion,
+  AnswerType,
+  Option,
+  ACTIONTYPE,
+  NewQuestion,
+} from "../@types/question";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { AnswerTypeSelect } from "./AnswerTypeSelect";
@@ -8,6 +21,9 @@ import { AnswerTypeComponent } from "./AnswerType";
 import { postRequestQuestion } from "../actions/postRequestQuestion";
 import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
 import { TMongoId } from "../@types/common";
+import styled from "styled-components";
+import { Context } from "../context/context";
+import { ContextType } from "../@types/context";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -16,7 +32,7 @@ type OnChange = (
 
 type Pros = {
   questionnaireId: TMongoId;
-  question?: Partial<IQuestion>;
+  question?: IQuestion;
   dispatch: Dispatch<ACTIONTYPE>;
   isEditForm?: boolean;
   setEditMod?: Dispatch<SetStateAction<boolean>>;
@@ -30,15 +46,23 @@ const initialQuestion = {
 export const QuestionForm: FC<Pros> = ({
   isEditForm,
   questionnaireId,
-  question = initialQuestion,
+  question,
   dispatch,
   setEditMod,
 }) => {
-  const [currentQuestion, setCurrentQuestion] = useState(question);
+  const { temporaryQuestion, setTemporaryQuestion } = useContext(
+    Context
+  ) as ContextType;
+
+  useEffect(() => {
+    if (question) {
+      setTemporaryQuestion(question);
+    }
+  }, []);
 
   const handleQuestionText = (e: FormEvent<HTMLInputElement>): void => {
-    setCurrentQuestion({
-      ...currentQuestion,
+    setTemporaryQuestion({
+      ...temporaryQuestion,
       questionText: e.currentTarget.value,
     });
   };
@@ -49,57 +73,85 @@ export const QuestionForm: FC<Pros> = ({
       selected?.value === AnswerType.aFewFromTheList;
 
     selected &&
-      setCurrentQuestion({
-        ...currentQuestion,
+      setTemporaryQuestion({
+        ...temporaryQuestion,
         answerType: selected?.value,
       });
 
     isNeedList &&
-      setCurrentQuestion({
-        ...currentQuestion,
+      setTemporaryQuestion({
+        ...temporaryQuestion,
         answerType: selected?.value,
         answerOptions: [],
       });
   };
 
-  const handleSave = (e: FormEvent, currentQuestion: Partial<IQuestion>) => {
-    e.preventDefault();
-    const request = isEditForm ? patchRequestEditQuestion : postRequestQuestion;
-    request({
-      requestBody: currentQuestion as IQuestion,
-      questionnaireId,
-      dispatch,
-    });
+  const handleSave = (temporaryQuestion: NewQuestion | IQuestion) => {
+    if (temporaryQuestion._id) {
+      patchRequestEditQuestion({
+        requestBody: temporaryQuestion as IQuestion,
+        questionnaireId,
+        dispatch,
+      });
+    } else {
+      postRequestQuestion({
+        requestBody: temporaryQuestion,
+        questionnaireId,
+        dispatch,
+      });
+    }
     setEditMod && setEditMod(false);
-    setCurrentQuestion(initialQuestion);
+    setTemporaryQuestion(initialQuestion);
   };
 
   return (
-    <form onSubmit={(e) => handleSave(e, currentQuestion)}>
-      <div>
-        <div>
-          <label htmlFor="questionText">Question</label>
-          <Input
-            value={currentQuestion.questionText}
-            onChange={handleQuestionText}
-            type="text"
-            name="questionText"
-          />
-        </div>
-        <div>
-          <label>Answer type</label>
-          <AnswerTypeSelect
-            onChange={handleChangeSelect}
-            value={currentQuestion.answerType}
-          />
-        </div>
-      </div>
-      {currentQuestion.answerType && (
-        <AnswerTypeComponent answerType={currentQuestion.answerType} />
+    <div>
+      <Field>
+        <Label htmlFor="questionText">Question</Label>
+        <Input
+          value={temporaryQuestion.questionText || ""}
+          onChange={handleQuestionText}
+          onKeyUp={({ key }) =>
+            key === "Enter" && handleSave(temporaryQuestion)
+          }
+          type="text"
+          name="questionText"
+        />
+      </Field>
+      <Field>
+        <Label>Answer type</Label>
+        <AnswerTypeSelect
+          onChange={handleChangeSelect}
+          value={temporaryQuestion.answerType}
+        />
+      </Field>
+      {temporaryQuestion.answerType && (
+        <AnswerTypeComponent answerType={temporaryQuestion.answerType} />
       )}
-      <Button disabled={!currentQuestion.questionText ? true : false}>
+      <Button
+        onClick={() => handleSave(temporaryQuestion)}
+        disabled={!temporaryQuestion.questionText ? true : false}
+      >
         {isEditForm ? "Save changes" : "Save question"}
       </Button>
-    </form>
+    </div>
   );
 };
+
+const Field = styled.div`
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  @media only screen and (min-width: 620px) {
+    flex-direction: row;
+    align-items: center;
+  }
+`;
+
+const Label = styled.label`
+  margin-right: 8px;
+  font-weight: 600;
+  @media only screen and (min-width: 620px) {
+    min-width: 130px;
+  }
+`;

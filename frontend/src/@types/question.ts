@@ -21,7 +21,10 @@ export interface IQuestion {
   userAnswer?: string | string[] | number;
 }
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 
+export type NewQuestion = PartialBy<IQuestion, '_id'>
 
 export type Option = { label: AnswerType; value: AnswerType };
 
@@ -29,6 +32,9 @@ export type QuestionItemContextType = {
   question: IQuestion,
   newOptionValue: string;
   setNewOptionValue: (newValue: string) => void;
+  pollingMode?: boolean;
+  editMode?: boolean;
+  questionnaireId?: TMongoId;
 }
 
 export type QuestionsByValues = Record<TMongoId, IQuestion[]>

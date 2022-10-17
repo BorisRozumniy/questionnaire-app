@@ -1,20 +1,17 @@
 import { FC, FormEvent, useContext, useState } from "react";
-import { ContextType } from "../@types/context";
-import {
-  IQuestion,
-  QuestionItemContextType,
-} from "../@types/question";
+// import { ContextType } from "../@types/context";
+import { IQuestion, QuestionItemContextType } from "../@types/question";
 import { saveEditedQuestion } from "../actions/saveEditedQuestion";
-import { Context } from "../context/context";
+// import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { Input } from "./Styled/Input";
 
 type onChangeT = (e: FormEvent<HTMLInputElement>) => void;
 
 export const DateField: FC = () => {
-  const { editMod, questions, setQuestions } = useContext(
-    Context
-  ) as ContextType;
+  // const { editMod, questions, setQuestions } = useContext(
+  //   Context
+  // ) as ContextType;
 
   const { question } = useContext(
     QuestionItemContext
@@ -31,11 +28,13 @@ export const DateField: FC = () => {
         ...question,
         userAnswer: value,
       };
-      saveEditedQuestion(questionUpdate, questions, setQuestions);
+      // saveEditedQuestion(questionUpdate, questions, setQuestions);
     }
   };
 
   return (
-    <Input {...{ type: "date", disabled: editMod, value, onChange, onBlur }} />
+    <Input
+      {...{ type: "date", /* disabled: editMod */ value, onChange, onBlur }}
+    />
   );
 };

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const Button = styled.button`
+export const Button = styled.button<{ bg?: 'blue' | 'red' }>`
   appearance: none;
-  background-color: #2ea44f;
+  background-color: ${({ theme, bg }) => bg === 'red' ? theme.colors.red : theme.colors.main};;
   border: 1px solid rgba(27, 31, 35, .15);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
@@ -18,6 +18,7 @@ export const Button = styled.button`
   position: relative;
   text-align: center;
   text-decoration: none;
+  text-transform: capitalize;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;

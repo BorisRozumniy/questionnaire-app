@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const CheckBoxWrapper = styled.div`
   position: relative;
+  height: 26px;
 `;
 export const CheckBoxLabel = styled.label`
   position: absolute;
@@ -31,7 +32,7 @@ export const CheckBox = styled.input`
   width: 42px;
   height: 26px;
   &:checked + ${CheckBoxLabel} {
-    background: #4fbe79;
+    background: ${({ theme }) => theme.colors.main};
     &::after {
       content: "";
       display: block;

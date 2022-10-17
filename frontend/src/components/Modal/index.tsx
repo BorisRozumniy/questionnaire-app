@@ -21,14 +21,14 @@ import {
 } from "./styles";
 
 export const Modal = () => {
-  const { modalIsOpen, toggleModal, temporaryQuestion, saveEditedQuestion } =
-    useContext(Context) as ContextType;
+  // const { modalIsOpen, toggleModal, temporaryQuestion, saveEditedQuestion } =
+  //   useContext(Context) as ContextType;
 
-  const [formData, setFormData] = useState(temporaryQuestion as IQuestion);
+  const [formData, setFormData] = useState({} as IQuestion);
 
-  useEffect(() => {
-    setFormData(temporaryQuestion);
-  }, [temporaryQuestion]);
+  // useEffect(() => {
+  //   setFormData(temporaryQuestion);
+  // }, [temporaryQuestion]);
 
   const handleForm = (
     e: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
@@ -41,48 +41,50 @@ export const Modal = () => {
 
   const handleSave = (e: FormEvent, formData: IQuestion | any) => {
     e.preventDefault();
-    saveEditedQuestion(formData);
-    toggleModal(false);
+    // saveEditedQuestion(formData);
+    // toggleModal(false);
   };
 
   const wrapperRef = useRef(null);
   useOnClickOutside(wrapperRef, () => {
-    toggleModal(false);
+    // toggleModal(false);
   });
 
-  if (modalIsOpen)
-    return (
-      <ModalWrapper>
-        <ModalWindow ref={wrapperRef}>
-          <Heading>Modal</Heading>
-          <CloseButton onClick={() => toggleModal(false)}>x</CloseButton>
-          <ModalFormBlock onSubmit={(e) => handleSave(e, formData)}>
-            <Input
-              defaultValue={formData.questionText}
-              onChange={handleForm}
-              type="text"
-              id="questionText"
-            />
+  // if (modalIsOpen)
+  return (
+    <ModalWrapper>
+      <ModalWindow ref={wrapperRef}>
+        <Heading>Modal</Heading>
+        <CloseButton onClick={() => console.log("toggleModal(false)")}>
+          x
+        </CloseButton>
+        <ModalFormBlock onSubmit={(e) => handleSave(e, formData)}>
+          <Input
+            defaultValue={formData.questionText}
+            onChange={handleForm}
+            type="text"
+            id="questionText"
+          />
 
-            <select
-              value={formData.answerType}
-              onChange={handleForm}
-              id="answerType"
-            >
-              <option value={AnswerType.text}>text</option>
-              <option value={AnswerType.data}>data</option>
-              <option value={AnswerType.oneOfTheList}>one of the list</option>
-              <option value={AnswerType.aFewFromTheList}>
-                a few from the list
-              </option>
-              <option value={AnswerType.scale}>scale</option>
-            </select>
-            <Button disabled={formData === undefined ? true : false}>
-              Save changes
-            </Button>
-          </ModalFormBlock>
-        </ModalWindow>
-      </ModalWrapper>
-    );
+          <select
+            value={formData.answerType}
+            onChange={handleForm}
+            id="answerType"
+          >
+            <option value={AnswerType.text}>text</option>
+            <option value={AnswerType.data}>data</option>
+            <option value={AnswerType.oneOfTheList}>one of the list</option>
+            <option value={AnswerType.aFewFromTheList}>
+              a few from the list
+            </option>
+            <option value={AnswerType.scale}>scale</option>
+          </select>
+          <Button disabled={formData === undefined ? true : false}>
+            Save changes
+          </Button>
+        </ModalFormBlock>
+      </ModalWindow>
+    </ModalWrapper>
+  );
   return null;
 };
