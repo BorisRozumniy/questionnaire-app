@@ -1,11 +1,16 @@
 import { Respondent } from "../models/Respondent";
 import { Request, Response } from 'express';
+import { IRespondent, TUserAnswer } from "../types";
 
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body;
-    console.log('body:', req.body, name);
+    const { name, questionnaire } = req.body;
+    if (!questionnaire || !name) {
+      const message = `"name" and "questionnaire" are required!`;
+      console.log(message, req.body);
+      return res.status(400).json({ message });
+    }
 
     const existing = await Respondent.findOne({ name });
     if (existing) {
@@ -36,15 +41,40 @@ export const read = async (req: Request, res: Response) => {
   }
 };
 
-export const update = async (req: Request, res: Response) => {
-  try {
-    console.log(req.params.id, req.body);
+type UpdateRequest = Request<{ id: string }, {}, TUserAnswer>
+type UpdateResponse = Response<{ message: string }>
 
-    // const id = req.params.id;
-    // await Question.findByIdAndUpdate(id, req.body);
-    // const message = `Question "${id}" changed successfully`;
-    // console.log(message);
-    // res.json({ message });
+export const update = async (req: UpdateRequest, res: UpdateResponse) => {
+  try {
+    const respondentId = req.params.id;
+    const { questionId, value } = req.body;
+    const respondent = await Respondent.findById(respondentId);
+
+    if (respondent?.answers) {
+      const existingAnswer = respondent.answers.find(answer => answer.questionId === questionId)
+      let updatedAnswers: TUserAnswer[];
+
+      if (existingAnswer) {
+        updatedAnswers = respondent.answers.map(answer => {
+          if (String(answer.questionId) === questionId)
+            return { questionId: answer.questionId, value }
+          return answer
+        })
+      } else {
+        updatedAnswers = [...respondent?.answers, req.body]
+      }
+
+      const updatedRespondent: IRespondent = { name: respondent.name, answers: updatedAnswers, questionnaire: respondent.questionnaire }
+      const updatedAnswer = updatedAnswers.find(answer => String(answer.questionId) === String(questionId))
+
+      await Respondent.findByIdAndUpdate(respondentId, updatedRespondent);
+      const message = `Respondent "${respondentId}" changed successfully.
+        Question: ${questionId};
+        Answer: ${updatedAnswer?.value};
+      `;
+      console.log(message);
+      res.json({ message });
+    }
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });
