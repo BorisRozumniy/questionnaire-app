@@ -10,7 +10,11 @@ import { Input } from "./Styled/Input";
 
 type onChangeT = (e: FormEvent<HTMLInputElement>) => void;
 
-export const TextField: FC = () => {
+type Props = {
+  type?: "text" | "date" | "range";
+};
+
+export const SimpleField: FC<Props> = ({ type }) => {
   const { respondentsState, respondentsDispatch } = useContext(
     Context
   ) as ContextType;
@@ -25,10 +29,11 @@ export const TextField: FC = () => {
     (item) => item._id === respondentId
   );
 
-  const [value, setValue] = useState(
-    respondent?.answers?.find((answer) => answer.questionId === question._id)
-      ?.value || ""
-  );
+  const originAnswerValue = respondent?.answers?.find(
+    (answer) => answer.questionId === question._id
+  )?.value;
+
+  const [value, setValue] = useState(originAnswerValue || "");
 
   const onChange: onChangeT = ({ currentTarget }) =>
     setValue(currentTarget.value);
@@ -47,5 +52,5 @@ export const TextField: FC = () => {
     }
   };
 
-  return <Input {...{ onChange, value, onBlur }} />;
+  return <Input {...{ type, onChange, value, onBlur }} />;
 };
