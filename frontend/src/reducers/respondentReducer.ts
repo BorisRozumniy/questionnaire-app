@@ -1,4 +1,4 @@
-import { ActionKind, ACTIONTYPE, IRespondent, IState } from "../@types/respondent";
+import { ActionKind, ACTIONTYPE, IRespondent, IState, TUserAnswer } from "../@types/respondent";
 
 export const initialState: IState = {
   respondents: [] as IRespondent[],
@@ -7,6 +7,8 @@ export const initialState: IState = {
 }
 
 export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
+  let prevRespondents: IRespondent[];
+  let newRespondents: IRespondent[];
 
   switch (action.type) {
 
@@ -50,6 +52,52 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
         ...state,
         respondentsError: action.payload,
         respondentsLoading: false,
+      };
+
+    case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_START:
+      return {
+        ...state,
+        respondentsError: null,
+        respondentsLoading: true,
+      };
+
+    case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS:
+      prevRespondents = state.respondents;
+      const currentRespondent = prevRespondents.find(respondent => respondent._id === action.payload.respondentId)
+      let updatedAnswers: TUserAnswer[];
+
+      if (currentRespondent?.answers) {
+        const { questionId, value } = action.payload.answer
+        const existingAnswer = currentRespondent.answers.find(answer => answer.questionId === questionId)
+
+        if (existingAnswer) {
+          updatedAnswers = currentRespondent?.answers.map(answer => {
+            if (answer.questionId === questionId)
+              return { ...answer, value }
+            return answer
+          })
+        } else {
+          updatedAnswers = [...currentRespondent?.answers, action.payload.answer]
+        }
+
+        newRespondents = prevRespondents.map(respondent => {
+          if (respondent.answers)
+            return { ...respondent, answers: updatedAnswers }
+          return respondent
+        })
+      } else newRespondents = prevRespondents
+
+
+
+      return {
+        ...state,
+        respondents: newRespondents,
+        respondentsLoading: true,
+      };
+
+    case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR:
+      return {
+        ...state,
       };
 
     default:
