@@ -1,11 +1,13 @@
 import { FormEvent, useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ContextType } from "../@types/context";
 import {
-  IQuestion,
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
+import { TUserAnswer } from "../@types/respondent";
+import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { useSelectedOne } from "../useSelected";
@@ -18,14 +20,29 @@ type Props = {
 };
 
 export const PossibleAnswerList = ({ isSeveral }: Props) => {
-  const { temporaryQuestion, setTemporaryQuestion } = useContext(
-    Context
-  ) as ContextType;
+  const {
+    temporaryQuestion,
+    setTemporaryQuestion,
+    respondentsState,
+    respondentsDispatch,
+  } = useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
     useContext(QuestionItemContext) as QuestionItemContextType;
 
-  const [selectedOption, setSelectedOption] = useSelectedOne();
+  let params = useParams();
+  const respondentId = params.id!.substring(1);
+  const respondent = respondentsState.respondents.find(
+    (item) => item._id === respondentId
+  );
+
+  const originAnswerValue = respondent?.answers?.find(
+    (answer) => answer.questionId === question._id
+  )?.value;
+
+  const [selectedOption, setSelectedOption] = useSelectedOne(
+    String(originAnswerValue) || ""
+  );
 
   useEffect(() => {
     typeof question.userAnswer === "string" &&
@@ -35,11 +52,17 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
 
   useEffect(() => {
     if (selectedOption && question.userAnswer !== selectedOption) {
-      const questionUpdate: IQuestion = {
-        ...question,
-        userAnswer: selectedOption,
+      const newUserAnswer: TUserAnswer = {
+        questionId: question._id,
+        value: selectedOption,
       };
-      console.log(questionUpdate);
+      if (respondent?.answers) {
+        patchRequestChangeRespondentAnswer({
+          requestBody: newUserAnswer,
+          respondentId,
+          dispatch: respondentsDispatch,
+        });
+      }
     }
   }, [selectedOption]);
 
