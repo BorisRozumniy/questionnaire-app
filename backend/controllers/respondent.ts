@@ -51,7 +51,7 @@ export const update = async (req: UpdateRequest, res: UpdateResponse) => {
     const respondent = await Respondent.findById(respondentId);
 
     if (respondent?.answers) {
-      const existingAnswer = respondent.answers.find(answer => answer.questionId === questionId)
+      const existingAnswer = respondent.answers.find(answer => String(answer.questionId) === questionId)
       let updatedAnswers: TUserAnswer[];
 
       if (existingAnswer) {
