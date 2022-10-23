@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect } from "react";
+import { FormEvent, useContext, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ContextType } from "../@types/context";
@@ -6,20 +6,15 @@ import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-import { TUserAnswer } from "../@types/respondent";
+import { AnswerOption } from "../@types/respondent";
 import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
-import { useSelectedOne } from "../useSelected";
-import { PossibleAnswerItem } from "./PossibleAnswerItem";
+import { useSelectedMultiple } from "../useSelected";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 
-type Props = {
-  isSeveral?: boolean;
-};
-
-export const PossibleAnswerList = ({ isSeveral }: Props) => {
+export const PossibleAnswerListSeveral = () => {
   const {
     temporaryQuestion,
     setTemporaryQuestion,
@@ -36,35 +31,49 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
     (item) => item._id === respondentId
   );
 
-  const originAnswerValue = respondent?.answers?.find(
+  const originAnswer = respondent?.answers?.find(
     (answer) => answer.questionId === question._id
-  )?.value;
-
-  const [selectedOption, setSelectedOption] = useSelectedOne(
-    String(originAnswerValue) || ""
   );
 
-  useEffect(() => {
-    typeof originAnswerValue === "string" &&
-      selectedOption === "" &&
-      setSelectedOption(originAnswerValue);
-  }, [originAnswerValue]);
+  const originAnswerValue = Array.isArray(originAnswer?.value)
+    ? originAnswer?.value
+    : [];
+
+  const [selectedOptions, toggleSelectedOption] =
+    useSelectedMultiple(originAnswerValue);
+
+  let filterTimeout: NodeJS.Timeout;
+
+  const prevSelectedOptionsRef = useRef([] as AnswerOption[]);
 
   useEffect(() => {
-    if (selectedOption && originAnswerValue !== selectedOption) {
-      const newUserAnswer: TUserAnswer = {
+    /* TODO: debounce well be here */
+    // console.log(
+    //   "before",
+    //   prevSelectedOptionsRef.current,
+    //   selectedOptions,
+    //   "filterTimeout",
+    //   filterTimeout
+    // );
+
+    // clearTimeout(filterTimeout);
+
+    if (selectedOptions.length !== prevSelectedOptionsRef.current.length) {
+      // filterTimeout = setTimeout(() => {
+      const requestBody = {
         questionId: question._id,
-        value: selectedOption,
+        value: selectedOptions,
       };
-      if (respondent?.answers) {
-        patchRequestChangeRespondentAnswer({
-          requestBody: newUserAnswer,
-          respondentId,
-          dispatch: respondentsDispatch,
-        });
-      }
+      patchRequestChangeRespondentAnswer({
+        respondentId,
+        requestBody,
+        dispatch: respondentsDispatch,
+      });
     }
-  }, [selectedOption]);
+    // }, 5000);
+
+    prevSelectedOptionsRef.current = selectedOptions;
+  }, [selectedOptions]);
 
   const handleChangeNewItem = ({
     currentTarget,
@@ -102,6 +111,22 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
     }
   };
 
+  const handleSelectChange = ({
+    currentTarget,
+  }: FormEvent<HTMLInputElement>): void => {
+    if (originAnswerValue && Array.isArray(originAnswerValue)) {
+      const findedQuestionOption = question.answerOptions?.find(
+        ({ title }) => title === currentTarget.value
+      );
+
+      findedQuestionOption &&
+        toggleSelectedOption({
+          id: findedQuestionOption?.id,
+          title: currentTarget.value,
+        });
+    }
+  };
+
   const currentQuestion = editMode ? temporaryQuestion : question;
 
   return (
@@ -109,12 +134,16 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
       <OptionWrapper>
         {currentQuestion.answerOptions?.map((item) => (
           <div key={item.id}>
-            <PossibleAnswerItem
-              key={item.id + item.title}
-              item={item}
-              selectedOption={selectedOption}
-              setSelectedOption={setSelectedOption}
-            />
+            <Label>
+              <InputCheckbox
+                type="checkbox"
+                value={item.title}
+                checked={selectedOptions.some(({ id }) => id === item.id)}
+                onChange={handleSelectChange}
+                disabled={!pollingMode}
+              />
+              {item.title}
+            </Label>
             {editMode && (
               <Button
                 onClick={() => handleRemoveItem(item)}
@@ -164,4 +193,15 @@ const NewOptionField = styled.div`
   @media only screen and (min-width: 620px) {
     grid-template-columns: 3fr 1fr;
   }
+`;
+
+const InputCheckbox = styled(Input)`
+  cursor: pointer;
+  margin-right: 4px;
+`;
+const Label = styled.label`
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 500;
+  color: ${({ theme }) => theme.colors.black};
 `;

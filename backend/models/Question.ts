@@ -9,7 +9,6 @@ const schema = new Schema<IQuestion>({
     title: String,
     id: Number,
   }],
-  userAnswer: { type: String || [] || Number }
 
 });
 

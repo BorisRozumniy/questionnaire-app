@@ -1,5 +1,12 @@
-type TUserAnswer = {
-    answers: string[];
+import { TMongoId } from "./common";
+
+export type AnswerOptionId = number; 
+type AnswerTextValue = string;
+export type AnswerOption = { id: AnswerOptionId, title: AnswerTextValue };
+
+export type TUserAnswer = {
+    questionId: TMongoId,
+    value?: AnswerOptionId | AnswerTextValue | AnswerOption[]
 };
 
 type TQuestionnaireId = string;
@@ -7,10 +14,12 @@ type TQuestionnaireId = string;
 export interface IRespondent {
     _id: string;
     name: string;
-    answers?: TUserAnswer,
+    answers?: TUserAnswer[],
     questionnaire: TQuestionnaireId;
 
 }
+
+type AnswerPaiload = { answer: TUserAnswer, respondentId: TMongoId }
 
 export interface IState {
     respondents: IRespondent[];
@@ -25,6 +34,9 @@ export enum ActionKind {
     POST_REQUEST_CREATE_RESPONDENT_START = 'POST_REQUEST_CREATE_RESPONDENT_START',
     POST_REQUEST_CREATE_RESPONDENT_SUCCESS = 'POST_REQUEST_CREATE_RESPONDENT_SUCCESS',
     POST_REQUEST_CREATE_RESPONDENT_ERROR = 'POST_REQUEST_CREATE_RESPONDENT_ERROR',
+    PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_START = 'PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_START',
+    PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS = 'PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS',
+    PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR = 'PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR',
 }
 
 export type ACTIONTYPE =
@@ -32,5 +44,8 @@ export type ACTIONTYPE =
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_SUCCESS; payload: IRespondent[] }
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_ERROR; payload: any }
     | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_START }
-    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS; payload: IRespondent[] }
-    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR; payload: any };
+    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS; payload: IRespondent }
+    | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR; payload: any }
+    | { type: ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_START }
+    | { type: ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS; payload: AnswerPaiload }
+    | { type: ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR; payload: any };

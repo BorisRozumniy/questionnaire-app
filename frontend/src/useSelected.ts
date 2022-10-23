@@ -1,20 +1,24 @@
 import { useState } from "react"
+import { AnswerOption } from "./@types/respondent"
 
-export const useSelectedMultiple = (initialValue: string[] = []) => {
-    const [selectedItems, setSelectedItems] = useState(initialValue)
-    const toggleSelectedItems = (item: string) => {
-        if (selectedItems.includes(item))
-            setSelectedItems([item])
+export const useSelectedMultiple = (initialValue: AnswerOption[] = []) => {
+    const [selectedOptions, setSelectedOptions] = useState(initialValue)
+    const toggleOrAddOptions = (option: AnswerOption) => {
+
+        const alreadySelected = selectedOptions.some(({ id }) => id === option.id)
+
+        if (alreadySelected)
+            setSelectedOptions(selectedOptions.filter(({ id }) => id !== option.id))
         else
-            setSelectedItems(selectedItems.filter(currentItem => currentItem === item))
+            setSelectedOptions([...selectedOptions, option])
     }
-    return [selectedItems, toggleSelectedItems] as const
+    return [selectedOptions, toggleOrAddOptions] as const
 }
 
 export const useSelectedOne = (initialValue = '') => {
     const [selectedItem, setSelectdItem] = useState(initialValue)
-    const toggleSelectedItem = (item: string) => {
-        setSelectdItem(item === selectedItem ? '' : item)
+    const toggleSelectedItem = (option: string) => {
+        setSelectdItem(option === selectedItem ? '' : option)
     }
     return [selectedItem, toggleSelectedItem] as const
 }
