@@ -47,28 +47,30 @@ export const PossibleAnswerListSeveral = () => {
   const prevSelectedOptionsRef = useRef([] as AnswerOption[]);
 
   useEffect(() => {
-    console.log(
-      "before",
-      prevSelectedOptionsRef.current,
-      selectedOptions,
-      "filterTimeout",
-      filterTimeout
-    );
+    /* TODO: debounce well be here */
+    // console.log(
+    //   "before",
+    //   prevSelectedOptionsRef.current,
+    //   selectedOptions,
+    //   "filterTimeout",
+    //   filterTimeout
+    // );
 
-    clearTimeout(filterTimeout);
+    // clearTimeout(filterTimeout);
 
-    if (selectedOptions.length !== prevSelectedOptionsRef.current.length)
-      filterTimeout = setTimeout(() => {
-        const requestBody = {
-          questionId: question._id,
-          value: selectedOptions,
-        };
-        patchRequestChangeRespondentAnswer({
-          respondentId,
-          requestBody,
-          dispatch: respondentsDispatch,
-        });
-      }, 5000);
+    if (selectedOptions.length !== prevSelectedOptionsRef.current.length) {
+      // filterTimeout = setTimeout(() => {
+      const requestBody = {
+        questionId: question._id,
+        value: selectedOptions,
+      };
+      patchRequestChangeRespondentAnswer({
+        respondentId,
+        requestBody,
+        dispatch: respondentsDispatch,
+      });
+    }
+    // }, 5000);
 
     prevSelectedOptionsRef.current = selectedOptions;
   }, [selectedOptions]);
