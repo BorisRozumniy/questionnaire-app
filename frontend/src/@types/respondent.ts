@@ -1,9 +1,13 @@
 import { TMongoId } from "./common";
 
-type AnswerOptionId = number;
+export type AnswerOptionId = number; 
 type AnswerTextValue = string;
+export type AnswerOption = { id: AnswerOptionId, title: AnswerTextValue };
 
-export type TUserAnswer = { questionId: TMongoId, value?: AnswerOptionId | AnswerTextValue };
+export type TUserAnswer = {
+    questionId: TMongoId,
+    value?: AnswerOptionId | AnswerTextValue | AnswerOption[]
+};
 
 type TQuestionnaireId = string;
 

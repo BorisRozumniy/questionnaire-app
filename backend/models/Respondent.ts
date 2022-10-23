@@ -7,8 +7,7 @@ const schema = new Schema<IRespondent>({
   questionnaire: { type: Schema.Types.ObjectId, required: true, ref: 'Questionnaire' },
   answers: [{
     questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
-    value: { type: String }
-    // value: { type: Number || String || [Number] }
+    value: { type: Schema.Types.Mixed }
   }]
 
 });

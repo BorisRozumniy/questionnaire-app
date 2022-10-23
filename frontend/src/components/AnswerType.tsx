@@ -2,6 +2,7 @@ import { FC, useContext } from "react";
 import { AnswerType, QuestionItemContextType } from "../@types/question";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { PossibleAnswerList } from "./PossibleAnswerList";
+import { PossibleAnswerListSeveral } from "./PossibleAnswerListSeveral";
 import { SimpleField } from "./SimpleField";
 
 type AnswerTypeProps = {
@@ -26,7 +27,7 @@ export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {
       return <PossibleAnswerList />;
 
     case AnswerType.aFewFromTheList:
-      return <PossibleAnswerList isSeveral />;
+      return <PossibleAnswerListSeveral />;
 
     case AnswerType.scale:
       if (pollingMode) return <SimpleField type="range" />;

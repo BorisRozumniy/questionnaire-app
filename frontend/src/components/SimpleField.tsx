@@ -52,5 +52,7 @@ export const SimpleField: FC<Props> = ({ type }) => {
     }
   };
 
-  return <Input {...{ type, onChange, value, onBlur }} />;
+  if (typeof value === "string")
+    return <Input {...{ type, onChange, value, onBlur }} />;
+  return null;
 };

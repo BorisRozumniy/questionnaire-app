@@ -14,9 +14,12 @@ type PossibleAnswer = {
 
 type AnswerOptionId = number;
 type AnswerTextValue = string;
+type AnswerOption = { id: AnswerOptionId, value: AnswerTextValue };
 
-export type TUserAnswer = { questionId: Id, value?: AnswerOptionId | AnswerTextValue };
-// userAnswer?: string | string[] | number;
+export type TUserAnswer = {
+    questionId: Id,
+    value?: AnswerOptionId | AnswerTextValue | AnswerOption[]
+};
 
 
 type Id = mongoose.SchemaDefinitionProperty<string>;
