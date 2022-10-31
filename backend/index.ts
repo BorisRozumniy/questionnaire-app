@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import questionRoute from "./routes/question.routes";
 import questionnaireRoute from "./routes/questionnaire.routes";
 import respondentRoute from "./routes/respondent.routes";
+import resultRoute from "./routes/result.routes";
 
 
 dotenv.config();
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use(questionRoute);
 app.use(questionnaireRoute);
 app.use(respondentRoute);
+app.use(resultRoute);
 
 
 const url = process.env.DB_URL;
