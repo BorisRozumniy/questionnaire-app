@@ -16,9 +16,10 @@ type AnswerOptionId = number;
 type AnswerTextValue = string;
 type AnswerOption = { id: AnswerOptionId, value: AnswerTextValue };
 
-export type TUserAnswer = {
-    questionId: Id,
-    value?: AnswerOptionId | AnswerTextValue | AnswerOption[]
+export interface IUserAnswer {
+    questionId: Types.ObjectId,
+    value?: AnswerOptionId | AnswerTextValue | AnswerOption[];
+    _id?: Types.ObjectId
 };
 
 
@@ -33,7 +34,7 @@ export interface IQuestion {
 export interface IRespondent {
     name: string;
     questionnaire: Id;
-    answers?: TUserAnswer[];
+    answers: Types.ObjectId[];
 }
 
 export interface IQuestionnaire {
