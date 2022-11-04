@@ -1,14 +1,14 @@
-import { ActionKind, ACTIONTYPE, IRespondent, IState, TUserAnswer } from "../@types/respondent";
+import { ActionKind, ACTIONTYPE, IRespondent_experimental, IState, UserAnswer } from "../@types/respondent";
 
 export const initialState: IState = {
-  respondents: [] as IRespondent[],
+  respondents: [] as IRespondent_experimental[],
   respondentsError: null,
   respondentsLoading: false
 }
 
 export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
-  let prevRespondents: IRespondent[];
-  let newRespondents: IRespondent[];
+  let prevRespondents: IRespondent_experimental[];
+  let newRespondents: IRespondent_experimental[];
 
   switch (action.type) {
 
@@ -64,7 +64,7 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
     case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS:
       prevRespondents = state.respondents;
       const currentRespondent = prevRespondents.find(respondent => respondent._id === action.payload.respondentId)
-      let updatedAnswers: TUserAnswer[];
+      let updatedAnswers: UserAnswer[];
 
       if (currentRespondent?.answers) {
         const { questionId, value } = action.payload.answer
@@ -98,6 +98,34 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
     case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR:
       return {
         ...state,
+      };
+
+
+    case ActionKind.GET_REQUEST_RESPONDENT_START:
+      return {
+        ...state,
+        respondentsError: null,
+        respondentsLoading: true,
+      };
+
+    case ActionKind.GET_REQUEST_RESPONDENT_SUCCESS:
+      newRespondents = state.respondents.map(respondent => {
+        if (respondent._id === action.payload._id)
+          return action.payload
+        return respondent
+      })
+
+      return {
+        ...state,
+        respondents: newRespondents,
+        respondentsLoading: false,
+      };
+
+    case ActionKind.GET_REQUEST_RESPONDENT_ERROR:
+      return {
+        ...state,
+        respondentsError: action.payload,
+        respondentsLoading: false,
       };
 
     default:

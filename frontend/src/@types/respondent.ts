@@ -1,12 +1,18 @@
 import { TMongoId } from "./common";
+import { IQuestion } from "./question";
 
-export type AnswerOptionId = number; 
+export type AnswerOptionId = number;
 type AnswerTextValue = string;
 export type AnswerOption = { id: AnswerOptionId, title: AnswerTextValue };
 
-export type TUserAnswer = {
+export interface UserAnswer {
     questionId: TMongoId,
-    value?: AnswerOptionId | AnswerTextValue | AnswerOption[]
+    value?: AnswerOptionId | AnswerTextValue | AnswerOption[],
+    _id: TMongoId,
+};
+
+export interface ExistUserAnswer extends UserAnswer {
+    _id: TMongoId,
 };
 
 type TQuestionnaireId = string;
@@ -14,15 +20,22 @@ type TQuestionnaireId = string;
 export interface IRespondent {
     _id: string;
     name: string;
-    answers?: TUserAnswer[],
+    answers?: UserAnswer[],
     questionnaire: TQuestionnaireId;
-
 }
 
-type AnswerPaiload = { answer: TUserAnswer, respondentId: TMongoId }
+export interface IRespondent_experimental {
+    _id: string;
+    name: string;
+    questionnaire: TQuestionnaireId;
+    answers?: UserAnswer[],
+    questions?: IQuestion[];
+}
+
+type AnswerPaiload = { answer: UserAnswer, respondentId: TMongoId }
 
 export interface IState {
-    respondents: IRespondent[];
+    respondents: IRespondent_experimental[];
     respondentsError: Error | null;
     respondentsLoading: boolean;
 }
@@ -31,6 +44,9 @@ export enum ActionKind {
     GET_REQUEST_RESPONDENTS_START = 'GET_REQUEST_RESPONDENTS_START',
     GET_REQUEST_RESPONDENTS_SUCCESS = 'GET_REQUEST_RESPONDENTS_SUCCESS',
     GET_REQUEST_RESPONDENTS_ERROR = 'GET_REQUEST_RESPONDENTS_ERROR',
+    GET_REQUEST_RESPONDENT_START = 'GET_REQUEST_RESPONDENT_START',
+    GET_REQUEST_RESPONDENT_SUCCESS = 'GET_REQUEST_RESPONDENT_SUCCESS',
+    GET_REQUEST_RESPONDENT_ERROR = 'GET_REQUEST_RESPONDENT_ERROR',
     POST_REQUEST_CREATE_RESPONDENT_START = 'POST_REQUEST_CREATE_RESPONDENT_START',
     POST_REQUEST_CREATE_RESPONDENT_SUCCESS = 'POST_REQUEST_CREATE_RESPONDENT_SUCCESS',
     POST_REQUEST_CREATE_RESPONDENT_ERROR = 'POST_REQUEST_CREATE_RESPONDENT_ERROR',
@@ -43,6 +59,9 @@ export type ACTIONTYPE =
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_START }
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_SUCCESS; payload: IRespondent[] }
     | { type: ActionKind.GET_REQUEST_RESPONDENTS_ERROR; payload: any }
+    | { type: ActionKind.GET_REQUEST_RESPONDENT_START }
+    | { type: ActionKind.GET_REQUEST_RESPONDENT_SUCCESS; payload: IRespondent_experimental }
+    | { type: ActionKind.GET_REQUEST_RESPONDENT_ERROR; payload: any }
     | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_START }
     | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS; payload: IRespondent }
     | { type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR; payload: any }
