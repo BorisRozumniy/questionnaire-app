@@ -6,7 +6,7 @@ import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-import { TUserAnswer } from "../@types/respondent";
+import { UserAnswer } from "../@types/respondent";
 import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
@@ -36,27 +36,28 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
     (item) => item._id === respondentId
   );
 
-  const originAnswerValue = respondent?.answers?.find(
+  const originAnswer = respondent?.answers?.find(
     (answer) => answer.questionId === question._id
-  )?.value;
+  );
 
   const [selectedOption, setSelectedOption] = useSelectedOne(
-    String(originAnswerValue) || ""
+    String(originAnswer?.value) || ""
   );
 
   useEffect(() => {
-    typeof originAnswerValue === "string" &&
+    typeof originAnswer?.value === "string" &&
       selectedOption === "" &&
-      setSelectedOption(originAnswerValue);
-  }, [originAnswerValue]);
+      setSelectedOption(originAnswer?.value);
+  }, [originAnswer?.value]);
 
   useEffect(() => {
-    if (selectedOption && originAnswerValue !== selectedOption) {
-      const newUserAnswer: TUserAnswer = {
+    if (selectedOption && originAnswer?.value !== selectedOption) {
+      const newUserAnswer: UserAnswer = {
         questionId: question._id,
         value: selectedOption,
+        _id: originAnswer?._id || "",
       };
-      if (respondent?.answers) {
+      if (selectedOption) {
         patchRequestChangeRespondentAnswer({
           requestBody: newUserAnswer,
           respondentId,
