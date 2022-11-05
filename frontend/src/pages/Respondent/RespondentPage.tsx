@@ -24,7 +24,7 @@ export const RespondentPage = () => {
         respondentId,
       });
     }
-  }, [respondent]);
+  }, [respondent?.questions]);
 
   return (
     <>

@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import { IRespondent, IUserAnswer } from "../types";
 import { Answer } from "../models/Answer";
 import { Types } from "mongoose";
+import { Questionnaire } from "../models/Questionnaire";
+import { Question } from "../models/Question";
 
 
 export const create = async (req: Request, res: Response) => {
@@ -33,6 +35,43 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
+export const checkRespondentsLength = async (req: Request, res: Response) => {
+  try {
+    const respondents = await Respondent.find();
+    if (respondents)
+      res.json(respondents.length);
+  } catch (error) {
+    console.log(`error: `, error);
+    res.status(500).json({ message: "Something went wrong, please try again" });
+  }
+}
+
+type ReadOneRequest = Request<{ id: string }, {}, IUserAnswer>
+type ReadSuccessResponse = any
+type ReadErrorResponse = { message: string }
+type ReadResponse = Response<ReadSuccessResponse | ReadErrorResponse>
+
+export const readOne = async (req: ReadOneRequest, res: ReadResponse) => {
+  try {
+    const respondentId = req.params.id;
+    const respondent = await Respondent.findById(respondentId);
+
+    if (respondent) {
+      const questionnaire = await Questionnaire.findById(respondent.questionnaire);
+      if (questionnaire) {
+        const questions = await Question.find({ '_id': { $in: questionnaire.questions } });
+
+        console.log('questions:::', questions.length);
+        const answers = await Answer.find({ '_id': { $in: respondent.answers } });
+        res.json({ name: respondent.name, questions, _id: respondent._id, answers });
+      }
+    }
+  } catch (error) {
+    console.log(`error: `, error);
+    res.status(500).json({ message: "Something went wrong, please try again" });
+  }
+}
+
 export const read = async (req: Request, res: Response) => {
   try {
     const respondents = await Respondent.find();
@@ -51,6 +90,8 @@ type UpdateResponse = Response<SuccessResponse | ErrorResponse>
 export const saveAnswer = async (req: UpdateRequest, res: UpdateResponse) => {
   try {
     const { questionId, value, _id: answerId } = req.body;
+    console.log('\n req.body:::', req.body);
+
     if (!questionId) {
       res.json({ message: 'questionId is required' });
       return

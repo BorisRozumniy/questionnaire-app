@@ -20,9 +20,16 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
       };
 
     case ActionKind.GET_REQUEST_RESPONDENTS_SUCCESS:
+      prevRespondents = state.respondents;
+      newRespondents = action.payload.map(respondent => {
+        if (prevRespondents[0] && respondent._id === prevRespondents[0]._id)
+          return prevRespondents[0]
+        return respondent
+      })
+
       return {
         ...state,
-        respondents: action.payload,
+        respondents: newRespondents,
         respondentsLoading: false,
       };
 
@@ -109,11 +116,15 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
       };
 
     case ActionKind.GET_REQUEST_RESPONDENT_SUCCESS:
-      newRespondents = state.respondents.map(respondent => {
-        if (respondent._id === action.payload._id)
-          return action.payload
-        return respondent
-      })
+
+      if (state.respondents.length === 0)
+        newRespondents = [action.payload]
+      else
+        newRespondents = state.respondents.map(respondent => {
+          if (respondent._id === action.payload._id)
+            return action.payload
+          return respondent
+        })
 
       return {
         ...state,
