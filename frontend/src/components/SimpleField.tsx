@@ -2,7 +2,7 @@ import { FC, FormEvent, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../@types/context";
 import { QuestionItemContextType } from "../@types/question";
-import { TUserAnswer } from "../@types/respondent";
+import { UserAnswer } from "../@types/respondent";
 import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
@@ -29,27 +29,27 @@ export const SimpleField: FC<Props> = ({ type }) => {
     (item) => item._id === respondentId
   );
 
-  const originAnswerValue = respondent?.answers?.find(
+  const originAnswer = respondent?.answers?.find(
     (answer) => answer.questionId === question._id
-  )?.value;
+  );
 
-  const [value, setValue] = useState(originAnswerValue || "");
+  const [value, setValue] = useState(originAnswer?.value || "");
 
   const onChange: onChangeT = ({ currentTarget }) =>
     setValue(currentTarget.value);
 
   const onBlur = (): void => {
-    const newUserAnswer: TUserAnswer = {
+    const newUserAnswer: UserAnswer = {
       questionId: question._id,
       value: value,
+      _id: originAnswer?._id || "",
     };
-    if (respondent?.answers) {
-      patchRequestChangeRespondentAnswer({
-        requestBody: newUserAnswer,
-        respondentId,
-        dispatch: respondentsDispatch,
-      });
-    }
+
+    patchRequestChangeRespondentAnswer({
+      requestBody: newUserAnswer,
+      respondentId,
+      dispatch: respondentsDispatch,
+    });
   };
 
   if (typeof value === "string")
