@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect, useRef } from "react";
+import { FormEvent, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ContextType } from "../@types/context";
@@ -6,7 +6,6 @@ import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-import { AnswerOption } from "../@types/respondent";
 import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
@@ -15,54 +14,35 @@ import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 
 export const PossibleAnswerListSeveral = () => {
-  const {
-    temporaryQuestion,
-    setTemporaryQuestion,
-    respondentsState,
-    respondentsDispatch,
-  } = useContext(Context) as ContextType;
+  const { temporaryQuestion, setTemporaryQuestion, respondentsDispatch } =
+    useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
     useContext(QuestionItemContext) as QuestionItemContextType;
 
   let params = useParams();
   const respondentId = params.id!.substring(1);
-  const respondent = respondentsState.respondents.find(
-    (item) => item._id === respondentId
-  );
 
-  const originAnswer = respondent?.answers?.find(
-    (answer) => answer.questionId === question._id
-  );
+  const originAnswer =
+    question.answers?.length !== 0 ? question.answers![0] : null;
 
   const originAnswerValue = Array.isArray(originAnswer?.value)
     ? originAnswer?.value
     : [];
 
-  const [selectedOptions, toggleSelectedOption] =
-    useSelectedMultiple(originAnswerValue);
-
-  let filterTimeout: NodeJS.Timeout;
-
-  const prevSelectedOptionsRef = useRef([] as AnswerOption[]);
+  const [
+    selectedOptions,
+    toggleSelectedOption,
+    changedByUser,
+    setChangedByUser,
+  ] = useSelectedMultiple(originAnswerValue);
 
   useEffect(() => {
-    /* TODO: debounce well be here */
-    // console.log(
-    //   "before",
-    //   prevSelectedOptionsRef.current,
-    //   selectedOptions,
-    //   "filterTimeout",
-    //   filterTimeout
-    // );
-
-    // clearTimeout(filterTimeout);
-
-    if (selectedOptions.length !== prevSelectedOptionsRef.current.length) {
-      // filterTimeout = setTimeout(() => {
+    if (changedByUser) {
       const requestBody = {
         questionId: question._id,
         value: selectedOptions,
+        _id: originAnswer?._id || "",
       };
       patchRequestChangeRespondentAnswer({
         respondentId,
@@ -70,9 +50,6 @@ export const PossibleAnswerListSeveral = () => {
         dispatch: respondentsDispatch,
       });
     }
-    // }, 5000);
-
-    prevSelectedOptionsRef.current = selectedOptions;
   }, [selectedOptions]);
 
   const handleChangeNewItem = ({
@@ -124,6 +101,7 @@ export const PossibleAnswerListSeveral = () => {
           id: findedQuestionOption?.id,
           title: currentTarget.value,
         });
+      setChangedByUser(true);
     }
   };
 

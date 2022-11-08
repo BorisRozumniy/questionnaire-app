@@ -15,9 +15,7 @@ type Props = {
 };
 
 export const SimpleField: FC<Props> = ({ type }) => {
-  const { respondentsState, respondentsDispatch } = useContext(
-    Context
-  ) as ContextType;
+  const { respondentsDispatch } = useContext(Context) as ContextType;
 
   const { question } = useContext(
     QuestionItemContext
@@ -25,13 +23,9 @@ export const SimpleField: FC<Props> = ({ type }) => {
 
   let params = useParams();
   const respondentId = params.id!.substring(1);
-  const respondent = respondentsState.respondents.find(
-    (item) => item._id === respondentId
-  );
 
-  const originAnswer = respondent?.answers?.find(
-    (answer) => answer.questionId === question._id
-  );
+  const originAnswer =
+    question.answers?.length !== 0 ? question.answers![0] : null;
 
   const [value, setValue] = useState(originAnswer?.value || "");
 
@@ -45,11 +39,12 @@ export const SimpleField: FC<Props> = ({ type }) => {
       _id: originAnswer?._id || "",
     };
 
-    patchRequestChangeRespondentAnswer({
-      requestBody: newUserAnswer,
-      respondentId,
-      dispatch: respondentsDispatch,
-    });
+    if (value !== originAnswer?.value)
+      patchRequestChangeRespondentAnswer({
+        requestBody: newUserAnswer,
+        respondentId,
+        dispatch: respondentsDispatch,
+      });
   };
 
   if (typeof value === "string")

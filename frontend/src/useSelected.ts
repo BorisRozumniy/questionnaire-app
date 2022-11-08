@@ -3,6 +3,7 @@ import { AnswerOption } from "./@types/respondent"
 
 export const useSelectedMultiple = (initialValue: AnswerOption[] = []) => {
     const [selectedOptions, setSelectedOptions] = useState(initialValue)
+    const [changedByUser, setChangedByUser] = useState(false)
     const toggleOrAddOptions = (option: AnswerOption) => {
 
         const alreadySelected = selectedOptions.some(({ id }) => id === option.id)
@@ -12,7 +13,7 @@ export const useSelectedMultiple = (initialValue: AnswerOption[] = []) => {
         else
             setSelectedOptions([...selectedOptions, option])
     }
-    return [selectedOptions, toggleOrAddOptions] as const
+    return [selectedOptions, toggleOrAddOptions, changedByUser, setChangedByUser] as const
 }
 
 export const useSelectedOne = (initialValue = '') => {

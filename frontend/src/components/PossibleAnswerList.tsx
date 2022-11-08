@@ -20,25 +20,17 @@ type Props = {
 };
 
 export const PossibleAnswerList = ({ isSeveral }: Props) => {
-  const {
-    temporaryQuestion,
-    setTemporaryQuestion,
-    respondentsState,
-    respondentsDispatch,
-  } = useContext(Context) as ContextType;
+  const { temporaryQuestion, setTemporaryQuestion, respondentsDispatch } =
+    useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
     useContext(QuestionItemContext) as QuestionItemContextType;
 
   let params = useParams();
   const respondentId = params.id!.substring(1);
-  const respondent = respondentsState.respondents.find(
-    (item) => item._id === respondentId
-  );
 
-  const originAnswer = respondent?.answers?.find(
-    (answer) => answer.questionId === question._id
-  );
+  const originAnswer =
+    question.answers?.length !== 0 ? question.answers![0] : null;
 
   const [selectedOption, setSelectedOption] = useSelectedOne(
     String(originAnswer?.value) || ""
@@ -57,13 +49,11 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
         value: selectedOption,
         _id: originAnswer?._id || "",
       };
-      if (selectedOption) {
-        patchRequestChangeRespondentAnswer({
-          requestBody: newUserAnswer,
-          respondentId,
-          dispatch: respondentsDispatch,
-        });
-      }
+      patchRequestChangeRespondentAnswer({
+        requestBody: newUserAnswer,
+        respondentId,
+        dispatch: respondentsDispatch,
+      });
     }
   }, [selectedOption]);
 
