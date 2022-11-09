@@ -1,6 +1,6 @@
 import { Respondent } from "../models/Respondent";
 import { Request, Response } from 'express';
-import { IRespondent, IUserAnswer } from "../types";
+import { IRespondent, IUserAnswer, QuestionWithAnswer } from "../types";
 import { Answer } from "../models/Answer";
 import { Types } from "mongoose";
 import { Questionnaire } from "../models/Questionnaire";
@@ -61,9 +61,30 @@ export const readOne = async (req: ReadOneRequest, res: ReadResponse) => {
       if (questionnaire) {
         const questions = await Question.find({ '_id': { $in: questionnaire.questions } });
 
-        console.log('questions:::', questions.length);
         const answers = await Answer.find({ '_id': { $in: respondent.answers } });
-        res.json({ name: respondent.name, questions, _id: respondent._id, answers });
+
+        const questionsWithAnswers = questions.map(({
+          _id, questionText, answerType, answerOptions
+        }) => {
+
+          const filteredAnswers = answers.filter(answer => answer.questionId.equals(_id));
+
+
+          let questionWithAnswer: QuestionWithAnswer = {
+            _id,
+            answerType,
+            questionText,
+            answerOptions,
+            answer: filteredAnswers?.at(-1) || {},
+          };
+          return questionWithAnswer
+        })
+
+        res.json({
+          _id: respondent._id,
+          name: respondent.name,
+          questions: questionsWithAnswers,
+        });
       }
     }
   } catch (error) {
@@ -90,8 +111,6 @@ type UpdateResponse = Response<SuccessResponse | ErrorResponse>
 export const saveAnswer = async (req: UpdateRequest, res: UpdateResponse) => {
   try {
     const { questionId, value, _id: answerId } = req.body;
-    console.log('\n req.body:::', req.body);
-
     if (!questionId) {
       res.json({ message: 'questionId is required' });
       return

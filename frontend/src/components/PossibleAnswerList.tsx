@@ -33,7 +33,7 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
     question.answers?.length !== 0 ? question.answers![0] : null;
 
   const [selectedOption, setSelectedOption] = useSelectedOne(
-    String(originAnswer?.value) || ""
+    originAnswer?.value ? String(originAnswer?.value) : ""
   );
 
   useEffect(() => {
@@ -49,6 +49,7 @@ export const PossibleAnswerList = ({ isSeveral }: Props) => {
         value: selectedOption,
         _id: originAnswer?._id || "",
       };
+
       patchRequestChangeRespondentAnswer({
         requestBody: newUserAnswer,
         respondentId,

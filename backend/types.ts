@@ -1,4 +1,4 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
 
 export enum AnswerType {
     text = 'text',
@@ -22,6 +22,13 @@ export interface IUserAnswer {
     _id?: Types.ObjectId
 };
 
+export type QuestionWithAnswer = {
+    _id: Types.ObjectId;
+    answerType: AnswerType;
+    questionText: string;
+    answerOptions: PossibleAnswer[];
+    answer: IUserAnswer | Document<unknown, any, IUserAnswer> & IUserAnswer & Required<{ _id: Types.ObjectId; }> | {};
+}
 
 type Id = mongoose.SchemaDefinitionProperty<string>;
 
