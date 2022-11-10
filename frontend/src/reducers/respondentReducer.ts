@@ -70,31 +70,18 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
 
     case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS:
       prevRespondents = state.respondents;
-      const currentRespondent = prevRespondents.find(respondent => respondent._id === action.payload.respondentId)
-      let updatedAnswers: UserAnswer[];
-
-      if (currentRespondent?.answers) {
-        const { questionId, value } = action.payload.answer
-        const existingAnswer = currentRespondent.answers.find(answer => answer.questionId === questionId)
-
-        if (existingAnswer) {
-          updatedAnswers = currentRespondent?.answers.map(answer => {
-            if (answer.questionId === questionId)
-              return { ...answer, value }
-            return answer
+      newRespondents = prevRespondents.map(respondent => {
+        const { answer, respondentId } = action.payload
+        if (respondentId === respondent._id) {
+          const mQuestions = respondent.questions?.map(question => {
+            if (question._id === answer.questionId)
+              return { ...question, answer }
+            else return question
           })
-        } else {
-          updatedAnswers = [...currentRespondent?.answers, action.payload.answer]
+          return { ...respondent, questions: mQuestions }
         }
-
-        newRespondents = prevRespondents.map(respondent => {
-          if (respondent.answers)
-            return { ...respondent, answers: updatedAnswers }
-          return respondent
-        })
-      } else newRespondents = prevRespondents
-
-
+        return respondent
+      })
 
       return {
         ...state,
