@@ -4,7 +4,9 @@ import { ContextType } from "../../@types/context";
 import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires";
 import { AddQuestion } from "../../components/AddQuestion";
 import { Questions } from "../../components/Questions";
+import { Container } from "../../components/Styled/Container";
 import { Context } from "../../context/context";
+import { theme } from "../../theme";
 
 type Props = {
   setLastRequestWasFromQuestionairePage: Dispatch<SetStateAction<boolean>>;
@@ -34,10 +36,10 @@ export const QuestionnairePage: FC<Props> = ({
   }, [questionnaire]);
 
   return (
-    <>
+    <Container mt={theme.headerHeight}>
       <h1>Questionnaire: {questionnaire?.name}</h1>
       <Questions questionsIds={questionnaire?.questions} questionnaireId={id} />
       <AddQuestion questionnaireId={id} />
-    </>
+    </Container>
   );
 };
