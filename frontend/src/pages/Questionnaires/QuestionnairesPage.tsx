@@ -6,6 +6,8 @@ import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires
 import { QuestionnaireAddForm } from "./QuestionnaireAddForm";
 import { Context } from "../../context/context";
 import { Questionnaire } from "./Questionnaire";
+import { Container } from "../../components/Styled/Container";
+import { theme } from "../../theme";
 
 type Props = {
   lastRequestWasFromQuestionairePage: boolean;
@@ -35,7 +37,7 @@ export const QuestionnairesPage: FC<Props> = ({
   }, [questionnaires, lastRequestWasFromQuestionairePage]);
 
   return (
-    <>
+    <Container mt={theme.headerHeight}>
       <h1>QuestionnairesPage</h1>
       <ListWrapper>
         {questionnaireState.questionnaires.map((item) => (
@@ -43,7 +45,7 @@ export const QuestionnairesPage: FC<Props> = ({
         ))}
       </ListWrapper>
       <QuestionnaireAddForm {...{ questionnaireDispatch }} />
-    </>
+    </Container>
   );
 };
 
