@@ -15,39 +15,34 @@ import { PossibleAnswerItem } from "./PossibleAnswerItem";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 
-type Props = {
-  isSeveral?: boolean;
-};
-
-export const PossibleAnswerList = ({ isSeveral }: Props) => {
+export const PossibleAnswerList = () => {
   const { temporaryQuestion, setTemporaryQuestion, respondentsDispatch } =
     useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
     useContext(QuestionItemContext) as QuestionItemContextType;
 
+  const { answer, _id: questionId } = question;
+
   let params = useParams();
   const respondentId = params.id!.substring(1);
 
-  const originAnswer =
-    question.answers?.length !== 0 ? question.answers![0] : null;
-
   const [selectedOption, setSelectedOption] = useSelectedOne(
-    originAnswer?.value ? String(originAnswer?.value) : ""
+    answer?.value ? String(answer?.value) : ""
   );
 
   useEffect(() => {
-    typeof originAnswer?.value === "string" &&
+    typeof answer?.value === "string" &&
       selectedOption === "" &&
-      setSelectedOption(originAnswer?.value);
-  }, [originAnswer?.value]);
+      setSelectedOption(answer?.value);
+  }, [answer?.value]);
 
   useEffect(() => {
-    if (selectedOption && originAnswer?.value !== selectedOption) {
+    if (selectedOption && answer?.value !== selectedOption) {
       const newUserAnswer: UserAnswer = {
-        questionId: question._id,
+        questionId,
         value: selectedOption,
-        _id: originAnswer?._id || "",
+        _id: answer?._id || "",
       };
 
       patchRequestChangeRespondentAnswer({

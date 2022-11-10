@@ -20,15 +20,12 @@ export const PossibleAnswerListSeveral = () => {
   const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
     useContext(QuestionItemContext) as QuestionItemContextType;
 
+  const { answer, _id: questionId, answerOptions } = question;
+
   let params = useParams();
   const respondentId = params.id!.substring(1);
 
-  const originAnswer =
-    question.answers?.length !== 0 ? question.answers![0] : null;
-
-  const originAnswerValue = Array.isArray(originAnswer?.value)
-    ? originAnswer?.value
-    : [];
+  const originAnswerValue = Array.isArray(answer?.value) ? answer?.value : [];
 
   const [
     selectedOptions,
@@ -40,9 +37,9 @@ export const PossibleAnswerListSeveral = () => {
   useEffect(() => {
     if (changedByUser) {
       const requestBody = {
-        questionId: question._id,
+        questionId,
         value: selectedOptions,
-        _id: originAnswer?._id || "",
+        _id: answer?._id || "",
       };
       patchRequestChangeRespondentAnswer({
         respondentId,
@@ -92,7 +89,7 @@ export const PossibleAnswerListSeveral = () => {
     currentTarget,
   }: FormEvent<HTMLInputElement>): void => {
     if (originAnswerValue && Array.isArray(originAnswerValue)) {
-      const findedQuestionOption = question.answerOptions?.find(
+      const findedQuestionOption = answerOptions?.find(
         ({ title }) => title === currentTarget.value
       );
 

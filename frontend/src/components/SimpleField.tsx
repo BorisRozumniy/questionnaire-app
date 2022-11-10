@@ -17,29 +17,26 @@ type Props = {
 export const SimpleField: FC<Props> = ({ type }) => {
   const { respondentsDispatch } = useContext(Context) as ContextType;
 
-  const { question } = useContext(
-    QuestionItemContext
-  ) as QuestionItemContextType;
+  const {
+    question: { answer, _id: questionId },
+  } = useContext(QuestionItemContext) as QuestionItemContextType;
 
   let params = useParams();
   const respondentId = params.id!.substring(1);
 
-  const originAnswer =
-    question.answers?.length !== 0 ? question.answers![0] : null;
-
-  const [value, setValue] = useState(originAnswer?.value || "");
+  const [value, setValue] = useState(answer?.value || "");
 
   const onChange: onChangeT = ({ currentTarget }) =>
     setValue(currentTarget.value);
 
   const onBlur = (): void => {
     const newUserAnswer: UserAnswer = {
-      questionId: question._id,
-      value: value,
-      _id: originAnswer?._id || "",
+      questionId,
+      value,
+      _id: answer?._id || "",
     };
 
-    if (value !== originAnswer?.value)
+    if (value !== answer?.value)
       patchRequestChangeRespondentAnswer({
         requestBody: newUserAnswer,
         respondentId,

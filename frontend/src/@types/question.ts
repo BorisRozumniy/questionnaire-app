@@ -18,8 +18,8 @@ export interface IQuestion {
   _id: TMongoId;
   questionText: string;
   answerType: AnswerType;
-  answerOptions?: TPossibleAnswerItem[];
-  answers?: UserAnswer[],
+  answerOptions: TPossibleAnswerItem[];
+  answer: UserAnswer,
 }
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
