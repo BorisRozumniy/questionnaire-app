@@ -37,7 +37,7 @@ export const QuestionnairesPage: FC<Props> = ({
   }, [questionnaires, lastRequestWasFromQuestionairePage]);
 
   return (
-    <Container mt={theme.headerHeight + 36}>
+    <Container>
       <h1>QuestionnairesPage</h1>
       <ListWrapper>
         {questionnaireState.questionnaires.map((item) => (

@@ -36,7 +36,7 @@ export const QuestionnairePage: FC<Props> = ({
   }, [questionnaire]);
 
   return (
-    <Container mt={theme.headerHeight + 36}>
+    <Container>
       <h1>Questionnaire: {questionnaire?.name}</h1>
       <Questions questionsIds={questionnaire?.questions} questionnaireId={id} />
       <AddQuestion questionnaireId={id} />

@@ -8,6 +8,7 @@ import { RespondentCard } from "./RespondentCard";
 import styled from "styled-components";
 import { Container } from "../../components/Styled/Container";
 import { theme } from "../../theme";
+import { AddFormWrapper } from "../../components/AddFormWrapper";
 
 export const RespondentsPage = () => {
   const { respondentsDispatch: dispatch, respondentsState } = useContext(
@@ -29,7 +30,7 @@ export const RespondentsPage = () => {
   }, [respondents, respondentsLength]);
 
   return (
-    <Container mt={theme.headerHeight + 36}>
+    <Container>
       <h1>RespondentList</h1>
       <List>
         {respondents?.length > 0 &&
@@ -37,7 +38,9 @@ export const RespondentsPage = () => {
             <RespondentCard key={item._id} respondent={item} />
           ))}
       </List>
-      <RespondentForm />
+      <AddFormWrapper>
+        <RespondentForm />
+      </AddFormWrapper>
     </Container>
   );
 };

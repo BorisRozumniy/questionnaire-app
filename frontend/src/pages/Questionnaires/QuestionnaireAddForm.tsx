@@ -8,14 +8,13 @@ import { postRequestQuestionnaire } from "../../actions/postRequestQuestionnaire
 import { apiUrls } from "../../urls/apiUrls";
 import { Button } from "../../components/Styled/Button";
 import { Input } from "../../components/Styled/Input";
+import { AddFormWrapper } from "../../components/AddFormWrapper";
 
 type Props = {
   questionnaireDispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>;
 };
 
 export const QuestionnaireAddForm: FC<Props> = ({ questionnaireDispatch }) => {
-  const [isShown, setIsShown] = useState(false);
-
   const [value, setValue] = useState("");
 
   const onChange = ({ currentTarget }: FormEvent<HTMLInputElement>): void => {
@@ -35,48 +34,16 @@ export const QuestionnaireAddForm: FC<Props> = ({ questionnaireDispatch }) => {
     });
   };
 
-  const toggleShow = () => setIsShown(!isShown);
-
-  if (!isShown) return <ShowButton onClick={toggleShow}>+</ShowButton>;
-
   return (
-    <Wrapper>
-      <CloseButton onClick={toggleShow} bg="red">
-        x
-      </CloseButton>
+    <AddFormWrapper>
       <H2>Add new Questionnaire</H2>
       <Form>
         <Input {...{ onChange, value }} />
         <Button {...{ onClick }}>New Questionnaire</Button>
       </Form>
-    </Wrapper>
+    </AddFormWrapper>
   );
 };
-
-const ShowButton = styled(Button)`
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  height: 60px;
-  width: 60px;
-  border-radius: 50%;
-`;
-
-const Wrapper = styled.div`
-  margin: 0 auto;
-  border: solid 2px ${({ theme }) => theme.colors.main};
-  border-radius: 6px;
-  min-width: 280px;
-  max-width: 500px;
-  padding: 16px;
-  position: relative;
-`;
-
-const CloseButton = styled(Button)`
-  position: absolute;
-  top: 8px;
-  right: 8px;
-`;
 
 const H2 = styled.h2`
   margin-bottom: 8px;
