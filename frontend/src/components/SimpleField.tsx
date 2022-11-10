@@ -2,7 +2,7 @@ import { FC, FormEvent, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../@types/context";
 import { QuestionItemContextType } from "../@types/question";
-import { TUserAnswer } from "../@types/respondent";
+import { UserAnswer } from "../@types/respondent";
 import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
@@ -15,41 +15,33 @@ type Props = {
 };
 
 export const SimpleField: FC<Props> = ({ type }) => {
-  const { respondentsState, respondentsDispatch } = useContext(
-    Context
-  ) as ContextType;
+  const { respondentsDispatch } = useContext(Context) as ContextType;
 
-  const { question } = useContext(
-    QuestionItemContext
-  ) as QuestionItemContextType;
+  const {
+    question: { answer, _id: questionId },
+  } = useContext(QuestionItemContext) as QuestionItemContextType;
 
   let params = useParams();
   const respondentId = params.id!.substring(1);
-  const respondent = respondentsState.respondents.find(
-    (item) => item._id === respondentId
-  );
 
-  const originAnswerValue = respondent?.answers?.find(
-    (answer) => answer.questionId === question._id
-  )?.value;
-
-  const [value, setValue] = useState(originAnswerValue || "");
+  const [value, setValue] = useState(answer?.value || "");
 
   const onChange: onChangeT = ({ currentTarget }) =>
     setValue(currentTarget.value);
 
   const onBlur = (): void => {
-    const newUserAnswer: TUserAnswer = {
-      questionId: question._id,
-      value: value,
+    const newUserAnswer: UserAnswer = {
+      questionId,
+      value,
+      _id: answer?._id || "",
     };
-    if (respondent?.answers) {
+
+    if (value !== answer?.value)
       patchRequestChangeRespondentAnswer({
         requestBody: newUserAnswer,
         respondentId,
         dispatch: respondentsDispatch,
       });
-    }
   };
 
   if (typeof value === "string")

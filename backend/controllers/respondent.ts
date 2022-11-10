@@ -1,6 +1,10 @@
 import { Respondent } from "../models/Respondent";
 import { Request, Response } from 'express';
-import { IRespondent, TUserAnswer } from "../types";
+import { IRespondent, IUserAnswer, QuestionWithAnswer, RespondentResponse } from "../types";
+import { Answer } from "../models/Answer";
+import { Types } from "mongoose";
+import { Questionnaire } from "../models/Questionnaire";
+import { Question } from "../models/Question";
 
 
 export const create = async (req: Request, res: Response) => {
@@ -31,50 +35,123 @@ export const create = async (req: Request, res: Response) => {
   }
 };
 
+export const checkRespondentsLength = async (req: Request, res: Response) => {
+  try {
+    const respondents = await Respondent.find();
+    if (respondents)
+      res.json(respondents.length);
+  } catch (error) {
+    console.log(`error: `, error);
+    res.status(500).json({ message: "Something went wrong, please try again" });
+  }
+}
+
+type ReadOneRequest = Request<{ id: string }, {}, IUserAnswer>
+type ReadErrorResponse = { message: string }
+type ReadResponse = Response<RespondentResponse | ReadErrorResponse>
+
+export const readOne = async (req: ReadOneRequest, res: ReadResponse) => {
+  try {
+    const respondentId = req.params.id;
+    const respondent = await Respondent.findById(respondentId);
+
+    if (respondent) {
+      const questionnaire = await Questionnaire.findById(respondent.questionnaire);
+      if (questionnaire) {
+        const questions = await Question.find({ '_id': { $in: questionnaire.questions } });
+
+        const answers = await Answer.find({ '_id': { $in: respondent.answers } });
+
+        const questionsWithAnswers = questions.map(({
+          _id, questionText, answerType, answerOptions
+        }) => {
+
+          const filteredAnswers = answers.filter(answer => answer.questionId.equals(_id));
+
+
+          let questionWithAnswer: QuestionWithAnswer = {
+            _id,
+            answerType,
+            questionText,
+            answerOptions,
+            answer: filteredAnswers?.at(-1) || {},
+          };
+          return questionWithAnswer
+        })
+
+        res.json({
+          _id: respondent._id,
+          name: respondent.name,
+          questionnaire: respondent.questionnaire,
+          answers: respondent.answers,
+          questions: questionsWithAnswers,
+        });
+      }
+    }
+  } catch (error) {
+    console.log(`error: `, error);
+    res.status(500).json({ message: "Something went wrong, please try again" });
+  }
+}
+
 export const read = async (req: Request, res: Response) => {
   try {
-    const respondent = await Respondent.find();
-    res.json(respondent);
+    const respondents = await Respondent.find();
+    res.json(respondents);
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });
   }
 };
 
-type UpdateRequest = Request<{ id: string }, {}, TUserAnswer>
-type UpdateResponse = Response<{ message: string }>
+type UpdateRequest = Request<{ id: string }, {}, IUserAnswer>
+type SuccessResponse = { message: string, data: any }
+type ErrorResponse = { message: string }
+type UpdateResponse = Response<SuccessResponse | ErrorResponse>
 
-export const update = async (req: UpdateRequest, res: UpdateResponse) => {
+export const saveAnswer = async (req: UpdateRequest, res: UpdateResponse) => {
   try {
+    const { questionId, value, _id: answerId } = req.body;
+    if (!questionId) {
+      res.json({ message: 'questionId is required' });
+      return
+    }
+    if (!Types.ObjectId.isValid(questionId)) {
+      res.json({ message: 'questionId should be a Types.ObjectId' });
+      return
+    }
+    if (!value) {
+      res.json({ message: 'value is required' });
+      return
+    }
+
     const respondentId = req.params.id;
-    const { questionId, value } = req.body;
     const respondent = await Respondent.findById(respondentId);
+    if (respondent) {
+      const respondentAnswerIds: Types.ObjectId[] = respondent.answers.map(({ _id }) => _id)
+      const answers = await Answer.find({ '_id': { $in: respondentAnswerIds } });
 
-    if (respondent?.answers) {
-      const existingAnswer = respondent.answers.find(answer => String(answer.questionId) === questionId)
-      let updatedAnswers: TUserAnswer[];
+      const isExistedAnswer = answerId && answers.some(answer => answer.questionId.equals(questionId));
 
-      if (existingAnswer) {
-        updatedAnswers = respondent.answers.map(answer => {
-          if (String(answer.questionId) === questionId)
-            return { questionId: answer.questionId, value }
-          return answer
-        })
+      if (isExistedAnswer) {
+        await Answer.findByIdAndUpdate(answerId, { value })
       } else {
-        updatedAnswers = [...respondent?.answers, req.body]
+        const newAnswer = new Answer({ questionId, value });
+        await newAnswer.save();
+
+        const updatedRespondent: IRespondent = {
+          name: respondent.name,
+          answers: [...respondent?.answers, newAnswer._id],
+          questionnaire: respondent.questionnaire
+        }
+        await Respondent.findByIdAndUpdate(respondentId, updatedRespondent);
       }
 
-      const updatedRespondent: IRespondent = { name: respondent.name, answers: updatedAnswers, questionnaire: respondent.questionnaire }
-      const updatedAnswer = updatedAnswers.find(answer => String(answer.questionId) === String(questionId))
-
-      await Respondent.findByIdAndUpdate(respondentId, updatedRespondent);
-      const message = `Respondent "${respondentId}" changed successfully.
-        Question: ${questionId};
-        Answer: ${updatedAnswer?.value};
-      `;
+      const message = `Respondent "${respondentId}"; updated with answer "${answerId}" and value "${value}"`
       console.log(message);
       res.json({ message });
     }
+
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });

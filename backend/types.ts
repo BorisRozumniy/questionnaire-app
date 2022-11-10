@@ -1,4 +1,4 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
 
 export enum AnswerType {
     text = 'text',
@@ -16,9 +16,10 @@ type AnswerOptionId = number;
 type AnswerTextValue = string;
 type AnswerOption = { id: AnswerOptionId, value: AnswerTextValue };
 
-export type TUserAnswer = {
-    questionId: Id,
-    value?: AnswerOptionId | AnswerTextValue | AnswerOption[]
+export interface IUserAnswer {
+    questionId: Types.ObjectId,
+    value?: AnswerOptionId | AnswerTextValue | AnswerOption[];
+    _id?: Types.ObjectId
 };
 
 
@@ -30,13 +31,23 @@ export interface IQuestion {
     answerOptions: PossibleAnswer[],
 }
 
+export interface QuestionWithAnswer extends IQuestion {
+    _id: Types.ObjectId;
+    answer: IUserAnswer | Document<unknown, any, IUserAnswer> & IUserAnswer & Required<{ _id: Types.ObjectId; }> | {};
+}
 export interface IRespondent {
     name: string;
     questionnaire: Id;
-    answers?: TUserAnswer[];
+    answers: Types.ObjectId[];
+}
+
+export interface RespondentResponse extends IRespondent {
+    _id: Types.ObjectId,
+    questions: QuestionWithAnswer[];
 }
 
 export interface IQuestionnaire {
     name: string;
     questions?: Types.ObjectId[];
 }
+

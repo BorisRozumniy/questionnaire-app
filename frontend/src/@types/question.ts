@@ -1,5 +1,5 @@
 import { TMongoId } from "./common";
-import { AnswerOptionId } from "./respondent";
+import { AnswerOptionId, UserAnswer } from "./respondent";
 
 export enum AnswerType {
   text = 'text',
@@ -18,7 +18,8 @@ export interface IQuestion {
   _id: TMongoId;
   questionText: string;
   answerType: AnswerType;
-  answerOptions?: TPossibleAnswerItem[];
+  answerOptions: TPossibleAnswerItem[];
+  answer: UserAnswer,
 }
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>

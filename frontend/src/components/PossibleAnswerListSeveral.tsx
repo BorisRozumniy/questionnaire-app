@@ -1,4 +1,4 @@
-import { FormEvent, useContext, useEffect, useRef } from "react";
+import { FormEvent, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { ContextType } from "../@types/context";
@@ -6,7 +6,6 @@ import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-import { AnswerOption } from "../@types/respondent";
 import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
@@ -15,54 +14,32 @@ import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 
 export const PossibleAnswerListSeveral = () => {
-  const {
-    temporaryQuestion,
-    setTemporaryQuestion,
-    respondentsState,
-    respondentsDispatch,
-  } = useContext(Context) as ContextType;
+  const { temporaryQuestion, setTemporaryQuestion, respondentsDispatch } =
+    useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
     useContext(QuestionItemContext) as QuestionItemContextType;
 
+  const { answer, _id: questionId, answerOptions } = question;
+
   let params = useParams();
   const respondentId = params.id!.substring(1);
-  const respondent = respondentsState.respondents.find(
-    (item) => item._id === respondentId
-  );
 
-  const originAnswer = respondent?.answers?.find(
-    (answer) => answer.questionId === question._id
-  );
+  const originAnswerValue = Array.isArray(answer?.value) ? answer?.value : [];
 
-  const originAnswerValue = Array.isArray(originAnswer?.value)
-    ? originAnswer?.value
-    : [];
-
-  const [selectedOptions, toggleSelectedOption] =
-    useSelectedMultiple(originAnswerValue);
-
-  let filterTimeout: NodeJS.Timeout;
-
-  const prevSelectedOptionsRef = useRef([] as AnswerOption[]);
+  const [
+    selectedOptions,
+    toggleSelectedOption,
+    changedByUser,
+    setChangedByUser,
+  ] = useSelectedMultiple(originAnswerValue);
 
   useEffect(() => {
-    /* TODO: debounce well be here */
-    // console.log(
-    //   "before",
-    //   prevSelectedOptionsRef.current,
-    //   selectedOptions,
-    //   "filterTimeout",
-    //   filterTimeout
-    // );
-
-    // clearTimeout(filterTimeout);
-
-    if (selectedOptions.length !== prevSelectedOptionsRef.current.length) {
-      // filterTimeout = setTimeout(() => {
+    if (changedByUser) {
       const requestBody = {
-        questionId: question._id,
+        questionId,
         value: selectedOptions,
+        _id: answer?._id || "",
       };
       patchRequestChangeRespondentAnswer({
         respondentId,
@@ -70,9 +47,6 @@ export const PossibleAnswerListSeveral = () => {
         dispatch: respondentsDispatch,
       });
     }
-    // }, 5000);
-
-    prevSelectedOptionsRef.current = selectedOptions;
   }, [selectedOptions]);
 
   const handleChangeNewItem = ({
@@ -115,7 +89,7 @@ export const PossibleAnswerListSeveral = () => {
     currentTarget,
   }: FormEvent<HTMLInputElement>): void => {
     if (originAnswerValue && Array.isArray(originAnswerValue)) {
-      const findedQuestionOption = question.answerOptions?.find(
+      const findedQuestionOption = answerOptions?.find(
         ({ title }) => title === currentTarget.value
       );
 
@@ -124,6 +98,7 @@ export const PossibleAnswerListSeveral = () => {
           id: findedQuestionOption?.id,
           title: currentTarget.value,
         });
+      setChangedByUser(true);
     }
   };
 

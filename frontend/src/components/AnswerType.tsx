@@ -6,7 +6,7 @@ import { PossibleAnswerListSeveral } from "./PossibleAnswerListSeveral";
 import { SimpleField } from "./SimpleField";
 
 type AnswerTypeProps = {
-  answerType: string;
+  answerType: AnswerType;
 };
 
 export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {

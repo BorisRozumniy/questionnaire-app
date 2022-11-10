@@ -1,5 +1,6 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useState } from "react";
 import { ContextType } from "../../@types/context";
+import { getRequestCheckRespondentsLength } from "../../actions/getRequestCheckRespondentsLength";
 import { getRequestRespondents } from "../../actions/getRequestRespondents";
 import { Context } from "../../context/context";
 import { RespondentForm } from "../../components/RespondentForm";
@@ -7,19 +8,23 @@ import { RespondentCard } from "./RespondentCard";
 import styled from "styled-components";
 
 export const RespondentsPage = () => {
-  const { respondentsDispatch, respondentsState } = useContext(
+  const { respondentsDispatch: dispatch, respondentsState } = useContext(
     Context
   ) as ContextType;
 
   const { respondents } = respondentsState;
 
+  const [respondentsLength, setRespondentsLength] = useState(
+    respondents?.length
+  );
+
   useEffect(() => {
-    if (respondents?.length === 0) {
-      getRequestRespondents({
-        dispatch: respondentsDispatch,
-      });
+    if (respondentsLength < 2)
+      getRequestCheckRespondentsLength(setRespondentsLength);
+    if (respondents?.length !== respondentsLength) {
+      getRequestRespondents({ dispatch });
     }
-  }, [respondents]);
+  }, [respondents, respondentsLength]);
 
   return (
     <>

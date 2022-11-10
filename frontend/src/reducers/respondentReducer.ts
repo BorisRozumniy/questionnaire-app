@@ -1,14 +1,14 @@
-import { ActionKind, ACTIONTYPE, IRespondent, IState, TUserAnswer } from "../@types/respondent";
+import { ActionKind, ACTIONTYPE, IRespondent_experimental, IState, UserAnswer } from "../@types/respondent";
 
 export const initialState: IState = {
-  respondents: [] as IRespondent[],
+  respondents: [] as IRespondent_experimental[],
   respondentsError: null,
   respondentsLoading: false
 }
 
 export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
-  let prevRespondents: IRespondent[];
-  let newRespondents: IRespondent[];
+  let prevRespondents: IRespondent_experimental[];
+  let newRespondents: IRespondent_experimental[];
 
   switch (action.type) {
 
@@ -20,9 +20,16 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
       };
 
     case ActionKind.GET_REQUEST_RESPONDENTS_SUCCESS:
+      prevRespondents = state.respondents;
+      newRespondents = action.payload.map(respondent => {
+        if (prevRespondents[0] && respondent._id === prevRespondents[0]._id)
+          return prevRespondents[0]
+        return respondent
+      })
+
       return {
         ...state,
-        respondents: action.payload,
+        respondents: newRespondents,
         respondentsLoading: false,
       };
 
@@ -63,31 +70,18 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
 
     case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS:
       prevRespondents = state.respondents;
-      const currentRespondent = prevRespondents.find(respondent => respondent._id === action.payload.respondentId)
-      let updatedAnswers: TUserAnswer[];
-
-      if (currentRespondent?.answers) {
-        const { questionId, value } = action.payload.answer
-        const existingAnswer = currentRespondent.answers.find(answer => answer.questionId === questionId)
-
-        if (existingAnswer) {
-          updatedAnswers = currentRespondent?.answers.map(answer => {
-            if (answer.questionId === questionId)
-              return { ...answer, value }
-            return answer
+      newRespondents = prevRespondents.map(respondent => {
+        const { answer, respondentId } = action.payload
+        if (respondentId === respondent._id) {
+          const mQuestions = respondent.questions?.map(question => {
+            if (question._id === answer.questionId)
+              return { ...question, answer }
+            else return question
           })
-        } else {
-          updatedAnswers = [...currentRespondent?.answers, action.payload.answer]
+          return { ...respondent, questions: mQuestions }
         }
-
-        newRespondents = prevRespondents.map(respondent => {
-          if (respondent.answers)
-            return { ...respondent, answers: updatedAnswers }
-          return respondent
-        })
-      } else newRespondents = prevRespondents
-
-
+        return respondent
+      })
 
       return {
         ...state,
@@ -98,6 +92,38 @@ export const respondentReducer = (state: IState, action: ACTIONTYPE) => {
     case ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR:
       return {
         ...state,
+      };
+
+
+    case ActionKind.GET_REQUEST_RESPONDENT_START:
+      return {
+        ...state,
+        respondentsError: null,
+        respondentsLoading: true,
+      };
+
+    case ActionKind.GET_REQUEST_RESPONDENT_SUCCESS:
+
+      if (state.respondents.length === 0)
+        newRespondents = [action.payload]
+      else
+        newRespondents = state.respondents.map(respondent => {
+          if (respondent._id === action.payload._id)
+            return action.payload
+          return respondent
+        })
+
+      return {
+        ...state,
+        respondents: newRespondents,
+        respondentsLoading: false,
+      };
+
+    case ActionKind.GET_REQUEST_RESPONDENT_ERROR:
+      return {
+        ...state,
+        respondentsError: action.payload,
+        respondentsLoading: false,
       };
 
     default:

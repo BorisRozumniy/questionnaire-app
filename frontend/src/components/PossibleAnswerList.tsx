@@ -6,7 +6,7 @@ import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-import { TUserAnswer } from "../@types/respondent";
+import { UserAnswer } from "../@types/respondent";
 import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
@@ -15,54 +15,41 @@ import { PossibleAnswerItem } from "./PossibleAnswerItem";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 
-type Props = {
-  isSeveral?: boolean;
-};
-
-export const PossibleAnswerList = ({ isSeveral }: Props) => {
-  const {
-    temporaryQuestion,
-    setTemporaryQuestion,
-    respondentsState,
-    respondentsDispatch,
-  } = useContext(Context) as ContextType;
+export const PossibleAnswerList = () => {
+  const { temporaryQuestion, setTemporaryQuestion, respondentsDispatch } =
+    useContext(Context) as ContextType;
 
   const { question, newOptionValue, setNewOptionValue, pollingMode, editMode } =
     useContext(QuestionItemContext) as QuestionItemContextType;
 
+  const { answer, _id: questionId } = question;
+
   let params = useParams();
   const respondentId = params.id!.substring(1);
-  const respondent = respondentsState.respondents.find(
-    (item) => item._id === respondentId
-  );
-
-  const originAnswerValue = respondent?.answers?.find(
-    (answer) => answer.questionId === question._id
-  )?.value;
 
   const [selectedOption, setSelectedOption] = useSelectedOne(
-    String(originAnswerValue) || ""
+    answer?.value ? String(answer?.value) : ""
   );
 
   useEffect(() => {
-    typeof originAnswerValue === "string" &&
+    typeof answer?.value === "string" &&
       selectedOption === "" &&
-      setSelectedOption(originAnswerValue);
-  }, [originAnswerValue]);
+      setSelectedOption(answer?.value);
+  }, [answer?.value]);
 
   useEffect(() => {
-    if (selectedOption && originAnswerValue !== selectedOption) {
-      const newUserAnswer: TUserAnswer = {
-        questionId: question._id,
+    if (selectedOption && answer?.value !== selectedOption) {
+      const newUserAnswer: UserAnswer = {
+        questionId,
         value: selectedOption,
+        _id: answer?._id || "",
       };
-      if (respondent?.answers) {
-        patchRequestChangeRespondentAnswer({
-          requestBody: newUserAnswer,
-          respondentId,
-          dispatch: respondentsDispatch,
-        });
-      }
+
+      patchRequestChangeRespondentAnswer({
+        requestBody: newUserAnswer,
+        respondentId,
+        dispatch: respondentsDispatch,
+      });
     }
   }, [selectedOption]);
 

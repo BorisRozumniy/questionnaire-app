@@ -24,6 +24,7 @@ import { TMongoId } from "../@types/common";
 import styled from "styled-components";
 import { Context } from "../context/context";
 import { ContextType } from "../@types/context";
+import { UserAnswer } from "../@types/respondent";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -38,9 +39,11 @@ type Pros = {
   setEditMod?: Dispatch<SetStateAction<boolean>>;
 };
 
-const initialQuestion = {
+const initialQuestion: NewQuestion = {
   questionText: "",
   answerType: AnswerType.text,
+  answerOptions: [],
+  answer: {} as UserAnswer,
 };
 
 export const QuestionForm: FC<Pros> = ({
