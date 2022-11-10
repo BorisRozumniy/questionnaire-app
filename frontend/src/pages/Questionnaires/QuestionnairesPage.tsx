@@ -52,6 +52,14 @@ export const QuestionnairesPage: FC<Props> = ({
 const ListWrapper = styled.div`
   margin: 32px 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 32px;
+  grid-template-columns: 1fr;
+  grid-gap: 8px;
+  @media only screen and (min-width: 620px) {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+  }
+  @media only screen and (min-width: 920px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 32px;
+  }
 `;
