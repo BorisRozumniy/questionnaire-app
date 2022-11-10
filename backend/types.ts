@@ -44,7 +44,13 @@ export interface IRespondent {
     answers: Types.ObjectId[];
 }
 
+export interface RespondentResponse extends IRespondent {
+    _id: Types.ObjectId,
+    questions: QuestionWithAnswer[];
+}
+
 export interface IQuestionnaire {
     name: string;
     questions?: Types.ObjectId[];
 }
+

@@ -1,6 +1,6 @@
 import { Respondent } from "../models/Respondent";
 import { Request, Response } from 'express';
-import { IRespondent, IUserAnswer, QuestionWithAnswer } from "../types";
+import { IRespondent, IUserAnswer, QuestionWithAnswer, RespondentResponse } from "../types";
 import { Answer } from "../models/Answer";
 import { Types } from "mongoose";
 import { Questionnaire } from "../models/Questionnaire";
@@ -47,9 +47,8 @@ export const checkRespondentsLength = async (req: Request, res: Response) => {
 }
 
 type ReadOneRequest = Request<{ id: string }, {}, IUserAnswer>
-type ReadSuccessResponse = any
 type ReadErrorResponse = { message: string }
-type ReadResponse = Response<ReadSuccessResponse | ReadErrorResponse>
+type ReadResponse = Response<RespondentResponse | ReadErrorResponse>
 
 export const readOne = async (req: ReadOneRequest, res: ReadResponse) => {
   try {
@@ -83,6 +82,8 @@ export const readOne = async (req: ReadOneRequest, res: ReadResponse) => {
         res.json({
           _id: respondent._id,
           name: respondent.name,
+          questionnaire: respondent.questionnaire,
+          answers: respondent.answers,
           questions: questionsWithAnswers,
         });
       }
