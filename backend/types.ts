@@ -22,13 +22,6 @@ export interface IUserAnswer {
     _id?: Types.ObjectId
 };
 
-export type QuestionWithAnswer = {
-    _id: Types.ObjectId;
-    answerType: AnswerType;
-    questionText: string;
-    answerOptions: PossibleAnswer[];
-    answer: IUserAnswer | Document<unknown, any, IUserAnswer> & IUserAnswer & Required<{ _id: Types.ObjectId; }> | {};
-}
 
 type Id = mongoose.SchemaDefinitionProperty<string>;
 
@@ -38,6 +31,10 @@ export interface IQuestion {
     answerOptions: PossibleAnswer[],
 }
 
+export interface QuestionWithAnswer extends IQuestion {
+    _id: Types.ObjectId;
+    answer: IUserAnswer | Document<unknown, any, IUserAnswer> & IUserAnswer & Required<{ _id: Types.ObjectId; }> | {};
+}
 export interface IRespondent {
     name: string;
     questionnaire: Id;
