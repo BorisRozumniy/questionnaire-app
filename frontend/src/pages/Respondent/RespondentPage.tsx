@@ -29,7 +29,7 @@ export const RespondentPage = () => {
   }, [respondent?.questions]);
 
   return (
-    <Container mt={theme.headerHeight}>
+    <Container mt={theme.headerHeight + 36}>
       <h2>{respondent?.name}</h2>
       {respondent?.questions &&
         respondent.questions.map((question: IQuestion) => (

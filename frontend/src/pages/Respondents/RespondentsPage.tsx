@@ -29,7 +29,7 @@ export const RespondentsPage = () => {
   }, [respondents, respondentsLength]);
 
   return (
-    <Container mt={theme.headerHeight}>
+    <Container mt={theme.headerHeight + 36}>
       <h1>RespondentList</h1>
       <List>
         {respondents?.length > 0 &&
