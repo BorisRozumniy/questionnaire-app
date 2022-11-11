@@ -11,10 +11,9 @@ export const GlobalStyle = createGlobalStyle`
     }
     #root{
         margin:0 auto;
+        padding-top: 86px;
     }
     body {
-        padding-top: 86px;
-        padding-bottom: 190px;
     }
     h1 {
         font-size: 24px;

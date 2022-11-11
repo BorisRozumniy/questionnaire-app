@@ -7,8 +7,6 @@ import { RespondentForm } from "../../components/RespondentForm";
 import { RespondentCard } from "./RespondentCard";
 import styled from "styled-components";
 import { Container } from "../../components/Styled/Container";
-import { theme } from "../../theme";
-import { AddFormWrapper } from "../../components/AddFormWrapper";
 
 export const RespondentsPage = () => {
   const { respondentsDispatch: dispatch, respondentsState } = useContext(
@@ -38,9 +36,7 @@ export const RespondentsPage = () => {
             <RespondentCard key={item._id} respondent={item} />
           ))}
       </List>
-      <AddFormWrapper>
-        <RespondentForm />
-      </AddFormWrapper>
+      <RespondentForm />
     </Container>
   );
 };

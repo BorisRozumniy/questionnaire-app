@@ -8,6 +8,7 @@ import { Context } from "../context/context";
 import { useSelectedOne } from "../useSelected";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
+import { AddFormWrapper } from "./AddFormWrapper";
 
 export const RespondentForm: FC = () => {
   const { questionnaireState, respondentsDispatch, questionnaireDispatch } =
@@ -45,7 +46,7 @@ export const RespondentForm: FC = () => {
   });
 
   return (
-    <>
+    <AddFormWrapper>
       <Input {...{ onChange, value }} />
       <ReactSelect
         options={options}
@@ -55,6 +56,6 @@ export const RespondentForm: FC = () => {
       <Button {...{ onClick, disabled: !value || !questionnaire }}>
         New Respondent
       </Button>
-    </>
+    </AddFormWrapper>
   );
 };

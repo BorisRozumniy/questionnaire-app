@@ -5,4 +5,6 @@ export const Container = styled.div<{ mt?: number }>`
     ${({ mt }) => mt && `margin-top: ${mt}px`};
     max-width: 1300px;
     padding: 0 16px;
+    position: relative;
+    overflow: hidden;
 `;
