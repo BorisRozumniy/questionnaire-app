@@ -7,7 +7,6 @@ import { QuestionnaireAddForm } from "./QuestionnaireAddForm";
 import { Context } from "../../context/context";
 import { Questionnaire } from "./Questionnaire";
 import { Container } from "../../components/Styled/Container";
-import { theme } from "../../theme";
 
 type Props = {
   lastRequestWasFromQuestionairePage: boolean;

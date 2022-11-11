@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
 import { IQuestion } from "../../@types/question";
@@ -27,15 +27,8 @@ export const RespondentPage = () => {
     }
   }, [respondent?.questions]);
 
-  const ref = useRef<null | HTMLDivElement>(null);
-
-  const handleClick = () => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <Container>
-      <button onClick={handleClick}>Scroll to element</button>
       <h2>{respondent?.name}</h2>
       {respondent?.questions &&
         respondent.questions.map((question: IQuestion) => (
@@ -48,7 +41,6 @@ export const RespondentPage = () => {
             }}
           />
         ))}
-      <div ref={ref}>Some content here</div>
     </Container>
   );
 };
