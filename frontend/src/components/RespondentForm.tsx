@@ -1,5 +1,4 @@
 import { FC, FormEvent, useContext, useEffect, useState } from "react";
-import ReactSelect from "react-select";
 import { ContextType } from "../@types/context";
 import { IRespondent } from "../@types/respondent";
 import { getRequestQuestionnaires } from "../actions/getRequestQuestionnaires";
@@ -8,6 +7,10 @@ import { Context } from "../context/context";
 import { useSelectedOne } from "../useSelected";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
+import { AddFormWrapper } from "./AddFormWrapper";
+import { SelectComponent } from "./Select";
+import { Label } from "./Styled/Label";
+import { Field } from "./Styled/Field";
 
 export const RespondentForm: FC = () => {
   const { questionnaireState, respondentsDispatch, questionnaireDispatch } =
@@ -44,17 +47,27 @@ export const RespondentForm: FC = () => {
     return { label: item.name, value: item._id };
   });
 
+  const [isFocusedSelect, setIsFocusedSelect] = useState(false);
+
   return (
-    <>
-      <Input {...{ onChange, value }} />
-      <ReactSelect
-        options={options}
-        onChange={(option) => setQuestionnaire(option!.value)}
-        defaultValue={options[0]}
-      />
+    <AddFormWrapper>
+      <h2>Add Respondent</h2>
+      <Field>
+        <Label htmlFor="name">Respondent name</Label>
+        <Input {...{ onChange, value, id: "name" }} />
+      </Field>
+      <Field>
+        <Label onClick={() => setIsFocusedSelect(true)}>Answer type</Label>
+        <SelectComponent
+          options={options}
+          onChange={(option) => setQuestionnaire(option!.value)}
+          isFocused={isFocusedSelect}
+          setIsFocused={setIsFocusedSelect}
+        />
+      </Field>
       <Button {...{ onClick, disabled: !value || !questionnaire }}>
         New Respondent
       </Button>
-    </>
+    </AddFormWrapper>
   );
 };

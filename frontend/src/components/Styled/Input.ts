@@ -8,11 +8,11 @@ export const Input = styled.input`
   padding: 6px 12px;
   border-radius: 3px;
   background-color: rgb(255, 255, 255);
-  border: solid 1px rgb(46, 164, 79);
+  border: ${({ theme }) => `solid 1px ${theme.colors.strong}`};
   transition: all 0.3s;
 
   &:focus {
-    box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
+    box-shadow: ${({ theme }) => `${theme.colors.outline} 0 0 0 3px`};
     outline: none;
   }
 `;

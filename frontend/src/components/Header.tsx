@@ -6,32 +6,40 @@ import { Container } from "./Styled/Container";
 export const Header = () => {
   return (
     <Wrapper as="header">
-      <Nav>
-        <Ul>
-          <Li>
-            <CustomLink to={frontendUrls.home}>home</CustomLink>
-          </Li>
-          <Li>
-            <CustomLink to={frontendUrls.respondents}>respondents</CustomLink>
-          </Li>
-          <Li>
-            <CustomLink to={frontendUrls.results}>results</CustomLink>
-          </Li>
-        </Ul>
-      </Nav>
+      <HeaderContainer>
+        <Nav>
+          <Ul>
+            <Li>
+              <CustomLink to={frontendUrls.home}>home</CustomLink>
+            </Li>
+            <Li>
+              <CustomLink to={frontendUrls.respondents}>respondents</CustomLink>
+            </Li>
+            <Li>
+              <CustomLink to={frontendUrls.results}>results</CustomLink>
+            </Li>
+          </Ul>
+        </Nav>
+      </HeaderContainer>
     </Wrapper>
   );
 };
 
-const Wrapper = styled(Container)`
-  position: absolute;
+const Wrapper = styled.div`
+  z-index: 100;
+  position: fixed;
   top: 0;
   right: 0;
   left: 0;
   height: ${(props) => `${props.theme.headerHeight}px`};
+  background-color: ${(props) => props.theme.colors.main};
+`;
+
+const HeaderContainer = styled(Container)`
+  height: 100%;
   display: flex;
   align-items: center;
-  background-color: ${(props) => props.theme.colors.main};
+  justify-content: flex-end;
 `;
 
 const Nav = styled.nav`

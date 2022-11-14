@@ -6,6 +6,7 @@ import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires
 import { QuestionnaireAddForm } from "./QuestionnaireAddForm";
 import { Context } from "../../context/context";
 import { Questionnaire } from "./Questionnaire";
+import { Container } from "../../components/Styled/Container";
 
 type Props = {
   lastRequestWasFromQuestionairePage: boolean;
@@ -35,7 +36,7 @@ export const QuestionnairesPage: FC<Props> = ({
   }, [questionnaires, lastRequestWasFromQuestionairePage]);
 
   return (
-    <>
+    <Container>
       <h1>QuestionnairesPage</h1>
       <ListWrapper>
         {questionnaireState.questionnaires.map((item) => (
@@ -43,13 +44,21 @@ export const QuestionnairesPage: FC<Props> = ({
         ))}
       </ListWrapper>
       <QuestionnaireAddForm {...{ questionnaireDispatch }} />
-    </>
+    </Container>
   );
 };
 
 const ListWrapper = styled.div`
   margin: 32px 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 32px;
+  grid-template-columns: 1fr;
+  grid-gap: 8px;
+  @media only screen and (min-width: 620px) {
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 16px;
+  }
+  @media only screen and (min-width: 920px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 32px;
+  }
 `;

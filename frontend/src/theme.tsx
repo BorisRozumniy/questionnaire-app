@@ -7,8 +7,8 @@ export const theme = {
     light: "#78c8a0",
     tone: "#00a050",
     opacity: "#78c878",
-    strong: "#00a028",
-    outline: "rgba(46, 164, 79, .4)",
+    strong: "#2ea44f",
+    outline: "#2ea44f66",
 
     blueLight: "#a0c8c8",
     blue: "#00a0f0",
@@ -20,5 +20,7 @@ export const theme = {
     oposide: "#913790",
 
     red: "#f02800",
+
+    white: '#fff',
   },
 };

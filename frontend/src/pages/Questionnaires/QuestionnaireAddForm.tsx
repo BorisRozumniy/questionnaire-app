@@ -1,4 +1,5 @@
-import { Dispatch, FC, FormEvent, SetStateAction, useState } from "react";
+import { Dispatch, FC, FormEvent, useState } from "react";
+import styled from "styled-components";
 import {
   QUESTIONNAIRES_ACTIONTYPE,
   IQuestionnaire,
@@ -7,16 +8,13 @@ import { postRequestQuestionnaire } from "../../actions/postRequestQuestionnaire
 import { apiUrls } from "../../urls/apiUrls";
 import { Button } from "../../components/Styled/Button";
 import { Input } from "../../components/Styled/Input";
+import { AddFormWrapper } from "../../components/AddFormWrapper";
 
 type Props = {
-  // setQuestionMod: Dispatch<SetStateAction<boolean>>;
   questionnaireDispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>;
 };
 
-export const QuestionnaireAddForm: FC<Props> = ({
-  // setQuestionMod,
-  questionnaireDispatch,
-}) => {
+export const QuestionnaireAddForm: FC<Props> = ({ questionnaireDispatch }) => {
   const [value, setValue] = useState("");
 
   const onChange = ({ currentTarget }: FormEvent<HTMLInputElement>): void => {
@@ -29,7 +27,6 @@ export const QuestionnaireAddForm: FC<Props> = ({
       name: value,
       questions: [],
     };
-    // setQuestionMod(true);
     postRequestQuestionnaire({
       url,
       requestBody,
@@ -38,9 +35,26 @@ export const QuestionnaireAddForm: FC<Props> = ({
   };
 
   return (
-    <>
-      <Input {...{ onChange, value }} />
-      <Button {...{ onClick }}>New Questionnaire</Button>
-    </>
+    <AddFormWrapper>
+      <H2>Add new Questionnaire</H2>
+      <Form>
+        <Input {...{ onChange, value }} />
+        <Button {...{ onClick }}>New Questionnaire</Button>
+      </Form>
+    </AddFormWrapper>
   );
 };
+
+const H2 = styled.h2`
+  margin-bottom: 8px;
+  text-align: center;
+`;
+
+const Form = styled.div`
+  display: grid;
+  grid-gap: 8px;
+  @media only screen and (min-width: 620px) {
+    grid-template-columns: 3fr 1fr;
+    grid-gap: 16px;
+  }
+`;

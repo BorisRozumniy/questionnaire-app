@@ -4,6 +4,7 @@ import { ContextType } from "../../@types/context";
 import { IQuestion } from "../../@types/question";
 import { getRequestRespondent } from "../../actions/getRequestRespondent";
 import { Question } from "../../components/Question";
+import { Container } from "../../components/Styled/Container";
 import { Context } from "../../context/context";
 
 export const RespondentPage = () => {
@@ -27,7 +28,7 @@ export const RespondentPage = () => {
   }, [respondent?.questions]);
 
   return (
-    <>
+    <Container>
       <h2>{respondent?.name}</h2>
       {respondent?.questions &&
         respondent.questions.map((question: IQuestion) => (
@@ -40,6 +41,6 @@ export const RespondentPage = () => {
             }}
           />
         ))}
-    </>
+    </Container>
   );
 };
