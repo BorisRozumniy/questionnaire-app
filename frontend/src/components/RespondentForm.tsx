@@ -1,5 +1,4 @@
 import { FC, FormEvent, useContext, useEffect, useState } from "react";
-import ReactSelect from "react-select";
 import { ContextType } from "../@types/context";
 import { IRespondent } from "../@types/respondent";
 import { getRequestQuestionnaires } from "../actions/getRequestQuestionnaires";
@@ -9,6 +8,7 @@ import { useSelectedOne } from "../useSelected";
 import { Button } from "./Styled/Button";
 import { Input } from "./Styled/Input";
 import { AddFormWrapper } from "./AddFormWrapper";
+import { Select } from "./Select";
 
 export const RespondentForm: FC = () => {
   const { questionnaireState, respondentsDispatch, questionnaireDispatch } =
@@ -48,10 +48,9 @@ export const RespondentForm: FC = () => {
   return (
     <AddFormWrapper>
       <Input {...{ onChange, value }} />
-      <ReactSelect
+      <Select
         options={options}
         onChange={(option) => setQuestionnaire(option!.value)}
-        defaultValue={options[0]}
       />
       <Button {...{ onClick, disabled: !value || !questionnaire }}>
         New Respondent

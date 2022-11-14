@@ -16,7 +16,7 @@ import {
 } from "../@types/question";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
-import { AnswerTypeSelect } from "./AnswerTypeSelect";
+import { Select } from "./Select";
 import { AnswerTypeComponent } from "./AnswerType";
 import { postRequestQuestion } from "../actions/postRequestQuestion";
 import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
@@ -123,7 +123,8 @@ export const QuestionForm: FC<Pros> = ({
       </Field>
       <Field>
         <Label>Answer type</Label>
-        <AnswerTypeSelect
+        <Select
+          options={options}
           onChange={handleChangeSelect}
           value={temporaryQuestion.answerType}
         />
@@ -158,3 +159,11 @@ const Label = styled.label`
     min-width: 130px;
   }
 `;
+
+const options = [
+  { value: AnswerType.text, label: AnswerType.text },
+  { value: AnswerType.data, label: AnswerType.data },
+  { value: AnswerType.oneOfTheList, label: AnswerType.oneOfTheList },
+  { value: AnswerType.aFewFromTheList, label: AnswerType.aFewFromTheList },
+  { value: AnswerType.scale, label: AnswerType.scale },
+];
