@@ -45,6 +45,7 @@ export const AddFormWrapper: FC<Props> = ({ children }) => {
 
 const Wrapper = styled.div`
   padding: 20px 0;
+  min-height: 250px;
 `;
 
 const ToggleShowButton = styled(Button)<{ isShown: boolean }>`
@@ -72,7 +73,6 @@ const FormWrapper = styled.div<{ isShown: boolean }>`
   border-radius: 6px;
   min-width: 280px;
   max-width: 500px;
-  min-height: 200px;
   padding: 16px;
   transition: all 800ms;
 `;

@@ -5,6 +5,7 @@ import {
   SetStateAction,
   useContext,
   useEffect,
+  useState,
 } from "react";
 import { ActionMeta, SingleValue } from "react-select";
 import {
@@ -16,15 +17,16 @@ import {
 } from "../@types/question";
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
-import { Select } from "./Select";
+import { SelectComponent as Select } from "./Select";
 import { AnswerTypeComponent } from "./AnswerType";
 import { postRequestQuestion } from "../actions/postRequestQuestion";
 import { patchRequestEditQuestion } from "../actions/editRequestQuestion";
 import { TMongoId } from "../@types/common";
-import styled from "styled-components";
 import { Context } from "../context/context";
 import { ContextType } from "../@types/context";
 import { UserAnswer } from "../@types/respondent";
+import { Label } from "./Styled/Label";
+import { Field } from "./Styled/Field";
 
 type OnChange = (
   newValue: SingleValue<Option>,
@@ -107,6 +109,8 @@ export const QuestionForm: FC<Pros> = ({
     setTemporaryQuestion(initialQuestion);
   };
 
+  const [isFocusedSelect, setIsFocusedSelect] = useState(false);
+
   return (
     <div>
       <Field>
@@ -118,15 +122,17 @@ export const QuestionForm: FC<Pros> = ({
             key === "Enter" && handleSave(temporaryQuestion)
           }
           type="text"
-          name="questionText"
+          id="questionText"
         />
       </Field>
       <Field>
-        <Label>Answer type</Label>
+        <Label onClick={() => setIsFocusedSelect(true)}>Answer type</Label>
         <Select
           options={options}
           onChange={handleChangeSelect}
           value={temporaryQuestion.answerType}
+          isFocused={isFocusedSelect}
+          setIsFocused={setIsFocusedSelect}
         />
       </Field>
       {temporaryQuestion.answerType && (
@@ -142,23 +148,7 @@ export const QuestionForm: FC<Pros> = ({
   );
 };
 
-const Field = styled.div`
-  margin-bottom: 8px;
-  display: flex;
-  flex-direction: column;
-  @media only screen and (min-width: 620px) {
-    flex-direction: row;
-    align-items: center;
-  }
-`;
 
-const Label = styled.label`
-  margin-right: 8px;
-  font-weight: 600;
-  @media only screen and (min-width: 620px) {
-    min-width: 130px;
-  }
-`;
 
 const options = [
   { value: AnswerType.text, label: AnswerType.text },
