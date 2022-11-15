@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+  import { useParams } from "react-router-dom";
 import { ActionMeta, SingleValue } from "react-select";
 import {
   IQuestion,
@@ -21,7 +22,6 @@ import { SelectComponent as Select } from "./Select";
 import { AnswerTypeComponent } from "./AnswerType";
 import { postRequestQuestion } from "../store/actions/postRequestQuestion";
 import { patchRequestEditQuestion } from "../store/actions/editRequestQuestion";
-import { TMongoId } from "../@types/common";
 import { Context } from "../context/context";
 import { ContextType } from "../@types/context";
 import { UserAnswer } from "../@types/respondent";
@@ -34,7 +34,6 @@ type OnChange = (
 ) => void;
 
 type Pros = {
-  questionnaireId: TMongoId;
   question?: IQuestion;
   dispatch: Dispatch<ACTIONTYPE>;
   isEditForm?: boolean;
@@ -50,7 +49,6 @@ const initialQuestion: NewQuestion = {
 
 export const QuestionForm: FC<Pros> = ({
   isEditForm,
-  questionnaireId,
   question,
   dispatch,
   setEditMod,
@@ -58,6 +56,9 @@ export const QuestionForm: FC<Pros> = ({
   const { temporaryQuestion, setTemporaryQuestion } = useContext(
     Context
   ) as ContextType;
+
+  let params = useParams();
+  const questionnaireId = params.id!.substring(1);
 
   useEffect(() => {
     if (question) {
@@ -147,8 +148,6 @@ export const QuestionForm: FC<Pros> = ({
     </div>
   );
 };
-
-
 
 const options = [
   { value: AnswerType.text, label: AnswerType.text },

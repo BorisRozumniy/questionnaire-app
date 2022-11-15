@@ -1,12 +1,11 @@
 import { Dispatch, FC, SetStateAction, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
-import { getRequestQuestionnaires } from "../../store/actions/getRequestQuestionnaires";
+import { getRequestQuestionnaire } from "../../store/actions/getRequestQuestionnaire";
 import { AddQuestion } from "../../components/AddQuestion";
 import { Questions } from "../../components/Questions";
 import { Container } from "../../components/Styled/Container";
 import { Context } from "../../context/context";
-import { theme } from "../../theme";
 
 type Props = {
   setLastRequestWasFromQuestionairePage: Dispatch<SetStateAction<boolean>>;
@@ -26,11 +25,12 @@ export const QuestionnairePage: FC<Props> = ({
   );
 
   useEffect(() => {
-    if (!questionnaire) {
-      setLastRequestWasFromQuestionairePage(true);
-      getRequestQuestionnaires({
+    const withoutQuestions = typeof questionnaire?.questions[0] === "string";
+    if (!questionnaire || withoutQuestions) {
+      setLastRequestWasFromQuestionairePage(true); // need to remove in future
+      getRequestQuestionnaire({
         dispatch: questionnaireDispatch,
-        id,
+        questionnaireId: id,
       });
     }
   }, [questionnaire]);
@@ -38,7 +38,7 @@ export const QuestionnairePage: FC<Props> = ({
   return (
     <Container>
       <h1>Questionnaire: {questionnaire?.name}</h1>
-      <Questions questionsIds={questionnaire?.questions} questionnaireId={id} />
+      <Questions questionnaireId={id} />
       <AddQuestion questionnaireId={id} />
     </Container>
   );

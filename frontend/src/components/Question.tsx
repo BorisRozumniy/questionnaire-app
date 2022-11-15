@@ -46,7 +46,6 @@ export const Question: FC<Props> = ({
             {...{
               isEditForm: true,
               dispatch: questionsDispatch,
-              questionnaireId,
               question,
               setEditMod,
             }}
