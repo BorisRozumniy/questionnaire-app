@@ -1,4 +1,5 @@
-import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE, IQuestionnaireState } from "../../@types/questionnaire";
+import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE, IQuestionnaireState, IQuestionnaire } from "../../@types/questionnaire";
+import { getQuestionnaireSuccess } from "./stateMaker/questionnaires";
 
 export const questionnaireInitialState: IQuestionnaireState = {
   questionnaires: [],
@@ -24,6 +25,27 @@ export const questionnairesReducer = (state: IQuestionnaireState, action: QUESTI
       };
 
     case ActionKind.GET_REQUEST_QUESTIONNAIRES_ERROR:
+      return {
+        ...state,
+        questionnairesError: action.payload,
+        questionnairesLoading: false,
+      };
+
+    case ActionKind.GET_REQUEST_QUESTIONNAIRE_START:
+      return {
+        ...state,
+        questionnairesError: null,
+        questionnairesLoading: true,
+      };
+
+    case ActionKind.GET_REQUEST_QUESTIONNAIRE_SUCCESS:
+      return {
+        ...state,
+        questionnaires: getQuestionnaireSuccess(state, action.payload),
+        questionnairesLoading: false,
+      };
+
+    case ActionKind.GET_REQUEST_QUESTIONNAIRE_ERROR:
       return {
         ...state,
         questionnairesError: action.payload,
