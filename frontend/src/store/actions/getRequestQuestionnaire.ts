@@ -10,7 +10,7 @@ type Params = {
 
 export const getRequestQuestionnaire = ({ dispatch, questionnaireId }: Params) => {
 
-  const url = `${apiUrls.questionnaires}${questionnaireId}`
+  const url = `${apiUrls.questionnaireById}${questionnaireId}`
   let isOk = false
 
   dispatch({ type: ActionKind.GET_REQUEST_QUESTIONNAIRE_START })

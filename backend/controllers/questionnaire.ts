@@ -64,6 +64,18 @@ export const readOne = async (req: ReadOneRequest, res: ReadOneResponse) => {
   }
 }
 
+export const checkLength = async (req: Request, res: Response) => {
+  try {
+    const questionnaires = await Questionnaire.find();
+    if (questionnaires)
+      res.json(questionnaires.length);
+
+  } catch (error) {
+    console.log(`error: `, error);
+    res.status(500).json({ message: "Something went wrong, please try again" });
+  }
+}
+
 export const update = async (req: Request, res: Response) => {
   try {
     console.log(req.params.id, req.body);
