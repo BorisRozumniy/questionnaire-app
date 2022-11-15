@@ -1,8 +1,7 @@
-import { Question } from "../models/Question";
 import { Request, Response } from 'express';
-import { IRespondent, TUserAnswer } from "../types";
+import { IUserAnswer } from "../types";
 
-type ReadRequest = Request<{}, {}, TUserAnswer, { questionnaireId?: string }>
+type ReadRequest = Request<{}, {}, IUserAnswer, { questionnaireId?: string }>
 type ReadResponse = Response<{ message: string, error?: unknown }>
 
 export const read = async (req: ReadRequest, res: ReadResponse) => {
