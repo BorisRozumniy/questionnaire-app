@@ -20,15 +20,15 @@ export const Questions: FC<Props> = ({ questionsIds, questionnaireId }) => {
 
   const questions = questionsByValues[questionnaireId];
 
-  useEffect(() => {
-    if (questionsIds?.length && !questions?.length) {
-      getRequestQuestions({
-        dispatch: questionsDispatch,
-        questionsIds,
-        questionnaireId,
-      });
-    }
-  }, [questionsIds]);
+  // useEffect(() => {
+  //   if (questionsIds?.length && !questions?.length) {
+  //     getRequestQuestions({
+  //       dispatch: questionsDispatch,
+  //       questionsIds,
+  //       questionnaireId,
+  //     });
+  //   }
+  // }, [questionsIds]);
 
   return (
     <>
