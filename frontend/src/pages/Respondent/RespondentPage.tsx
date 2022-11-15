@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
 import { IQuestion } from "../../@types/question";
-import { getRequestRespondent } from "../../actions/getRequestRespondent";
+import { getRequestRespondent } from "../../store/actions/getRequestRespondent";
 import { Question } from "../../components/Question";
 import { Container } from "../../components/Styled/Container";
 import { Context } from "../../context/context";

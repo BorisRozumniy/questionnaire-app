@@ -1,8 +1,8 @@
 import { FC, FormEvent, useContext, useEffect, useState } from "react";
 import { ContextType } from "../@types/context";
 import { IRespondent } from "../@types/respondent";
-import { getRequestQuestionnaires } from "../actions/getRequestQuestionnaires";
-import { postRequestRespondent } from "../actions/postRequestRespondent";
+import { getRequestQuestionnaires } from "../store/actions/getRequestQuestionnaires";
+import { postRequestRespondent } from "../store/actions/postRequestRespondent";
 import { Context } from "../context/context";
 import { useSelectedOne } from "../useSelected";
 import { Button } from "./Styled/Button";

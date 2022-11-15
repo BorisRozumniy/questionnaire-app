@@ -2,7 +2,7 @@ import { Dispatch, FC, SetStateAction, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
-import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires";
+import { getRequestQuestionnaires } from "../../store/actions/getRequestQuestionnaires";
 import { QuestionnaireAddForm } from "./QuestionnaireAddForm";
 import { Context } from "../../context/context";
 import { Questionnaire } from "./Questionnaire";

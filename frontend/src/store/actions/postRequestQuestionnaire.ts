@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE } from "../@types/questionnaire";
+import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE } from "../../@types/questionnaire";
 
 type Params = {
   requestBody: object;

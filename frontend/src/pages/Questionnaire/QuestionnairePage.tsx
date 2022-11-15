@@ -1,7 +1,7 @@
 import { Dispatch, FC, SetStateAction, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
-import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires";
+import { getRequestQuestionnaires } from "../../store/actions/getRequestQuestionnaires";
 import { AddQuestion } from "../../components/AddQuestion";
 import { Questions } from "../../components/Questions";
 import { Container } from "../../components/Styled/Container";

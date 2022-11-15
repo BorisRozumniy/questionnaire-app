@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { ContextType } from "../@types/context";
 import { QuestionItemContextType } from "../@types/question";
 import { UserAnswer } from "../@types/respondent";
-import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
+import { patchRequestChangeRespondentAnswer } from "../store/actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { Input } from "./Styled/Input";

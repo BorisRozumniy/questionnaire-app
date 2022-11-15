@@ -1,5 +1,5 @@
 import { Dispatch } from "react";
-import { apiUrls } from "../urls/apiUrls";
+import { apiUrls } from "../../urls/apiUrls";
 
 type Params = Dispatch<React.SetStateAction<number>>
 

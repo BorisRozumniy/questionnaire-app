@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TMongoId } from "../@types/common";
 import { ContextType } from "../@types/context";
 import { IQuestion } from "../@types/question";
-import { deleteRequestQuestion } from "../actions/deleteRequestQuestion";
+import { deleteRequestQuestion } from "../store/actions/deleteRequestQuestion";
 import { Context } from "../context/context";
 import { QuestionItemProvider } from "../context/questionItemContext";
 import { AnswerTypeComponent } from "./AnswerType";

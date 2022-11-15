@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { TMongoId } from "../@types/common";
-import { ActionKind, ACTIONTYPE } from "../@types/question";
-import { apiUrls } from "../urls/apiUrls";
+import { TMongoId } from "../../@types/common";
+import { ActionKind, ACTIONTYPE } from "../../@types/question";
+import { apiUrls } from "../../urls/apiUrls";
 
 type Params = {
   removedQuestionId: TMongoId;

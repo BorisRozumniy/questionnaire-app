@@ -4,7 +4,7 @@ import {
   QUESTIONNAIRES_ACTIONTYPE,
   IQuestionnaire,
 } from "../../@types/questionnaire";
-import { postRequestQuestionnaire } from "../../actions/postRequestQuestionnaire";
+import { postRequestQuestionnaire } from "../../store/actions/postRequestQuestionnaire";
 import { apiUrls } from "../../urls/apiUrls";
 import { Button } from "../../components/Styled/Button";
 import { Input } from "../../components/Styled/Input";

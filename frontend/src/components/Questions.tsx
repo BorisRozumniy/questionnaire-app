@@ -2,7 +2,7 @@ import { FC, useContext, useEffect, useMemo } from "react";
 import { TMongoId } from "../@types/common";
 import { ContextType } from "../@types/context";
 import { IQuestion } from "../@types/question";
-import { getRequestQuestions } from "../actions/getRequestQuestions";
+import { getRequestQuestions } from "../store/actions/getRequestQuestions";
 import { Context } from "../context/context";
 import { Question } from "./Question";
 

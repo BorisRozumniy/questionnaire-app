@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { TMongoId } from "../@types/common";
-import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE } from "../@types/questionnaire";
-import { apiUrls } from "../urls/apiUrls";
+import { TMongoId } from "../../@types/common";
+import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE } from "../../@types/questionnaire";
+import { apiUrls } from "../../urls/apiUrls";
 
 type Params = {
   dispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>,

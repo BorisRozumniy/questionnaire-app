@@ -1,4 +1,4 @@
-import { ActionKind, ACTIONTYPE, IRespondent_experimental, IState, UserAnswer } from "../@types/respondent";
+import { ActionKind, ACTIONTYPE, IRespondent_experimental, IState, UserAnswer } from "../../@types/respondent";
 
 export const initialState: IState = {
   respondents: [] as IRespondent_experimental[],

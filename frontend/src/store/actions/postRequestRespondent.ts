@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
-import { ActionKind, ACTIONTYPE, IRespondent } from "../@types/respondent";
-import { apiUrls } from "../urls/apiUrls";
+import { ActionKind, ACTIONTYPE, IRespondent } from "../../@types/respondent";
+import { apiUrls } from "../../urls/apiUrls";
 
 type Params = {
   requestBody: Omit<IRespondent, "_id">;

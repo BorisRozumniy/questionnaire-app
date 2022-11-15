@@ -1,4 +1,4 @@
-import { ActionKind, ACTIONTYPE, IQuestion, IQuestionsState, QuestionsByValues } from "../@types/question";
+import { ActionKind, ACTIONTYPE, IQuestion, IQuestionsState, QuestionsByValues } from "../../@types/question";
 
 export const questionInitialState: IQuestionsState = {
   questionsByValues: {} as QuestionsByValues,

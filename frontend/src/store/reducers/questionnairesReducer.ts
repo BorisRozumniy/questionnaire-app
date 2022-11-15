@@ -1,4 +1,4 @@
-import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE, IQuestionnaireState } from "../@types/questionnaire";
+import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE, IQuestionnaireState } from "../../@types/questionnaire";
 
 export const questionnaireInitialState: IQuestionnaireState = {
   questionnaires: [],

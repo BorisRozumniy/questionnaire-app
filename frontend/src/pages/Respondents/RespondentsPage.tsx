@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from "react";
 import { ContextType } from "../../@types/context";
-import { getRequestCheckRespondentsLength } from "../../actions/getRequestCheckRespondentsLength";
-import { getRequestRespondents } from "../../actions/getRequestRespondents";
+import { getRequestCheckRespondentsLength } from "../../store/actions/getRequestCheckRespondentsLength";
+import { getRequestRespondents } from "../../store/actions/getRequestRespondents";
 import { Context } from "../../context/context";
 import { RespondentForm } from "../../components/RespondentForm";
 import { RespondentCard } from "./RespondentCard";
