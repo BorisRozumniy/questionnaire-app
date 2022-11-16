@@ -1,6 +1,7 @@
 import { FC, useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
+import { IQuestion } from "../../@types/question";
 import { getRequestQuestionnaire } from "../../store/actions/getRequestQuestionnaire";
 import { AddQuestion } from "../../components/AddQuestion";
 import { Questions } from "../../components/Questions";
@@ -18,9 +19,12 @@ export const QuestionnairePage: FC = () => {
     (item) => item._id === id
   );
 
+  const withQuestions =
+    typeof questionnaire?.questions[0] !== "string" &&
+    questionnaire?.questions[0]._id;
+
   useEffect(() => {
-    const withoutQuestions = typeof questionnaire?.questions[0] === "string";
-    if (!questionnaire || withoutQuestions) {
+    if (!questionnaire || !withQuestions) {
       getRequestQuestionnaire({
         dispatch: questionnaireDispatch,
         questionnaireId: id,
@@ -31,7 +35,9 @@ export const QuestionnairePage: FC = () => {
   return (
     <Container>
       <h1>Questionnaire: {questionnaire?.name}</h1>
-      <Questions questionnaireId={id} />
+      {withQuestions && (
+        <Questions questionnaireId={id} questions={questionnaire?.questions} />
+      )}
       <AddQuestion questionnaireId={id} />
     </Container>
   );

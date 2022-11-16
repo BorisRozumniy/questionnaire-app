@@ -7,17 +7,10 @@ import { Question } from "./Question";
 
 type Props = {
   questionnaireId: TMongoId;
+  questions: IQuestion[];
 };
 
-export const Questions: FC<Props> = ({ questionnaireId }) => {
-  const { questionsState, questionsDispatch } = useContext(
-    Context
-  ) as ContextType;
-
-  const { questionsByValues } = questionsState;
-
-  const questions = questionsByValues[questionnaireId];
-
+export const Questions: FC<Props> = ({ questionnaireId, questions }) => {
   return (
     <>
       <h2>Questions list</h2>

@@ -3,7 +3,7 @@ import { IQuestion } from "./question";
 export interface IQuestionnaire {
   _id: string;
   name: string;
-  questions: IQuestion[] | string[];
+  questions: IQuestion[]; //  | string[];
 }
 
 export interface IQuestionnaireState {
