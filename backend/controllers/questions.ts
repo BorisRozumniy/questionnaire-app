@@ -1,6 +1,7 @@
 import { Question } from "../models/Question";
 import { Request, Response } from 'express';
 import { Questionnaire } from "../models/Questionnaire";
+import { ObjectId } from "mongoose";
 
 
 export const create = async (req: Request, res: Response) => {
@@ -63,11 +64,18 @@ export const update = async (req: Request, res: Response) => {
 
 export const remove = async (req: Request, res: Response) => {
   try {
-    const id = req.params.id;
-    await Question.findByIdAndDelete(id);
-    const message = `Question ${id} removed successfully`;
-    console.log(message);
-    res.json({ message });
+    const removedQuestionId = req.params.id;
+
+    const question = await Question.findByIdAndDelete(removedQuestionId);
+    const findedQuestionnaire = await Questionnaire.findOne({ questions: removedQuestionId })
+
+    const filteredQuestions = findedQuestionnaire?.questions?.filter(q => !question?._id.equals(q._id))
+
+    await Questionnaire.findByIdAndUpdate(findedQuestionnaire?._id, { questions: filteredQuestions })
+
+    const message = `Question "${question?.questionText}" removed successfully.`;
+    console.log(message, removedQuestionId);
+    res.json({ message, removedQuestionId });
   } catch (error) {
     console.log(`error: `, error);
     res.status(500).json({ message: "Something went wrong, please try again" });

@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
 import { IQuestion } from "../../@types/question";
@@ -9,8 +9,11 @@ import { Container } from "../../components/Styled/Container";
 import { Context } from "../../context/context";
 
 export const QuestionnairePage: FC = () => {
+  let requestQount = useRef(0);
+
   let params = useParams();
   const id = params.id!.substring(1);
+
   const { questionnaireState, questionnaireDispatch } = useContext(
     Context
   ) as ContextType;
@@ -20,17 +23,19 @@ export const QuestionnairePage: FC = () => {
   );
 
   const withQuestions =
+    questionnaire?.questions.length &&
     typeof questionnaire?.questions[0] !== "string" &&
-    questionnaire?.questions[0]._id;
+    questionnaire?.questions[0]?._id;
 
   useEffect(() => {
-    if (!questionnaire || !withQuestions) {
+    if (!questionnaire?.questions[0]?._id && requestQount.current === 0) {
       getRequestQuestionnaire({
         dispatch: questionnaireDispatch,
         questionnaireId: id,
       });
+      requestQount.current += 1;
     }
-  }, [questionnaire]);
+  }, [questionnaire, requestQount]);
 
   return (
     <Container>
