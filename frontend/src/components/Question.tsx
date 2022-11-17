@@ -24,7 +24,7 @@ export const Question: FC<Props> = ({
 }) => {
   const { _id, questionText, answerType } = question;
 
-  const { questionsDispatch } = useContext(Context) as ContextType;
+  const { questionsDispatch, questionnaireDispatch } = useContext(Context) as ContextType;
 
   const [editMode, setEditMod] = useState(false);
 
@@ -45,7 +45,7 @@ export const Question: FC<Props> = ({
           <QuestionForm
             {...{
               isEditForm: true,
-              dispatch: questionsDispatch,
+              dispatch: questionnaireDispatch,
               question,
               setEditMod,
             }}
@@ -65,7 +65,7 @@ export const Question: FC<Props> = ({
                   deleteRequestQuestion({
                     removedQuestionId: _id,
                     questionnaireId,
-                    dispatch: questionsDispatch,
+                    dispatch: questionnaireDispatch,
                   })
                 }
                 bg="red"

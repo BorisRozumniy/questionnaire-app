@@ -10,12 +10,12 @@ type Pros = {
 };
 
 export const AddQuestion: FC<Pros> = ({ questionnaireId }) => {
-  const { questionsDispatch } = useContext(Context) as ContextType;
+  const { questionnaireDispatch } = useContext(Context) as ContextType;
 
   return (
     <AddFormWrapper>
       <h2>Create question</h2>
-      <QuestionForm {...{ dispatch: questionsDispatch, questionnaireId }} />
+      <QuestionForm {...{ dispatch: questionnaireDispatch, questionnaireId }} />
     </AddFormWrapper>
   );
 };

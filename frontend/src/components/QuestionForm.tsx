@@ -7,15 +7,16 @@ import {
   useEffect,
   useState,
 } from "react";
-  import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ActionMeta, SingleValue } from "react-select";
 import {
   IQuestion,
   AnswerType,
   Option,
-  ACTIONTYPE,
   NewQuestion,
 } from "../@types/question";
+import { ACTIONTYPE } from "../@types/questionnaire";
+
 import { Input } from "./Styled/Input";
 import { Button } from "./Styled/Button";
 import { SelectComponent as Select } from "./Select";

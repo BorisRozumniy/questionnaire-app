@@ -1,6 +1,11 @@
 import { IQuestionnaire, IQuestionnaireState } from "../../../@types/questionnaire";
 
-export const getQuestionnaireSuccess = ({ questionnaires }: IQuestionnaireState, payload: IQuestionnaire): IQuestionnaire[] => {
+type Func = (
+  state: IQuestionnaireState,
+  payload: IQuestionnaire
+) => IQuestionnaire[];
+
+export const getQuestionnaireSuccess: Func = ({ questionnaires }, payload) => {
   let newQuestionnaires: IQuestionnaire[];
 
   if (questionnaires.length === 0)
