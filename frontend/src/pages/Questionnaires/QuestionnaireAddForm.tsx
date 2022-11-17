@@ -1,7 +1,7 @@
 import { Dispatch, FC, FormEvent, useState } from "react";
 import styled from "styled-components";
 import {
-  QUESTIONNAIRES_ACTIONTYPE,
+  ACTIONTYPE,
   IQuestionnaire,
 } from "../../@types/questionnaire";
 import { postRequestQuestionnaire } from "../../store/actions/postRequestQuestionnaire";
@@ -11,7 +11,7 @@ import { Input } from "../../components/Styled/Input";
 import { AddFormWrapper } from "../../components/AddFormWrapper";
 
 type Props = {
-  questionnaireDispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>;
+  questionnaireDispatch: Dispatch<ACTIONTYPE>;
 };
 
 export const QuestionnaireAddForm: FC<Props> = ({ questionnaireDispatch }) => {

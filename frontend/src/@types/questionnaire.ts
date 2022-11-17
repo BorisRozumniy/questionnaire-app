@@ -1,3 +1,4 @@
+import { TMongoId } from "./common";
 import { IQuestion } from "./question";
 
 export interface IQuestionnaire {
@@ -12,7 +13,7 @@ export interface IQuestionnaireState {
   questionnairesLoading: boolean;
 }
 
-export enum QuestionnairesActionKind {
+export enum ActionKind {
   GET_REQUEST_QUESTIONNAIRES_START = 'GET_REQUEST_QUESTIONNAIRES_START',
   GET_REQUEST_QUESTIONNAIRES_SUCCESS = 'GET_REQUEST_QUESTIONNAIRES_SUCCESS',
   GET_REQUEST_QUESTIONNAIRES_ERROR = 'GET_REQUEST_QUESTIONNAIRES_ERROR',
@@ -22,15 +23,21 @@ export enum QuestionnairesActionKind {
   POST_REQUEST_CREATE_QUESTIONNAIRES_START = 'POST_REQUEST_CREATE_QUESTIONNAIRES_START',
   POST_REQUEST_CREATE_QUESTIONNAIRES_SUCCESS = 'POST_REQUEST_CREATE_QUESTIONNAIRES_SUCCESS',
   POST_REQUEST_CREATE_QUESTIONNAIRES_ERROR = 'POST_REQUEST_CREATE_QUESTIONNAIRES_ERROR',
+  DELETE_REQUEST_QUESTION_START = 'DELETE_REQUEST_QUESTION_START',
+  DELETE_REQUEST_QUESTION_SUCCESS = 'DELETE_REQUEST_QUESTION_SUCCESS',
+  DELETE_REQUEST_QUESTION_ERROR = 'DELETE_REQUEST_QUESTION_ERROR',
 }
 
-export type QUESTIONNAIRES_ACTIONTYPE =
-  | { type: QuestionnairesActionKind.GET_REQUEST_QUESTIONNAIRES_START }
-  | { type: QuestionnairesActionKind.GET_REQUEST_QUESTIONNAIRES_SUCCESS; payload: IQuestionnaire[] }
-  | { type: QuestionnairesActionKind.GET_REQUEST_QUESTIONNAIRES_ERROR; payload: any }
-  | { type: QuestionnairesActionKind.GET_REQUEST_QUESTIONNAIRE_START }
-  | { type: QuestionnairesActionKind.GET_REQUEST_QUESTIONNAIRE_SUCCESS; payload: IQuestionnaire }
-  | { type: QuestionnairesActionKind.GET_REQUEST_QUESTIONNAIRE_ERROR; payload: any }
-  | { type: QuestionnairesActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_START }
-  | { type: QuestionnairesActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_SUCCESS; payload: IQuestionnaire[] }
-  | { type: QuestionnairesActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_ERROR; payload: any };
+export type ACTIONTYPE =
+  | { type: ActionKind.GET_REQUEST_QUESTIONNAIRES_START }
+  | { type: ActionKind.GET_REQUEST_QUESTIONNAIRES_SUCCESS; payload: IQuestionnaire[] }
+  | { type: ActionKind.GET_REQUEST_QUESTIONNAIRES_ERROR; payload: any }
+  | { type: ActionKind.GET_REQUEST_QUESTIONNAIRE_START }
+  | { type: ActionKind.GET_REQUEST_QUESTIONNAIRE_SUCCESS; payload: IQuestionnaire }
+  | { type: ActionKind.GET_REQUEST_QUESTIONNAIRE_ERROR; payload: any }
+  | { type: ActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_START }
+  | { type: ActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_SUCCESS; payload: IQuestionnaire[] }
+  | { type: ActionKind.POST_REQUEST_CREATE_QUESTIONNAIRES_ERROR; payload: any }
+  | { type: ActionKind.DELETE_REQUEST_QUESTION_START }
+  | { type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS; payload: { message: string, questionnaireId: TMongoId, removedQuestionId: TMongoId } }
+  | { type: ActionKind.DELETE_REQUEST_QUESTION_ERROR; payload: any };
