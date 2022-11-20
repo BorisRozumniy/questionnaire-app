@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { TMongoId } from "../@types/common";
-import { ActionKind, ACTIONTYPE } from "../@types/question";
-import { apiUrls } from "../urls/apiUrls";
+import { TMongoId } from "../../@types/common";
+import { ActionKind, ACTIONTYPE } from "../../@types/questionnaire";
+import { apiUrls } from "../../urls/apiUrls";
 
 type Params = {
   removedQuestionId: TMongoId;
@@ -25,7 +25,7 @@ export const deleteRequestQuestion = ({ removedQuestionId, questionnaireId, disp
       console.log(data, message);
       dispatch({
         type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS,
-        payload: { message, removedQuestionId, questionnaireId },
+        payload: { removedQuestionId, questionnaireId },
       })
     })
     .catch((error) => {

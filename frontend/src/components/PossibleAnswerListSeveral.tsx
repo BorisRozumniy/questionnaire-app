@@ -6,7 +6,7 @@ import {
   QuestionItemContextType,
   TPossibleAnswerItem,
 } from "../@types/question";
-import { patchRequestChangeRespondentAnswer } from "../actions/patchRequestChangeRespondentAnswer";
+import { patchRequestChangeRespondentAnswer } from "../store/actions/patchRequestChangeRespondentAnswer";
 import { Context } from "../context/context";
 import { QuestionItemContext } from "../context/questionItemContext";
 import { useSelectedMultiple } from "../useSelected";

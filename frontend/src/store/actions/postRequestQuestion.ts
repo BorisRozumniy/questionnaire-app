@@ -1,7 +1,8 @@
 import { Dispatch } from "react";
-import { TMongoId } from "../@types/common";
-import { ActionKind, ACTIONTYPE, NewQuestion } from "../@types/question";
-import { apiUrls } from "../urls/apiUrls";
+import { TMongoId } from "../../@types/common";
+import { NewQuestion } from "../../@types/question";
+import { ActionKind, ACTIONTYPE } from "../../@types/questionnaire";
+import { apiUrls } from "../../urls/apiUrls";
 
 type Params = {
   requestBody: NewQuestion;
@@ -31,7 +32,7 @@ export const postRequestQuestion = ({ requestBody, dispatch, questionnaireId }: 
     .then(({ data, message }) => {
       console.log(data, message);
       if (isOk)
-        dispatch({ type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS, payload: data, questionnaireId })
+        dispatch({ type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS, payload: { question: data, questionnaireId } })
       else
         dispatch({ type: ActionKind.POST_REQUEST_CREATE_QUESTION_ERROR, payload: data })
 

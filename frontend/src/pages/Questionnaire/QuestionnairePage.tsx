@@ -1,22 +1,19 @@
-import { Dispatch, FC, SetStateAction, useContext, useEffect } from "react";
+import { FC, useContext, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { ContextType } from "../../@types/context";
-import { getRequestQuestionnaires } from "../../actions/getRequestQuestionnaires";
+import { IQuestion } from "../../@types/question";
+import { getRequestQuestionnaire } from "../../store/actions/getRequestQuestionnaire";
 import { AddQuestion } from "../../components/AddQuestion";
 import { Questions } from "../../components/Questions";
 import { Container } from "../../components/Styled/Container";
 import { Context } from "../../context/context";
-import { theme } from "../../theme";
 
-type Props = {
-  setLastRequestWasFromQuestionairePage: Dispatch<SetStateAction<boolean>>;
-};
+export const QuestionnairePage: FC = () => {
+  let requestQount = useRef(0);
 
-export const QuestionnairePage: FC<Props> = ({
-  setLastRequestWasFromQuestionairePage,
-}) => {
   let params = useParams();
   const id = params.id!.substring(1);
+
   const { questionnaireState, questionnaireDispatch } = useContext(
     Context
   ) as ContextType;
@@ -25,20 +22,27 @@ export const QuestionnairePage: FC<Props> = ({
     (item) => item._id === id
   );
 
+  const withQuestions =
+    questionnaire?.questions.length &&
+    typeof questionnaire?.questions[0] !== "string" &&
+    questionnaire?.questions[0]?._id;
+
   useEffect(() => {
-    if (!questionnaire) {
-      setLastRequestWasFromQuestionairePage(true);
-      getRequestQuestionnaires({
+    if (!questionnaire?.questions[0]?._id && requestQount.current === 0) {
+      getRequestQuestionnaire({
         dispatch: questionnaireDispatch,
-        id,
+        questionnaireId: id,
       });
+      requestQount.current += 1;
     }
-  }, [questionnaire]);
+  }, [questionnaire, requestQount]);
 
   return (
     <Container>
       <h1>Questionnaire: {questionnaire?.name}</h1>
-      <Questions questionsIds={questionnaire?.questions} questionnaireId={id} />
+      {withQuestions && (
+        <Questions questionnaireId={id} questions={questionnaire?.questions} />
+      )}
       <AddQuestion questionnaireId={id} />
     </Container>
   );

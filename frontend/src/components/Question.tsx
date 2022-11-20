@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { TMongoId } from "../@types/common";
 import { ContextType } from "../@types/context";
 import { IQuestion } from "../@types/question";
-import { deleteRequestQuestion } from "../actions/deleteRequestQuestion";
+import { deleteRequestQuestion } from "../store/actions/deleteRequestQuestion";
 import { Context } from "../context/context";
 import { QuestionItemProvider } from "../context/questionItemContext";
 import { AnswerTypeComponent } from "./AnswerType";
@@ -24,7 +24,7 @@ export const Question: FC<Props> = ({
 }) => {
   const { _id, questionText, answerType } = question;
 
-  const { questionsDispatch } = useContext(Context) as ContextType;
+  const { questionsDispatch, questionnaireDispatch } = useContext(Context) as ContextType;
 
   const [editMode, setEditMod] = useState(false);
 
@@ -45,8 +45,7 @@ export const Question: FC<Props> = ({
           <QuestionForm
             {...{
               isEditForm: true,
-              dispatch: questionsDispatch,
-              questionnaireId,
+              dispatch: questionnaireDispatch,
               question,
               setEditMod,
             }}
@@ -66,7 +65,7 @@ export const Question: FC<Props> = ({
                   deleteRequestQuestion({
                     removedQuestionId: _id,
                     questionnaireId,
-                    dispatch: questionsDispatch,
+                    dispatch: questionnaireDispatch,
                   })
                 }
                 bg="red"

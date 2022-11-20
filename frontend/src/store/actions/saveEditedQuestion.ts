@@ -1,5 +1,5 @@
-import { IQuestion } from "../@types/question";
-import { apiUrls } from "../urls/apiUrls";
+import { IQuestion } from "../../@types/question";
+import { apiUrls } from "../../urls/apiUrls";
 
 export const saveEditedQuestion = (
     editedQuestion: IQuestion, questions: IQuestion[], setQuestions: (q: IQuestion[]) => void

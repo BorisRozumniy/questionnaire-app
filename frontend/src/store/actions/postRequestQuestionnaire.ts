@@ -1,10 +1,10 @@
 import { Dispatch } from "react";
-import { QuestionnairesActionKind as ActionKind, QUESTIONNAIRES_ACTIONTYPE } from "../@types/questionnaire";
+import { ActionKind, ACTIONTYPE } from "../../@types/questionnaire";
 
 type Params = {
   requestBody: object;
   url: string,
-  dispatch: Dispatch<QUESTIONNAIRES_ACTIONTYPE>,
+  dispatch: Dispatch<ACTIONTYPE>,
 }
 
 export const postRequestQuestionnaire = ({

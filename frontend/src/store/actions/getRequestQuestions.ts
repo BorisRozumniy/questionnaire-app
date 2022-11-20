@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
-import { TMongoId } from "../@types/common";
-import { ActionKind, ACTIONTYPE } from "../@types/question";
-import { frontendUrls } from "../urls/frontendUrls";
+import { TMongoId } from "../../@types/common";
+import { ActionKind, ACTIONTYPE } from "../../@types/question";
+import { frontendUrls } from "../../urls/frontendUrls";
 
 type Params = {
   dispatch: Dispatch<ACTIONTYPE>,

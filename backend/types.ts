@@ -50,4 +50,9 @@ export interface IQuestionnaire {
     name: string;
     questions?: Types.ObjectId[];
 }
+export interface QuestionnaireWithQuestion {
+    _id: Types.ObjectId,
+    name: string;
+    questions: IQuestion[];
+}
 
