@@ -1,6 +1,6 @@
-import { FC, ReactNode, useRef, useState } from "react";
-import styled from "styled-components";
-import { Button } from "./Styled/Button";
+import { FC, ReactNode, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { Button } from './Styled/Button';
 
 type Props = {
   children: ReactNode;
@@ -14,9 +14,9 @@ export const AddFormWrapper: FC<Props> = ({ children }) => {
   const showForm = () => {
     setIsShown(true);
     ref.current?.scrollIntoView({
-      block: "end",
-      inline: "nearest",
-      behavior: "smooth",
+      block: 'end',
+      inline: 'nearest',
+      behavior: 'smooth',
     });
   };
 
@@ -58,15 +58,15 @@ const ToggleShowButton = styled(Button)<{ isShown: boolean }>`
   font-size: 34px;
   font-weight: 100;
   transition: all 200ms;
-  transform: ${({ isShown }) => (isShown ? "rotate(45deg)" : "rotate(0)")};
+  transform: ${({ isShown }) => (isShown ? 'rotate(45deg)' : 'rotate(0)')};
   z-index: 5;
 `;
 
 const FormWrapper = styled.div<{ isShown: boolean }>`
   margin-bottom: 20px;
   position: relative;
-  left: ${({ isShown }) => (isShown ? "0" : "-1700px")};
-  right: ${({ isShown }) => (isShown ? "0" : "1700px")};
+  left: ${({ isShown }) => (isShown ? '0' : '-1700px')};
+  right: ${({ isShown }) => (isShown ? '0' : '1700px')};
   margin-left: auto;
   margin-right: auto;
   border: solid 2px ${({ theme }) => theme.colors.main};

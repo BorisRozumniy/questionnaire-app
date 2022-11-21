@@ -1,10 +1,12 @@
-import { Routes, Route } from "react-router-dom";
-import { RespondentsPage } from "../pages/Respondents/RespondentsPage";
-import { RespondentPage } from "../pages/Respondent/RespondentPage";
-import { QuestionnairesPage } from "../pages/Questionnaires/QuestionnairesPage";
-import { QuestionnairePage } from "../pages/Questionnaire/QuestionnairePage";
-import ErrorPage from "../pages/ErrorPage";
-import { frontendUrls } from "../urls/frontendUrls";
+import * as React from 'react';
+
+import { Routes, Route } from 'react-router-dom';
+import { RespondentsPage } from '../pages/Respondents/RespondentsPage';
+import { RespondentPage } from '../pages/Respondent/RespondentPage';
+import { QuestionnairesPage } from '../pages/Questionnaires/QuestionnairesPage';
+import { QuestionnairePage } from '../pages/Questionnaire/QuestionnairePage';
+import ErrorPage from '../pages/ErrorPage';
+import { frontendUrls } from '../urls/frontendUrls';
 
 export const AllRoutes = () => (
   <Routes>

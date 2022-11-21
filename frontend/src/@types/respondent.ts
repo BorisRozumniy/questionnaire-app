@@ -1,5 +1,6 @@
-import { TMongoId } from "./common";
-import { IQuestion } from "./question";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { TMongoId } from './common';
+import { IQuestion } from './question';
 
 export type AnswerOptionId = number;
 type AnswerTextValue = string;
@@ -9,11 +10,11 @@ export interface UserAnswer {
     questionId: TMongoId,
     value?: AnswerOptionId | AnswerTextValue | AnswerOption[],
     _id: TMongoId,
-};
+}
 
 export interface ExistUserAnswer extends UserAnswer {
     _id: TMongoId,
-};
+}
 
 type TQuestionnaireId = string;
 

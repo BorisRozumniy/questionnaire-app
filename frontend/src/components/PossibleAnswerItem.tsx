@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 import {
   QuestionItemContextType,
   TPossibleAnswerItem,
-} from "../@types/question";
-import { QuestionItemContext } from "../context/questionItemContext";
-import { AnswerItemInput } from "./AnswerItemInput";
-import { PossibleOneAnswerItem } from "./PossibleOneAnswerItem";
+} from '../@types/question';
+import { QuestionItemContext } from '../context/questionItemContext';
+import { AnswerItemInput } from './AnswerItemInput';
+import { PossibleOneAnswerItem } from './PossibleOneAnswerItem';
 
 type Props = {
   item: TPossibleAnswerItem;

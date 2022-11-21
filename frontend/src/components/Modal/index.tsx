@@ -1,24 +1,20 @@
 import {
   ChangeEvent,
   FormEvent,
-  useContext,
-  useEffect,
   useRef,
   useState,
-} from "react";
-import { ContextType } from "../../@types/context";
-import { AnswerType, IQuestion } from "../../@types/question";
-import { Context } from "../../context/context";
-import { useOnClickOutside } from "../../useOnClickOutside";
-import { Button } from "../Styled/Button";
-import { Input } from "../Styled/Input";
+} from 'react';
+import { AnswerType, IQuestion } from '../../@types/question';
+import { useOnClickOutside } from '../../useOnClickOutside';
+import { Button } from '../Styled/Button';
+import { Input } from '../Styled/Input';
 import {
   CloseButton,
   Heading,
   ModalFormBlock,
   ModalWindow,
   ModalWrapper,
-} from "./styles";
+} from './styles';
 
 export const Modal = () => {
   // const { modalIsOpen, toggleModal, temporaryQuestion, saveEditedQuestion } =
@@ -39,10 +35,8 @@ export const Modal = () => {
     });
   };
 
-  const handleSave = (e: FormEvent, formData: IQuestion | any) => {
+  const handleSave = (e: FormEvent) => {
     e.preventDefault();
-    // saveEditedQuestion(formData);
-    // toggleModal(false);
   };
 
   const wrapperRef = useRef(null);
@@ -55,10 +49,10 @@ export const Modal = () => {
     <ModalWrapper>
       <ModalWindow ref={wrapperRef}>
         <Heading>Modal</Heading>
-        <CloseButton onClick={() => console.log("toggleModal(false)")}>
+        <CloseButton onClick={() => console.log('toggleModal(false)')}>
           x
         </CloseButton>
-        <ModalFormBlock onSubmit={(e) => handleSave(e, formData)}>
+        <ModalFormBlock onSubmit={(e) => handleSave(e)}>
           <Input
             defaultValue={formData.questionText}
             onChange={handleForm}

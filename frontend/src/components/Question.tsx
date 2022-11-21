@@ -1,15 +1,15 @@
-import { FC, useContext, useState } from "react";
-import styled from "styled-components";
-import { TMongoId } from "../@types/common";
-import { ContextType } from "../@types/context";
-import { IQuestion } from "../@types/question";
-import { deleteRequestQuestion } from "../store/actions/deleteRequestQuestion";
-import { Context } from "../context/context";
-import { QuestionItemProvider } from "../context/questionItemContext";
-import { AnswerTypeComponent } from "./AnswerType";
-import { QuestionForm } from "./QuestionForm";
-import { Button } from "./Styled/Button";
-import { SwitchButton } from "./SwitchButton";
+import { FC, useContext, useState } from 'react';
+import styled from 'styled-components';
+import { TMongoId } from '../@types/common';
+import { ContextType } from '../@types/context';
+import { IQuestion } from '../@types/question';
+import { deleteRequestQuestion } from '../store/actions/deleteRequestQuestion';
+import { Context } from '../context/context';
+import { QuestionItemProvider } from '../context/questionItemContext';
+import { AnswerTypeComponent } from './AnswerType';
+import { QuestionForm } from './QuestionForm';
+import { Button } from './Styled/Button';
+import { SwitchButton } from './SwitchButton';
 
 type Props = {
   question: IQuestion;
@@ -24,7 +24,7 @@ export const Question: FC<Props> = ({
 }) => {
   const { _id, questionText, answerType } = question;
 
-  const { questionsDispatch, questionnaireDispatch } = useContext(Context) as ContextType;
+  const { questionnaireDispatch } = useContext(Context) as ContextType;
 
   const [editMode, setEditMod] = useState(false);
 
@@ -55,7 +55,7 @@ export const Question: FC<Props> = ({
           <>
             <SwitchButtonWrapper>
               <TextInfo {...{ editMode }}>
-                {editMode ? "edit mode" : "read mode"}
+                {editMode ? 'edit mode' : 'read mode'}
               </TextInfo>
               <SwitchButton {...{ id: _id, checked: editMode, handleChange }} />
             </SwitchButtonWrapper>

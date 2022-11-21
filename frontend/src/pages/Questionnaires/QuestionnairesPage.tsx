@@ -1,20 +1,20 @@
-import { FC, useContext, useEffect, useState } from "react";
-import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { ContextType } from "../../@types/context";
-import { getRequestQuestionnaires } from "../../store/actions/getRequestQuestionnaires";
-import { QuestionnaireAddForm } from "./QuestionnaireAddForm";
-import { Context } from "../../context/context";
-import { Questionnaire } from "./Questionnaire";
-import { Container } from "../../components/Styled/Container";
-import { getRequestCheckQuestionnairesLength } from "../../store/actions/getRequestCheckQuestionnairesLength";
+import { FC, useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { ContextType } from '../../@types/context';
+import { getRequestQuestionnaires } from '../../store/actions/getRequestQuestionnaires';
+import { QuestionnaireAddForm } from './QuestionnaireAddForm';
+import { Context } from '../../context/context';
+import { Questionnaire } from './Questionnaire';
+import { Container } from '../../components/Styled/Container';
+import { getRequestCheckQuestionnairesLength } from '../../store/actions/getRequestCheckQuestionnairesLength';
 
 export const QuestionnairesPage: FC = () => {
   const { questionnaireDispatch, questionnaireState } = useContext(
     Context
   ) as ContextType;
 
-  let { id } = useParams();
+  const { id } = useParams();
 
   const { questionnaires } = questionnaireState;
 

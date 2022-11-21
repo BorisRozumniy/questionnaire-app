@@ -1,17 +1,17 @@
-import { FormEvent, useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import { ContextType } from "../@types/context";
+import { FormEvent, useContext, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { ContextType } from '../@types/context';
 import {
   QuestionItemContextType,
   TPossibleAnswerItem,
-} from "../@types/question";
-import { patchRequestChangeRespondentAnswer } from "../store/actions/patchRequestChangeRespondentAnswer";
-import { Context } from "../context/context";
-import { QuestionItemContext } from "../context/questionItemContext";
-import { useSelectedMultiple } from "../useSelected";
-import { Button } from "./Styled/Button";
-import { Input } from "./Styled/Input";
+} from '../@types/question';
+import { patchRequestChangeRespondentAnswer } from '../store/actions/patchRequestChangeRespondentAnswer';
+import { Context } from '../context/context';
+import { QuestionItemContext } from '../context/questionItemContext';
+import { useSelectedMultiple } from '../useSelected';
+import { Button } from './Styled/Button';
+import { Input } from './Styled/Input';
 
 export const PossibleAnswerListSeveral = () => {
   const { temporaryQuestion, setTemporaryQuestion, respondentsDispatch } =
@@ -22,8 +22,8 @@ export const PossibleAnswerListSeveral = () => {
 
   const { answer, _id: questionId, answerOptions } = question;
 
-  let params = useParams();
-  const respondentId = params.id!.substring(1);
+  const params = useParams();
+  const respondentId = params.id?.substring(1);
 
   const originAnswerValue = Array.isArray(answer?.value) ? answer?.value : [];
 
@@ -35,11 +35,11 @@ export const PossibleAnswerListSeveral = () => {
   ] = useSelectedMultiple(originAnswerValue);
 
   useEffect(() => {
-    if (changedByUser) {
+    if (changedByUser && respondentId) {
       const requestBody = {
         questionId,
         value: selectedOptions,
-        _id: answer?._id || "",
+        _id: answer?._id || '',
       };
       patchRequestChangeRespondentAnswer({
         respondentId,
@@ -69,7 +69,7 @@ export const PossibleAnswerListSeveral = () => {
       setTemporaryQuestion(questionUpdate);
     }
 
-    setNewOptionValue("");
+    setNewOptionValue('');
   };
 
   const handleRemoveItem = (item: TPossibleAnswerItem) => {
@@ -122,7 +122,7 @@ export const PossibleAnswerListSeveral = () => {
             {editMode && (
               <Button
                 onClick={() => handleRemoveItem(item)}
-                key={item.id + "remove-button"}
+                key={item.id + 'remove-button'}
                 bg="red"
               >
                 x
@@ -136,7 +136,7 @@ export const PossibleAnswerListSeveral = () => {
           <Input
             value={newOptionValue}
             onChange={handleChangeNewItem}
-            onKeyUp={({ key }) => key === "Enter" && handleAddNewItem()}
+            onKeyUp={({ key }) => key === 'Enter' && handleAddNewItem()}
           />
           <Button onClick={handleAddNewItem}>add new option</Button>
         </NewOptionField>

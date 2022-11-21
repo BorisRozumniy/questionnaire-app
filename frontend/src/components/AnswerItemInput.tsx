@@ -1,9 +1,9 @@
-import { FC, FormEvent, useContext, useState } from "react";
-import styled from "styled-components";
-import { ContextType } from "../@types/context";
-import { TPossibleAnswerItem } from "../@types/question";
-import { Context } from "../context/context";
-import { Input } from "./Styled/Input";
+import { FC, FormEvent, useContext, useState } from 'react';
+import styled from 'styled-components';
+import { ContextType } from '../@types/context';
+import { TPossibleAnswerItem } from '../@types/question';
+import { Context } from '../context/context';
+import { Input } from './Styled/Input';
 
 type onChangeT = (e: FormEvent<HTMLInputElement>) => void;
 

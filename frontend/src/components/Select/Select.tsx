@@ -1,8 +1,9 @@
-import { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
-import ReactSelect, { ActionMeta, GroupBase, SingleValue } from "react-select";
-import Select from "react-select/dist/declarations/src/Select";
-import { customStyles } from "./style";
+import { Dispatch, FC, SetStateAction, useEffect, useRef } from 'react';
+import ReactSelect, { ActionMeta, GroupBase, SingleValue } from 'react-select';
+import Select from 'react-select/dist/declarations/src/Select';
+import { customStyles } from './style';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Option = { label: any; value: any };
 type OnChange = (
   newValue: SingleValue<Option>,

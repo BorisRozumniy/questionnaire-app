@@ -1,15 +1,15 @@
-import { createContext, FC, ReactNode, useReducer, useState } from "react";
-import { initialState, respondentReducer } from "../store/reducers/respondentReducer";
+import { createContext, FC, ReactNode, useReducer, useState } from 'react';
+import { initialState, respondentReducer } from '../store/reducers/respondentReducer';
 import {
   questionnaireInitialState,
   questionnairesReducer,
-} from "../store/reducers/questionnairesReducer";
+} from '../store/reducers/questionnairesReducer';
 import {
   questionInitialState,
   questionsReducer,
-} from "../store/reducers/questionsReducer";
-import { ContextType } from "../@types/context";
-import { IQuestion, NewQuestion } from "../@types/question";
+} from '../store/reducers/questionsReducer';
+import { ContextType } from '../@types/context';
+import { IQuestion, NewQuestion } from '../@types/question';
 
 export const Context = createContext<ContextType | null>(null);
 

@@ -1,15 +1,15 @@
-import { Link, PathMatch, useMatch, useResolvedPath } from "react-router-dom";
-import type { LinkProps } from "react-router-dom";
-import styled from "styled-components";
+import { Link, PathMatch, useMatch, useResolvedPath } from 'react-router-dom';
+import type { LinkProps } from 'react-router-dom';
+import styled from 'styled-components';
 
 export function CustomLink({ children, to, ...props }: LinkProps) {
-  let resolved = useResolvedPath(to);
-  let match = useMatch({ path: resolved.pathname, end: true });
+  const resolved = useResolvedPath(to);
+  const match = useMatch({ path: resolved.pathname, end: true });
 
   return (
     <>
       <StyledLink
-        style={{ textDecoration: match ? "underline" : "none" }}
+        style={{ textDecoration: match ? 'underline' : 'none' }}
         to={to}
         match={match}
         {...props}

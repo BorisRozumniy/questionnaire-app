@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { frontendUrls } from "../urls/frontendUrls";
-import { CustomLink } from "./CustomLink";
-import { Container } from "./Styled/Container";
+import styled from 'styled-components';
+import { frontendUrls } from '../urls/frontendUrls';
+import { CustomLink } from './CustomLink';
+import { Container } from './Styled/Container';
 
 export const Header = () => {
   return (

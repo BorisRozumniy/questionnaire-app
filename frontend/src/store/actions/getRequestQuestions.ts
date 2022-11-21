@@ -1,7 +1,7 @@
-import { Dispatch } from "react";
-import { TMongoId } from "../../@types/common";
-import { ActionKind, ACTIONTYPE } from "../../@types/question";
-import { frontendUrls } from "../../urls/frontendUrls";
+import { Dispatch } from 'react';
+import { TMongoId } from '../../@types/common';
+import { ActionKind, ACTIONTYPE } from '../../@types/question';
+import { frontendUrls } from '../../urls/frontendUrls';
 
 type Params = {
   dispatch: Dispatch<ACTIONTYPE>,
@@ -12,7 +12,7 @@ type Params = {
 export const getRequestQuestions = ({ dispatch, questionsIds, questionnaireId }: Params) => {
   const url = `${frontendUrls.questions}${questionsIds}`;
 
-  dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_START })
+  dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_START });
   fetch(url)
     .then((res) => res.json())
     .then((questions) => {
@@ -23,7 +23,7 @@ export const getRequestQuestions = ({ dispatch, questionsIds, questionnaireId }:
       });
     })
     .catch((error) => {
-      console.log("error", error);
-      dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_ERROR, payload: error })
-    })
-}
+      console.log('error', error);
+      dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_ERROR, payload: error });
+    });
+};

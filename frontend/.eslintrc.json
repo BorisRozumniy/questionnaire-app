@@ -8,8 +8,7 @@
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended"
     ],
-    "overrides": [
-    ],
+    "overrides": [],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -22,7 +21,7 @@
     "rules": {
         "indent": [
             "error",
-            "tab"
+            2
         ],
         "linebreak-style": [
             "error",
@@ -30,8 +29,22 @@
         ],
         "quotes": [
             "error",
-            "double"
+            "single",
+            {
+                "avoidEscape": true
+            }
         ],
+        "@typescript-eslint/quotes": [
+            "error",
+            "single",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off",
+        // "react/jsx-props-no-spreading": "warn",
+        // "unused-imports/no-unused-imports-ts": "warn",
         "semi": [
             "error",
             "always"

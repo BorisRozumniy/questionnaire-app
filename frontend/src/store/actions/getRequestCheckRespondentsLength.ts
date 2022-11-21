@@ -1,5 +1,5 @@
-import { Dispatch } from "react";
-import { apiUrls } from "../../urls/apiUrls";
+import { Dispatch } from 'react';
+import { apiUrls } from '../../urls/apiUrls';
 
 type Params = Dispatch<React.SetStateAction<number>>
 
@@ -10,6 +10,6 @@ export const getRequestCheckRespondentsLength = (setRespondentsLength: Params) =
       setRespondentsLength(data);
     })
     .catch((error) => {
-      console.log("error", error);
-    })
-}
+      console.log('error', error);
+    });
+};

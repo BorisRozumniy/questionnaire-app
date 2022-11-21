@@ -1,9 +1,7 @@
-import { FC, useContext, useEffect, useMemo } from "react";
-import { TMongoId } from "../@types/common";
-import { ContextType } from "../@types/context";
-import { IQuestion } from "../@types/question";
-import { Context } from "../context/context";
-import { Question } from "./Question";
+import { FC } from 'react';
+import { TMongoId } from '../@types/common';
+import { IQuestion } from '../@types/question';
+import { Question } from './Question';
 
 type Props = {
   questionnaireId: TMongoId;

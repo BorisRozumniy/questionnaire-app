@@ -1,9 +1,9 @@
-import { FC, useContext } from "react";
-import { Context } from "../context/context";
-import { ContextType } from "../@types/context";
-import { TMongoId } from "../@types/common";
-import { QuestionForm } from "./QuestionForm";
-import { AddFormWrapper } from "./AddFormWrapper";
+import { FC, useContext } from 'react';
+import { Context } from '../context/context';
+import { ContextType } from '../@types/context';
+import { TMongoId } from '../@types/common';
+import { QuestionForm } from './QuestionForm';
+import { AddFormWrapper } from './AddFormWrapper';
 
 type Pros = {
   questionnaireId: TMongoId;

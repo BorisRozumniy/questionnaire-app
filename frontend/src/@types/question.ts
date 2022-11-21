@@ -1,5 +1,5 @@
-import { TMongoId } from "./common";
-import { AnswerOptionId, UserAnswer } from "./respondent";
+import { TMongoId } from './common';
+import { AnswerOptionId, UserAnswer } from './respondent';
 
 export enum AnswerType {
   text = 'text',
@@ -41,7 +41,7 @@ export type QuestionItemContextType = {
 export type QuestionsByValues = Record<TMongoId, IQuestion[]>
 
 export interface IQuestionsState {
-  questionsByValues: QuestionsByValues | any;
+  questionsByValues: QuestionsByValues;
   questionsError: Error | null;
   questionsLoading: boolean;
 }
@@ -64,6 +64,7 @@ export enum ActionKind {
 export type ACTIONTYPE =
   | { type: ActionKind.GET_REQUEST_QUESTIONS_START }
   | { type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS; payload: IQuestion[], questionnaireId: TMongoId }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   | { type: ActionKind.GET_REQUEST_QUESTIONS_ERROR; payload: any }
   // | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_START }
   // | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS; payload: IQuestion[], questionnaireId: TMongoId }
