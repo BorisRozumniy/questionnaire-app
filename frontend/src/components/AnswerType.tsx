@@ -1,6 +1,6 @@
   import { FC, useContext } from 'react';
-import { AnswerType, QuestionItemContextType } from '../@types/question';
-import { QuestionItemContext } from '../context/questionItemContext';
+import { AnswerType, QuestionItemContextType } from "../@types/question";
+import { QuestionItemContext } from '../context/questionItemContext'
 import { PossibleAnswerList } from './PossibleAnswerList';
 import { PossibleAnswerListSeveral } from './PossibleAnswerListSeveral';
 import { SimpleField } from './SimpleField';
