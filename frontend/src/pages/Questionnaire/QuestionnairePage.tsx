@@ -14,11 +14,11 @@ export const QuestionnairePage: FC = () => {
   const id = params.id?.substring(1) || '';
 
   const { questionnaireState, questionnaireDispatch } = useContext(
-    Context
+    Context,
   ) as ContextType;
 
   const questionnaire = questionnaireState.questionnaires.find(
-    (item) => item._id === id
+    (item) => item._id === id,
   );
 
   const withQuestions =

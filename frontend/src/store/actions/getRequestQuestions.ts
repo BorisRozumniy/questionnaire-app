@@ -4,12 +4,16 @@ import { ActionKind, ACTIONTYPE } from '../../@types/question';
 import { frontendUrls } from '../../urls/frontendUrls';
 
 type Params = {
-  dispatch: Dispatch<ACTIONTYPE>,
+  dispatch: Dispatch<ACTIONTYPE>;
   questionsIds: TMongoId[];
   questionnaireId: TMongoId;
-}
+};
 
-export const getRequestQuestions = ({ dispatch, questionsIds, questionnaireId }: Params) => {
+export const getRequestQuestions = ({
+  dispatch,
+  questionsIds,
+  questionnaireId,
+}: Params) => {
   const url = `${frontendUrls.questions}${questionsIds}`;
 
   dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_START });
@@ -19,11 +23,14 @@ export const getRequestQuestions = ({ dispatch, questionsIds, questionnaireId }:
       dispatch({
         type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS,
         payload: questions,
-        questionnaireId
+        questionnaireId,
       });
     })
     .catch((error) => {
       console.log('error', error);
-      dispatch({ type: ActionKind.GET_REQUEST_QUESTIONS_ERROR, payload: error });
+      dispatch({
+        type: ActionKind.GET_REQUEST_QUESTIONS_ERROR,
+        payload: error,
+      });
     });
 };

@@ -1,38 +1,45 @@
-import { ActionKind, ACTIONTYPE, IQuestionsState, QuestionsByValues } from '../../@types/question';
+import {
+  ActionKind,
+  ACTIONTYPE,
+  IQuestionsState,
+  QuestionsByValues,
+} from '../../@types/question';
 
 export const questionInitialState: IQuestionsState = {
   questionsByValues: {} as QuestionsByValues,
   questionsError: null,
-  questionsLoading: false
+  questionsLoading: false,
 };
 
-export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => {
+export const questionsReducer = (
+  state: IQuestionsState,
+  action: ACTIONTYPE,
+) => {
   let questionsByValues: QuestionsByValues;
 
   switch (action.type) {
+    case ActionKind.GET_REQUEST_QUESTIONS_START:
+      return {
+        ...state,
+        questionsError: null,
+        questionsLoading: true,
+      };
 
-  case ActionKind.GET_REQUEST_QUESTIONS_START:
-    return {
-      ...state,
-      questionsError: null,
-      questionsLoading: true,
-    };
+    case ActionKind.GET_REQUEST_QUESTIONS_SUCCESS:
+      questionsByValues = { [action.questionnaireId]: action.payload };
 
-  case ActionKind.GET_REQUEST_QUESTIONS_SUCCESS:
-    questionsByValues = { [action.questionnaireId]: action.payload };
+      return {
+        ...state,
+        questionsByValues: { ...state.questionsByValues, ...questionsByValues },
+        questionsLoading: false,
+      };
 
-    return {
-      ...state,
-      questionsByValues: { ...state.questionsByValues, ...questionsByValues },
-      questionsLoading: false,
-    };
-
-  case ActionKind.GET_REQUEST_QUESTIONS_ERROR:
-    return {
-      ...state,
-      questionsError: action.payload,
-      questionsLoading: false,
-    };
+    case ActionKind.GET_REQUEST_QUESTIONS_ERROR:
+      return {
+        ...state,
+        questionsError: action.payload,
+        questionsLoading: false,
+      };
 
     // case ActionKind.POST_REQUEST_CREATE_QUESTION_START:
     //   return {
@@ -75,7 +82,6 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
     //   });
     //   questionsByValues = { ...state.questionsByValues, [action.payload.questionnaireId]: newState }
 
-
     //   return {
     //     ...state,
     //     questionsByValues,
@@ -114,7 +120,7 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
     //     questionsLoading: false,
     //   };
 
-  default:
-    return state;
+    default:
+      return state;
   }
 };

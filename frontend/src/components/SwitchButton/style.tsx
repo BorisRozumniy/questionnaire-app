@@ -14,7 +14,7 @@ export const CheckBoxLabel = styled.label`
   background: #bebebe;
   cursor: pointer;
   &::after {
-    content: "";
+    content: '';
     display: block;
     border-radius: 50%;
     width: 18px;
@@ -34,7 +34,7 @@ export const CheckBox = styled.input`
   &:checked + ${CheckBoxLabel} {
     background: ${({ theme }) => theme.colors.main};
     &::after {
-      content: "";
+      content: '';
       display: block;
       border-radius: 50%;
       width: 18px;

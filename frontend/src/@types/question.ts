@@ -6,7 +6,7 @@ export enum AnswerType {
   data = 'data',
   oneOfTheList = 'one of the list',
   aFewFromTheList = 'a few from the list',
-  scale = 'scale'
+  scale = 'scale',
 }
 
 export type TPossibleAnswerItem = {
@@ -19,26 +19,26 @@ export interface IQuestion {
   questionText: string;
   answerType: AnswerType;
   answerOptions: TPossibleAnswerItem[];
-  answer: UserAnswer,
+  answer: UserAnswer;
 }
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
-type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export type NewQuestion = PartialBy<IQuestion, '_id'>
+export type NewQuestion = PartialBy<IQuestion, '_id'>;
 
 export type Option = { label: AnswerType; value: AnswerType };
 
 export type QuestionItemContextType = {
-  question: IQuestion,
+  question: IQuestion;
   newOptionValue: string;
   setNewOptionValue: (newValue: string) => void;
   pollingMode?: boolean;
   editMode?: boolean;
   questionnaireId?: TMongoId;
-}
+};
 
-export type QuestionsByValues = Record<TMongoId, IQuestion[]>
+export type QuestionsByValues = Record<TMongoId, IQuestion[]>;
 
 export interface IQuestionsState {
   questionsByValues: QuestionsByValues;
@@ -63,15 +63,19 @@ export enum ActionKind {
 
 export type ACTIONTYPE =
   | { type: ActionKind.GET_REQUEST_QUESTIONS_START }
-  | { type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS; payload: IQuestion[], questionnaireId: TMongoId }
+  | {
+      type: ActionKind.GET_REQUEST_QUESTIONS_SUCCESS;
+      payload: IQuestion[];
+      questionnaireId: TMongoId;
+    }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  | { type: ActionKind.GET_REQUEST_QUESTIONS_ERROR; payload: any }
-  // | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_START }
-  // | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS; payload: IQuestion[], questionnaireId: TMongoId }
-  // | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_ERROR; payload: any }
-  // | { type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_START }
-  // | { type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_SUCCESS; payload: { message: string, questionnaireId: TMongoId, editedQuestion: IQuestion } }
-  // | { type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_ERROR; payload: any }
-  // | { type: ActionKind.DELETE_REQUEST_QUESTION_START }
-  // | { type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS; payload: { message: string, questionnaireId: TMongoId, removedQuestionId: TMongoId } }
-  // | { type: ActionKind.DELETE_REQUEST_QUESTION_ERROR; payload: any };
+  | { type: ActionKind.GET_REQUEST_QUESTIONS_ERROR; payload: any };
+// | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_START }
+// | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_SUCCESS; payload: IQuestion[], questionnaireId: TMongoId }
+// | { type: ActionKind.POST_REQUEST_CREATE_QUESTION_ERROR; payload: any }
+// | { type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_START }
+// | { type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_SUCCESS; payload: { message: string, questionnaireId: TMongoId, editedQuestion: IQuestion } }
+// | { type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_ERROR; payload: any }
+// | { type: ActionKind.DELETE_REQUEST_QUESTION_START }
+// | { type: ActionKind.DELETE_REQUEST_QUESTION_SUCCESS; payload: { message: string, questionnaireId: TMongoId, removedQuestionId: TMongoId } }
+// | { type: ActionKind.DELETE_REQUEST_QUESTION_ERROR; payload: any };

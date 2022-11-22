@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 import { apiUrls } from '../../urls/apiUrls';
 
-type Params = Dispatch<React.SetStateAction<number>>
+type Params = Dispatch<React.SetStateAction<number>>;
 
 export const getRequestCheckQuestionnairesLength = (setLength: Params) => {
   fetch(apiUrls.questionnairesLength)

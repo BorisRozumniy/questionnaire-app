@@ -2,7 +2,9 @@ import { IQuestion } from '../../@types/question';
 import { apiUrls } from '../../urls/apiUrls';
 
 export const saveEditedQuestion = (
-  editedQuestion: IQuestion, questions: IQuestion[], setQuestions: (q: IQuestion[]) => void
+  editedQuestion: IQuestion,
+  questions: IQuestion[],
+  setQuestions: (q: IQuestion[]) => void,
 ) => {
   const { _id: questionId } = editedQuestion;
 
@@ -17,12 +19,10 @@ export const saveEditedQuestion = (
     .then((res) => res.json())
     .then(({ message }) => {
       console.log(message);
-      const newQuestions: IQuestion[] =
-                questions.map((item: IQuestion) => {
-                  if (item._id === questionId)
-                    return { ...item, ...editedQuestion };
-                  return item;
-                });
+      const newQuestions: IQuestion[] = questions.map((item: IQuestion) => {
+        if (item._id === questionId) return { ...item, ...editedQuestion };
+        return item;
+      });
       setQuestions(newQuestions);
     })
     .catch((error) => {

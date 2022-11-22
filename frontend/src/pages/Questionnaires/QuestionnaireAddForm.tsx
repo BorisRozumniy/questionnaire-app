@@ -1,9 +1,6 @@
 import { Dispatch, FC, FormEvent, useState } from 'react';
 import styled from 'styled-components';
-import {
-  ACTIONTYPE,
-  IQuestionnaire,
-} from '../../@types/questionnaire';
+import { ACTIONTYPE, IQuestionnaire } from '../../@types/questionnaire';
 import { postRequestQuestionnaire } from '../../store/actions/postRequestQuestionnaire';
 import { apiUrls } from '../../urls/apiUrls';
 import { Button } from '../../components/Styled/Button';

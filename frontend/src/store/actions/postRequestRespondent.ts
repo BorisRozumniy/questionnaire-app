@@ -4,13 +4,10 @@ import { apiUrls } from '../../urls/apiUrls';
 
 type Params = {
   requestBody: Omit<IRespondent, '_id'>;
-  dispatch: Dispatch<ACTIONTYPE>,
-}
+  dispatch: Dispatch<ACTIONTYPE>;
+};
 
-export const postRequestRespondent = ({
-  requestBody,
-  dispatch,
-}: Params) => {
+export const postRequestRespondent = ({ requestBody, dispatch }: Params) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     method: 'POST',
@@ -29,12 +26,21 @@ export const postRequestRespondent = ({
     .then(({ data, message }) => {
       console.log(data, message);
       if (isOk)
-        dispatch({ type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS, payload: data });
+        dispatch({
+          type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_SUCCESS,
+          payload: data,
+        });
       else
-        dispatch({ type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR, payload: { message, data: requestBody } });
+        dispatch({
+          type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR,
+          payload: { message, data: requestBody },
+        });
     })
     .catch((error) => {
       console.log('error', error);
-      dispatch({ type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR, payload: error });
+      dispatch({
+        type: ActionKind.POST_REQUEST_CREATE_RESPONDENT_ERROR,
+        payload: error,
+      });
     });
 };

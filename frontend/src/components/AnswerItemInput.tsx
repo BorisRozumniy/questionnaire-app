@@ -15,7 +15,7 @@ export const AnswerItemInput: FC<Props> = ({ item }) => {
   const [value, setValue] = useState(item.title);
 
   const { temporaryQuestion, setTemporaryQuestion } = useContext(
-    Context
+    Context,
   ) as ContextType;
 
   const onChange: onChangeT = ({ currentTarget }) =>

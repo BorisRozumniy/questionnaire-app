@@ -6,8 +6,8 @@ import { apiUrls } from '../../urls/apiUrls';
 type Params = {
   requestBody: UserAnswer;
   respondentId: TMongoId;
-  dispatch: Dispatch<ACTIONTYPE>,
-}
+  dispatch: Dispatch<ACTIONTYPE>;
+};
 
 export const patchRequestChangeRespondentAnswer = ({
   requestBody,
@@ -34,16 +34,19 @@ export const patchRequestChangeRespondentAnswer = ({
       if (isOk)
         dispatch({
           type: ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_SUCCESS,
-          payload: { answer: requestBody, respondentId }
+          payload: { answer: requestBody, respondentId },
         });
       else
         dispatch({
           type: ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR,
-          payload: { message, data: requestBody }
+          payload: { message, data: requestBody },
         });
     })
     .catch((error) => {
       console.log('error', error);
-      dispatch({ type: ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR, payload: error });
+      dispatch({
+        type: ActionKind.PATCH_REQUEST_CHANGE_RESPONDENT_ANSWER_ERROR,
+        payload: error,
+      });
     });
 };

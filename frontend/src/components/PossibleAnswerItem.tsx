@@ -19,12 +19,14 @@ export const PossibleAnswerItem = ({
   setSelectedOption,
 }: Props) => {
   const { editMode, pollingMode } = useContext(
-    QuestionItemContext
+    QuestionItemContext,
   ) as QuestionItemContextType;
 
   if (editMode) return <AnswerItemInput {...{ item }} />;
 
   return (
-    <PossibleOneAnswerItem {...{ item, setSelectedOption, selectedOption, pollingMode }} />
+    <PossibleOneAnswerItem
+      {...{ item, setSelectedOption, selectedOption, pollingMode }}
+    />
   );
 };

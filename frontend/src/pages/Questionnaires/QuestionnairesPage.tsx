@@ -11,7 +11,7 @@ import { getRequestCheckQuestionnairesLength } from '../../store/actions/getRequ
 
 export const QuestionnairesPage: FC = () => {
   const { questionnaireDispatch, questionnaireState } = useContext(
-    Context
+    Context,
   ) as ContextType;
 
   const { id } = useParams();
@@ -19,7 +19,7 @@ export const QuestionnairesPage: FC = () => {
   const { questionnaires } = questionnaireState;
 
   const [qustionnairesLength, setQuestionnairesLength] = useState(
-    questionnaires?.length
+    questionnaires?.length,
   );
 
   useEffect(() => {

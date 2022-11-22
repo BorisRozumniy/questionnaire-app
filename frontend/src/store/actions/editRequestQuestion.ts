@@ -7,12 +7,14 @@ import { apiUrls } from '../../urls/apiUrls';
 type Params = {
   requestBody: IQuestion;
   questionnaireId: TMongoId;
-  dispatch: Dispatch<ACTIONTYPE>,
+  dispatch: Dispatch<ACTIONTYPE>;
+};
 
-}
-
-export const patchRequestEditQuestion = ({ requestBody, questionnaireId, dispatch }: Params) => {
-
+export const patchRequestEditQuestion = ({
+  requestBody,
+  questionnaireId,
+  dispatch,
+}: Params) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     method: 'PATCH',
@@ -33,14 +35,21 @@ export const patchRequestEditQuestion = ({ requestBody, questionnaireId, dispatc
       console.log(message);
       const payload = { questionnaireId, editedQuestion: requestBody, message };
       if (isOk)
-        dispatch({ type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_SUCCESS, payload });
+        dispatch({
+          type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_SUCCESS,
+          payload,
+        });
       else
-        dispatch({ type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_ERROR, payload: message });
-
+        dispatch({
+          type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_ERROR,
+          payload: message,
+        });
     })
     .catch((error) => {
       console.log('error', error);
-      dispatch({ type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_ERROR, payload: error });
-
+      dispatch({
+        type: ActionKind.PATCH_REQUEST_EDIT_QUESTION_ERROR,
+        payload: error,
+      });
     });
 };

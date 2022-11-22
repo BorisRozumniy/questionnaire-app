@@ -6,10 +6,14 @@ import { apiUrls } from '../../urls/apiUrls';
 type Params = {
   removedQuestionId: TMongoId;
   questionnaireId: TMongoId;
-  dispatch: Dispatch<ACTIONTYPE>,
-}
+  dispatch: Dispatch<ACTIONTYPE>;
+};
 
-export const deleteRequestQuestion = ({ removedQuestionId, questionnaireId, dispatch }: Params) => {
+export const deleteRequestQuestion = ({
+  removedQuestionId,
+  questionnaireId,
+  dispatch,
+}: Params) => {
   const config = {
     headers: { 'Content-Type': 'application/json' },
     method: 'DELETE',
@@ -30,6 +34,9 @@ export const deleteRequestQuestion = ({ removedQuestionId, questionnaireId, disp
     })
     .catch((error) => {
       console.log('error', error);
-      dispatch({ type: ActionKind.DELETE_REQUEST_QUESTION_ERROR, payload: error });
+      dispatch({
+        type: ActionKind.DELETE_REQUEST_QUESTION_ERROR,
+        payload: error,
+      });
     });
 };

@@ -75,7 +75,7 @@ export const PossibleAnswerListSeveral = () => {
   const handleRemoveItem = (item: TPossibleAnswerItem) => {
     if (temporaryQuestion.answerOptions) {
       const answerOptions = temporaryQuestion.answerOptions.filter(
-        (option) => option.id !== item.id
+        (option) => option.id !== item.id,
       );
       const questionUpdate = {
         ...temporaryQuestion,
@@ -90,7 +90,7 @@ export const PossibleAnswerListSeveral = () => {
   }: FormEvent<HTMLInputElement>): void => {
     if (originAnswerValue && Array.isArray(originAnswerValue)) {
       const findedQuestionOption = answerOptions?.find(
-        ({ title }) => title === currentTarget.value
+        ({ title }) => title === currentTarget.value,
       );
 
       findedQuestionOption &&

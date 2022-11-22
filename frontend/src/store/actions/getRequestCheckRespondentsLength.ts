@@ -1,9 +1,11 @@
 import { Dispatch } from 'react';
 import { apiUrls } from '../../urls/apiUrls';
 
-type Params = Dispatch<React.SetStateAction<number>>
+type Params = Dispatch<React.SetStateAction<number>>;
 
-export const getRequestCheckRespondentsLength = (setRespondentsLength: Params) => {
+export const getRequestCheckRespondentsLength = (
+  setRespondentsLength: Params,
+) => {
   fetch(apiUrls.respondentsLength)
     .then((res) => res.json())
     .then((data: number) => {

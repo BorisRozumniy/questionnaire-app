@@ -1,9 +1,4 @@
-import {
-  ChangeEvent,
-  FormEvent,
-  useRef,
-  useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 import { AnswerType, IQuestion } from '../../@types/question';
 import { useOnClickOutside } from '../../useOnClickOutside';
 import { Button } from '../Styled/Button';
@@ -27,7 +22,7 @@ export const Modal = () => {
   // }, [temporaryQuestion]);
 
   const handleForm = (
-    e: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    e: FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
   ): void => {
     setFormData({
       ...formData,

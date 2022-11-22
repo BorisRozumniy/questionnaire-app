@@ -11,11 +11,11 @@ export const RespondentPage = () => {
   const params = useParams();
   const respondentId = params.id?.substring(1) || '';
   const { respondentsState, respondentsDispatch } = useContext(
-    Context
+    Context,
   ) as ContextType;
 
   const respondent = respondentsState.respondents.find(
-    (item) => item._id === respondentId
+    (item) => item._id === respondentId,
   );
 
   useEffect(() => {

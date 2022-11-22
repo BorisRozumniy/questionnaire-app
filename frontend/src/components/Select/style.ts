@@ -7,7 +7,6 @@ export const customStyles = {
     border: `solid 1px ${theme.colors.strong}`,
     borderRadius: '3px',
     // textTransform: 'capitalize',
-
   }),
   control: (provided: object, state: { isFocused: boolean }) => ({
     ...provided,
@@ -33,5 +32,5 @@ export const customStyles = {
   indicatorSeparator: (provided: object) => ({
     ...provided,
     backgroundColor: theme.colors.strong,
-  })
+  }),
 };

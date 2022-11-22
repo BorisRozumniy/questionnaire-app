@@ -9,12 +9,7 @@ import {
 } from 'react';
 import { useParams } from 'react-router-dom';
 import { ActionMeta, SingleValue } from 'react-select';
-import {
-  IQuestion,
-  AnswerType,
-  Option,
-  NewQuestion,
-} from '../@types/question';
+import { IQuestion, AnswerType, Option, NewQuestion } from '../@types/question';
 import { ACTIONTYPE } from '../@types/questionnaire';
 
 import { Input } from './Styled/Input';
@@ -31,7 +26,7 @@ import { Field } from './Styled/Field';
 
 type OnChange = (
   newValue: SingleValue<Option>,
-  actionMeta: ActionMeta<Option>
+  actionMeta: ActionMeta<Option>,
 ) => void;
 
 type Pros = {
@@ -55,11 +50,11 @@ export const QuestionForm: FC<Pros> = ({
   setEditMod,
 }) => {
   const { temporaryQuestion, setTemporaryQuestion } = useContext(
-    Context
+    Context,
   ) as ContextType;
 
   const params = useParams();
-  const questionnaireId = params.id?.substring(1)||'';
+  const questionnaireId = params.id?.substring(1) || '';
 
   useEffect(() => {
     if (question) {

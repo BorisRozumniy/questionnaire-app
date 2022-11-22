@@ -12,13 +12,13 @@ import { Container } from '../../components/Styled/Container';
 
 export const RespondentsPage = () => {
   const { respondentsDispatch: dispatch, respondentsState } = useContext(
-    Context
+    Context,
   ) as ContextType;
 
   const { respondents } = respondentsState;
 
   const [respondentsLength, setRespondentsLength] = useState(
-    respondents?.length
+    respondents?.length,
   );
 
   useEffect(() => {

@@ -4,9 +4,9 @@ import { ActionKind, ACTIONTYPE } from '../../@types/questionnaire';
 import { apiUrls } from '../../urls/apiUrls';
 
 type Params = {
-  dispatch: Dispatch<ACTIONTYPE>,
-  id?: TMongoId,
-}
+  dispatch: Dispatch<ACTIONTYPE>;
+  id?: TMongoId;
+};
 
 export const getRequestQuestionnaires = ({ dispatch, id = '' }: Params) => {
   const url = `${apiUrls.questionnaires}${id}`;
@@ -20,12 +20,21 @@ export const getRequestQuestionnaires = ({ dispatch, id = '' }: Params) => {
     })
     .then((data) => {
       if (isOk)
-        dispatch({ type: ActionKind.GET_REQUEST_QUESTIONNAIRES_SUCCESS, payload: data });
+        dispatch({
+          type: ActionKind.GET_REQUEST_QUESTIONNAIRES_SUCCESS,
+          payload: data,
+        });
       else
-        dispatch({ type: ActionKind.GET_REQUEST_QUESTIONNAIRES_ERROR, payload: data });
+        dispatch({
+          type: ActionKind.GET_REQUEST_QUESTIONNAIRES_ERROR,
+          payload: data,
+        });
     })
     .catch((error) => {
       console.log('error', error);
-      dispatch({ type: ActionKind.GET_REQUEST_QUESTIONNAIRES_ERROR, payload: error });
+      dispatch({
+        type: ActionKind.GET_REQUEST_QUESTIONNAIRES_ERROR,
+        payload: error,
+      });
     });
 };

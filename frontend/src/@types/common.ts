@@ -1,1 +1,1 @@
-export type TMongoId = string
+export type TMongoId = string;

@@ -28,7 +28,7 @@ export const PossibleAnswerList = () => {
   const respondentId = params.id?.substring(1);
 
   const [selectedOption, setSelectedOption] = useSelectedOne(
-    answer?.value ? String(answer?.value) : ''
+    answer?.value ? String(answer?.value) : '',
   );
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export const PossibleAnswerList = () => {
   const handleRemoveItem = (item: TPossibleAnswerItem) => {
     if (temporaryQuestion.answerOptions) {
       const answerOptions = temporaryQuestion.answerOptions.filter(
-        (option) => option.id !== item.id
+        (option) => option.id !== item.id,
       );
       const questionUpdate = {
         ...temporaryQuestion,

@@ -2,15 +2,17 @@ import styled from 'styled-components';
 
 export const Button = styled.button<{ bg?: 'blue' | 'red' }>`
   appearance: none;
-  background-color: ${({ theme, bg }) => bg === 'red' ? theme.colors.red : theme.colors.main};;
-  border: 1px solid rgba(27, 31, 35, .15);
+  background-color: ${({ theme, bg }) =>
+    bg === 'red' ? theme.colors.red : theme.colors.main};
+  border: 1px solid rgba(27, 31, 35, 0.15);
   border-radius: 6px;
-  box-shadow: rgba(27, 31, 35, .1) 0 1px 0;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+  font-family: -apple-system, system-ui, 'Segoe UI', Helvetica, Arial,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -25,29 +27,29 @@ export const Button = styled.button<{ bg?: 'blue' | 'red' }>`
   vertical-align: middle;
   white-space: nowrap;
 
-&:focus:not(:focus-visible):not(.focus-visible) {
-  box-shadow: none;
-  outline: none;
-}
+  &:focus:not(:focus-visible):not(.focus-visible) {
+    box-shadow: none;
+    outline: none;
+  }
 
-&:hover {
-  background-color: #2c974b;
-}
+  &:hover {
+    background-color: #2c974b;
+  }
 
-&:focus {
-  box-shadow: rgba(46, 164, 79, .4) 0 0 0 3px;
-  outline: none;
-}
+  &:focus {
+    box-shadow: rgba(46, 164, 79, 0.4) 0 0 0 3px;
+    outline: none;
+  }
 
-&:disabled {
-  background-color: #94d3a2;
-  border-color: rgba(27, 31, 35, .1);
-  color: rgba(255, 255, 255, .8);
-  cursor: default;
-}
+  &:disabled {
+    background-color: #94d3a2;
+    border-color: rgba(27, 31, 35, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    cursor: default;
+  }
 
-&:active {
-  background-color: #298e46;
-  box-shadow: rgba(20, 70, 32, .2) 0 1px 0 inset;
-}
+  &:active {
+    background-color: #298e46;
+    box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
+  }
 `;
