@@ -32,15 +32,14 @@ export const create = async (req: Request, res: Response) => {
 };
 
 type QuestionnaireDoc = Document<unknown, unknown, IQuestionnaire>[]
-type ReadErrorResponse = { message: string, error?: unknown }
+type ReadErrorResponse = { message: string, error: unknown }
 type ReadResponse = Response<QuestionnaireDoc | ReadErrorResponse>
 
 export const read = async (req: Request, res: ReadResponse) => {
   try {
-    const questionnaires: QuestionnaireDoc = await Questionnaire.find();
+    const questionnaires = await Questionnaire.find();
 
-    if (questionnaires) res.json(questionnaires);
-    res.json({ message: 'questionnaires not faund' });
+    res.json(questionnaires);
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('error: ', error);
@@ -68,7 +67,7 @@ export const readOne = async (req: ReadOneRequest, res: ReadOneResponse) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('error: ', error);
-    res.status(500).json({ message: 'Something went wrong, please try again' });
+    res.status(500).json({ message: 'Something went wrong, please try again', error });
   }
 };
 
@@ -93,6 +92,7 @@ export const update = async (req: Request, res: Response) => {
     // const id = req.params.id;
     // await Question.findByIdAndUpdate(id, req.body);
     // const message = `Question "${id}" changed successfully`;
+    // eslint-disable-next-line no-console
     // console.log(message);
     // res.json({ message });
   } catch (error) {
@@ -109,6 +109,7 @@ export const remove = async (req: Request, res: Response) => {
     // const id = req.params.id;
     // await Question.findByIdAndDelete(id);
     // const message = `Question ${id} removed successfully`;
+    // eslint-disable-next-line no-console
     // console.log(message);
     // res.json({ message });
   } catch (error) {
