@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import { IUserAnswer } from "../types";
+import mongoose from 'mongoose';
+import { IUserAnswer } from '../types';
+
 const { Schema, model } = mongoose;
 
 const schema = new Schema<IUserAnswer>({
@@ -7,4 +8,4 @@ const schema = new Schema<IUserAnswer>({
   value: { type: Schema.Types.Mixed }
 });
 
-export const Answer = model<IUserAnswer>("Answer", schema);
+export const Answer = model<IUserAnswer>('Answer', schema);

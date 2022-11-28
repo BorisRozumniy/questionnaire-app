@@ -9,8 +9,8 @@
 		"prettier"
 	],
 	"parserOptions": {
-		"ecmaVersion": 2018,
-		"project": "./tsconfig.json"
+		"ecmaVersion": "latest",
+		"sourceType": "module"
 	},
 	"plugins": [
 		"prettier"
@@ -60,6 +60,7 @@
 				"ts": "never",
 				"tsx": "never"
 			}
-		]
+		],
+		"import/prefer-default-export": "off"
 	}
 }

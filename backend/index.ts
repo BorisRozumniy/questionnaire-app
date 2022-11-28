@@ -1,12 +1,11 @@
-
 import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import questionRoute from "./routes/question.routes";
-import questionnaireRoute from "./routes/questionnaire.routes";
-import respondentRoute from "./routes/respondent.routes";
-import resultRoute from "./routes/result.routes";
+import questionRoute from './routes/question.routes';
+import questionnaireRoute from './routes/questionnaire.routes';
+import respondentRoute from './routes/respondent.routes';
+import resultRoute from './routes/result.routes';
 
 
 dotenv.config();
@@ -30,12 +29,15 @@ const url = process.env.DB_URL;
 
 function start() {
     try {
+        // eslint-disable-next-line no-unused-expressions
         url && mongoose.connect(url);
         app.listen(port, () =>
+            // eslint-disable-next-line no-console
             console.log(`⚡️[server]: Server is running at https://localhost:${port}`)
         );
     } catch (e) {
-        console.log("!!!Server Error", e);
+        // eslint-disable-next-line no-console
+        console.log('!!!Server Error', e);
         process.exit(1);
     }
 }

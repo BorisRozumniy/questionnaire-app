@@ -1,4 +1,4 @@
-import mongoose, { Document, Types } from "mongoose";
+import mongoose, { Document, Types } from 'mongoose';
 
 export enum AnswerType {
     text = 'text',
@@ -33,7 +33,7 @@ export interface IQuestion {
 
 export interface QuestionWithAnswer extends IQuestion {
     _id: Types.ObjectId;
-    answer: IUserAnswer | Document<unknown, any, IUserAnswer> & IUserAnswer & Required<{ _id: Types.ObjectId; }> | {};
+    answer: IUserAnswer | Document<unknown, unknown, IUserAnswer> & IUserAnswer & Required<{ _id: Types.ObjectId; }> | object;
 }
 export interface IRespondent {
     name: string;
