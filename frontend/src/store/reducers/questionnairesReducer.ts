@@ -1,15 +1,26 @@
-import { ActionKind as ActionKind, ACTIONTYPE, IQuestionnaireState } from "../../@types/questionnaire";
-import { getQuestionnaireSuccess, createQuestionSuccess, updateQuestionSuccess, deleteQuestionSuccess } from "./stateMaker";
+import {
+  ActionKind as ActionKind,
+  ACTIONTYPE,
+  IQuestionnaireState,
+} from '../../@types/questionnaire';
+import {
+  getQuestionnaireSuccess,
+  createQuestionSuccess,
+  updateQuestionSuccess,
+  deleteQuestionSuccess,
+} from './stateMaker';
 
 export const questionnaireInitialState: IQuestionnaireState = {
   questionnaires: [],
   questionnairesError: null,
-  questionnairesLoading: false
-}
+  questionnairesLoading: false,
+};
 
-export const questionnairesReducer = (state: IQuestionnaireState, action: ACTIONTYPE) => {
+export const questionnairesReducer = (
+  state: IQuestionnaireState,
+  action: ACTIONTYPE,
+) => {
   switch (action.type) {
-
     case ActionKind.GET_REQUEST_QUESTIONNAIRES_START:
       return {
         ...state,

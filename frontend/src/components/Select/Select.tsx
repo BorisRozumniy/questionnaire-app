@@ -1,12 +1,13 @@
-import { Dispatch, FC, SetStateAction, useEffect, useRef } from "react";
-import ReactSelect, { ActionMeta, GroupBase, SingleValue } from "react-select";
-import Select from "react-select/dist/declarations/src/Select";
-import { customStyles } from "./style";
+import { Dispatch, FC, SetStateAction, useEffect, useRef } from 'react';
+import ReactSelect, { ActionMeta, GroupBase, SingleValue } from 'react-select';
+import Select from 'react-select/dist/declarations/src/Select';
+import { customStyles } from './style';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Option = { label: any; value: any };
 type OnChange = (
   newValue: SingleValue<Option>,
-  actionMeta: ActionMeta<Option>
+  actionMeta: ActionMeta<Option>,
 ) => void;
 
 type Props = {
@@ -26,7 +27,7 @@ export const SelectComponent: FC<Props> = ({
 }) => {
   const selectedOption = options.find((option) => option.value === value);
   const selectRef = useRef<null | Select<Option, false, GroupBase<Option>>>(
-    null
+    null,
   );
 
   useEffect(() => {

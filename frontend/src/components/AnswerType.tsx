@@ -1,9 +1,9 @@
-import { FC, useContext } from "react";
-import { AnswerType, QuestionItemContextType } from "../@types/question";
-import { QuestionItemContext } from "../context/questionItemContext";
-import { PossibleAnswerList } from "./PossibleAnswerList";
-import { PossibleAnswerListSeveral } from "./PossibleAnswerListSeveral";
-import { SimpleField } from "./SimpleField";
+import { FC, useContext } from 'react';
+import { AnswerType, QuestionItemContextType } from '../@types/question';
+import { QuestionItemContext } from '../context/questionItemContext';
+import { PossibleAnswerList } from './PossibleAnswerList';
+import { PossibleAnswerListSeveral } from './PossibleAnswerListSeveral';
+import { SimpleField } from './SimpleField';
 
 type AnswerTypeProps = {
   answerType: AnswerType;
@@ -11,7 +11,7 @@ type AnswerTypeProps = {
 
 export const AnswerTypeComponent: FC<AnswerTypeProps> = ({ answerType }) => {
   const { pollingMode } = useContext(
-    QuestionItemContext
+    QuestionItemContext,
   ) as QuestionItemContextType;
 
   switch (answerType) {

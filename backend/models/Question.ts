@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import { IQuestion } from "../types";
+import mongoose from 'mongoose';
+import { IQuestion } from '../types';
+
 const { Schema, model } = mongoose;
 
 const schema = new Schema<IQuestion>({
@@ -12,4 +13,4 @@ const schema = new Schema<IQuestion>({
 
 });
 
-export const Question = model<IQuestion>("Question", schema);
+export const Question = model<IQuestion>('Question', schema);

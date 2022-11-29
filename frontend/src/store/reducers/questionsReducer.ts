@@ -1,18 +1,23 @@
-import { ActionKind, ACTIONTYPE, IQuestion, IQuestionsState, QuestionsByValues } from "../../@types/question";
+import {
+  ActionKind,
+  ACTIONTYPE,
+  IQuestionsState,
+  QuestionsByValues,
+} from '../../@types/question';
 
 export const questionInitialState: IQuestionsState = {
   questionsByValues: {} as QuestionsByValues,
   questionsError: null,
-  questionsLoading: false
-}
+  questionsLoading: false,
+};
 
-export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => {
-  let prevState
-  let newState
-  let questionsByValues: QuestionsByValues
+export const questionsReducer = (
+  state: IQuestionsState,
+  action: ACTIONTYPE,
+) => {
+  let questionsByValues: QuestionsByValues;
 
   switch (action.type) {
-
     case ActionKind.GET_REQUEST_QUESTIONS_START:
       return {
         ...state,
@@ -21,7 +26,7 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
       };
 
     case ActionKind.GET_REQUEST_QUESTIONS_SUCCESS:
-      questionsByValues = { [action.questionnaireId]: action.payload }
+      questionsByValues = { [action.questionnaireId]: action.payload };
 
       return {
         ...state,
@@ -76,7 +81,6 @@ export const questionsReducer = (state: IQuestionsState, action: ACTIONTYPE) => 
     //     return question
     //   });
     //   questionsByValues = { ...state.questionsByValues, [action.payload.questionnaireId]: newState }
-
 
     //   return {
     //     ...state,

@@ -1,11 +1,11 @@
-import { useContext } from "react";
+import { useContext } from 'react';
 import {
   QuestionItemContextType,
   TPossibleAnswerItem,
-} from "../@types/question";
-import { QuestionItemContext } from "../context/questionItemContext";
-import { AnswerItemInput } from "./AnswerItemInput";
-import { PossibleOneAnswerItem } from "./PossibleOneAnswerItem";
+} from '../@types/question';
+import { QuestionItemContext } from '../context/questionItemContext';
+import { AnswerItemInput } from './AnswerItemInput';
+import { PossibleOneAnswerItem } from './PossibleOneAnswerItem';
 
 type Props = {
   item: TPossibleAnswerItem;
@@ -19,12 +19,14 @@ export const PossibleAnswerItem = ({
   setSelectedOption,
 }: Props) => {
   const { editMode, pollingMode } = useContext(
-    QuestionItemContext
+    QuestionItemContext,
   ) as QuestionItemContextType;
 
   if (editMode) return <AnswerItemInput {...{ item }} />;
 
   return (
-    <PossibleOneAnswerItem {...{ item, setSelectedOption, selectedOption, pollingMode }} />
+    <PossibleOneAnswerItem
+      {...{ item, setSelectedOption, selectedOption, pollingMode }}
+    />
   );
 };

@@ -1,7 +1,7 @@
-import { FormEvent } from "react";
-import styled from "styled-components";
-import { TPossibleAnswerItem } from "../@types/question";
-import { Input } from "./Styled/Input";
+import { FormEvent } from 'react';
+import styled from 'styled-components';
+import { TPossibleAnswerItem } from '../@types/question';
+import { Input } from './Styled/Input';
 
 type Props = {
   item: TPossibleAnswerItem;

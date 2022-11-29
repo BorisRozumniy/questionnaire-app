@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { CheckBox, CheckBoxLabel, CheckBoxWrapper } from "./style";
+import { FC } from 'react';
+import { CheckBox, CheckBoxLabel, CheckBoxWrapper } from './style';
 
 type Props = {
   id: string;

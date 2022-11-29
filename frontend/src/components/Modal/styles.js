@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ModalWrapper = styled.div`
   position: fixed;
@@ -26,8 +26,8 @@ export const BannerStyle = styled.div`
   flex-direction: column;
   ${({ success }) =>
     success
-      ? "justify-content: center; padding: 16px;"
-      : "padding: 146px 8px 64px; justify-content: space-between;"};
+      ? 'justify-content: center; padding: 16px;'
+      : 'padding: 146px 8px 64px; justify-content: space-between;'};
 
   @media only screen and (min-width: 600px) {
     padding: 30px 134px 30px 141px;
@@ -44,7 +44,7 @@ export const ContentBlock = styled.div`
   z-index: 1;
 
   @media only screen and (min-width: 992px) {
-    ${({ success }) => !success && "width: 48%;"};
+    ${({ success }) => !success && 'width: 48%;'};
   }
 `;
 
@@ -53,7 +53,7 @@ export const FormBlock = styled.form`
   max-width: 354px;
   width: 100%;
   height: 112px;
-  height: ${({ error }) => (error ? "calc(112px + 39px)" : "112px")};
+  height: ${({ error }) => (error ? 'calc(112px + 39px)' : '112px')};
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -81,7 +81,7 @@ export const FormBlock = styled.form`
     margin-top: 8px;
     max-width: 408px;
     height: 96px;
-    height: ${({ error }) => (error ? "calc(96px + 39px)" : "96px")};
+    height: ${({ error }) => (error ? 'calc(96px + 39px)' : '96px')};
     padding: 0px 38px;
     button,
     input {
@@ -94,7 +94,7 @@ export const FormBlock = styled.form`
     margin-top: 3px;
     width: 354px;
     height: 112px;
-    height: ${({ error }) => (error ? "calc(112px + 39px)" : "112px")};
+    height: ${({ error }) => (error ? 'calc(112px + 39px)' : '112px')};
     padding: 0;
     input,
     button {
@@ -104,7 +104,7 @@ export const FormBlock = styled.form`
 `;
 
 export const Heading = styled.h2`
-  ${({ banner }) => banner && `br {display: none;}`};
+  ${({ banner }) => banner && 'br {display: none;}'};
   margin-bottom: 12px;
   font-style: normal;
   font-weight: 900;
@@ -133,9 +133,9 @@ export const ModalWindow = styled(BannerStyle)`
     padding: 100px;
   }
   @media only screen and (min-width: 992px) {
-    padding: ${({ success }) => (success ? "16px" : "80px 28px 40px 427px")};
+    padding: ${({ success }) => (success ? '16px' : '80px 28px 40px 427px')};
     flex-direction: column;
-    justify-content: ${({ success }) => (success ? "center" : "flex-start")};
+    justify-content: ${({ success }) => (success ? 'center' : 'flex-start')};
   }
 `;
 
@@ -178,7 +178,7 @@ export const ModalLogoImg = styled.img`
 `;
 
 export const ModalHeading = styled(Heading)`
-  ${({ success }) => success && "text-align: center;"};
+  ${({ success }) => success && 'text-align: center;'};
   @media only screen and (min-width: 992px) {
     margin-bottom: 14px;
     width: 100%;

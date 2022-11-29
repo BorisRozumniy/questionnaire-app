@@ -1,7 +1,8 @@
-import { Router } from "express";
-import { read } from "../controllers/result";
+import { Router } from 'express';
+import { read } from '../controllers/result';
+
 const router = Router();
 
-router.get("/result/", read);
+router.get('/result/', read);
 
 export default router;

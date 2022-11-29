@@ -1,15 +1,18 @@
-import { createContext, FC, ReactNode, useReducer, useState } from "react";
-import { initialState, respondentReducer } from "../store/reducers/respondentReducer";
+import { createContext, FC, ReactNode, useReducer, useState } from 'react';
+import {
+  initialState,
+  respondentReducer,
+} from '../store/reducers/respondentReducer';
 import {
   questionnaireInitialState,
   questionnairesReducer,
-} from "../store/reducers/questionnairesReducer";
+} from '../store/reducers/questionnairesReducer';
 import {
   questionInitialState,
   questionsReducer,
-} from "../store/reducers/questionsReducer";
-import { ContextType } from "../@types/context";
-import { IQuestion, NewQuestion } from "../@types/question";
+} from '../store/reducers/questionsReducer';
+import { ContextType } from '../@types/context';
+import { IQuestion, NewQuestion } from '../@types/question';
 
 export const Context = createContext<ContextType | null>(null);
 
@@ -20,21 +23,21 @@ interface Props {
 export const QuestionProvider: FC<Props> = ({ children }) => {
   const [questionnaireState, questionnaireDispatch] = useReducer(
     questionnairesReducer,
-    questionnaireInitialState
+    questionnaireInitialState,
   );
 
   const [respondentsState, respondentsDispatch] = useReducer(
     respondentReducer,
-    initialState
+    initialState,
   );
 
   const [questionsState, questionsDispatch] = useReducer(
     questionsReducer,
-    questionInitialState
+    questionInitialState,
   );
 
   const [temporaryQuestion, setTemporaryQuestion] = useState(
-    {} as NewQuestion | IQuestion
+    {} as NewQuestion | IQuestion,
   );
 
   return (

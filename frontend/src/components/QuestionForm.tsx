@@ -6,32 +6,27 @@ import {
   useContext,
   useEffect,
   useState,
-} from "react";
-import { useParams } from "react-router-dom";
-import { ActionMeta, SingleValue } from "react-select";
-import {
-  IQuestion,
-  AnswerType,
-  Option,
-  NewQuestion,
-} from "../@types/question";
-import { ACTIONTYPE } from "../@types/questionnaire";
+} from 'react';
+import { useParams } from 'react-router-dom';
+import { ActionMeta, SingleValue } from 'react-select';
+import { IQuestion, AnswerType, Option, NewQuestion } from '../@types/question';
+import { ACTIONTYPE } from '../@types/questionnaire';
 
-import { Input } from "./Styled/Input";
-import { Button } from "./Styled/Button";
-import { SelectComponent as Select } from "./Select";
-import { AnswerTypeComponent } from "./AnswerType";
-import { postRequestQuestion } from "../store/actions/postRequestQuestion";
-import { patchRequestEditQuestion } from "../store/actions/editRequestQuestion";
-import { Context } from "../context/context";
-import { ContextType } from "../@types/context";
-import { UserAnswer } from "../@types/respondent";
-import { Label } from "./Styled/Label";
-import { Field } from "./Styled/Field";
+import { Input } from './Styled/Input';
+import { Button } from './Styled/Button';
+import { SelectComponent as Select } from './Select';
+import { AnswerTypeComponent } from './AnswerType';
+import { postRequestQuestion } from '../store/actions/postRequestQuestion';
+import { patchRequestEditQuestion } from '../store/actions/editRequestQuestion';
+import { Context } from '../context/context';
+import { ContextType } from '../@types/context';
+import { UserAnswer } from '../@types/respondent';
+import { Label } from './Styled/Label';
+import { Field } from './Styled/Field';
 
 type OnChange = (
   newValue: SingleValue<Option>,
-  actionMeta: ActionMeta<Option>
+  actionMeta: ActionMeta<Option>,
 ) => void;
 
 type Pros = {
@@ -42,7 +37,7 @@ type Pros = {
 };
 
 const initialQuestion: NewQuestion = {
-  questionText: "",
+  questionText: '',
   answerType: AnswerType.text,
   answerOptions: [],
   answer: {} as UserAnswer,
@@ -55,11 +50,11 @@ export const QuestionForm: FC<Pros> = ({
   setEditMod,
 }) => {
   const { temporaryQuestion, setTemporaryQuestion } = useContext(
-    Context
+    Context,
   ) as ContextType;
 
-  let params = useParams();
-  const questionnaireId = params.id!.substring(1);
+  const params = useParams();
+  const questionnaireId = params.id?.substring(1) || '';
 
   useEffect(() => {
     if (question) {
@@ -118,10 +113,10 @@ export const QuestionForm: FC<Pros> = ({
       <Field>
         <Label htmlFor="questionText">Question</Label>
         <Input
-          value={temporaryQuestion.questionText || ""}
+          value={temporaryQuestion.questionText || ''}
           onChange={handleQuestionText}
           onKeyUp={({ key }) =>
-            key === "Enter" && handleSave(temporaryQuestion)
+            key === 'Enter' && handleSave(temporaryQuestion)
           }
           type="text"
           id="questionText"
@@ -144,7 +139,7 @@ export const QuestionForm: FC<Pros> = ({
         onClick={() => handleSave(temporaryQuestion)}
         disabled={!temporaryQuestion.questionText ? true : false}
       >
-        {isEditForm ? "Save changes" : "Save question"}
+        {isEditForm ? 'Save changes' : 'Save question'}
       </Button>
     </div>
   );

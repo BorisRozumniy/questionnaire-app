@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import { IRespondent } from "../types";
+import mongoose from 'mongoose';
+import { IRespondent } from '../types';
+
 const { Schema, model } = mongoose;
 
 const schema = new Schema<IRespondent>({
@@ -8,4 +9,4 @@ const schema = new Schema<IRespondent>({
   answers: [{ type: Schema.Types.ObjectId, ref: 'Answer' }]
 });
 
-export const Respondent = model<IRespondent>("Respondent", schema);
+export const Respondent = model<IRespondent>('Respondent', schema);

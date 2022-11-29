@@ -1,16 +1,16 @@
-import { FC, FormEvent, useContext, useEffect, useState } from "react";
-import { ContextType } from "../@types/context";
-import { IRespondent } from "../@types/respondent";
-import { getRequestQuestionnaires } from "../store/actions/getRequestQuestionnaires";
-import { postRequestRespondent } from "../store/actions/postRequestRespondent";
-import { Context } from "../context/context";
-import { useSelectedOne } from "../useSelected";
-import { Button } from "./Styled/Button";
-import { Input } from "./Styled/Input";
-import { AddFormWrapper } from "./AddFormWrapper";
-import { SelectComponent } from "./Select";
-import { Label } from "./Styled/Label";
-import { Field } from "./Styled/Field";
+import { FC, FormEvent, useContext, useEffect, useState } from 'react';
+import { ContextType } from '../@types/context';
+import { IRespondent } from '../@types/respondent';
+import { getRequestQuestionnaires } from '../store/actions/getRequestQuestionnaires';
+import { postRequestRespondent } from '../store/actions/postRequestRespondent';
+import { Context } from '../context/context';
+import { useSelectedOne } from '../useSelected';
+import { Button } from './Styled/Button';
+import { Input } from './Styled/Input';
+import { AddFormWrapper } from './AddFormWrapper';
+import { SelectComponent } from './Select';
+import { Label } from './Styled/Label';
+import { Field } from './Styled/Field';
 
 export const RespondentForm: FC = () => {
   const { questionnaireState, respondentsDispatch, questionnaireDispatch } =
@@ -25,7 +25,7 @@ export const RespondentForm: FC = () => {
     }
   }, [questionnaires]);
 
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   const onChange = ({ currentTarget }: FormEvent<HTMLInputElement>): void => {
     setValue(currentTarget.value);
@@ -34,7 +34,7 @@ export const RespondentForm: FC = () => {
   const [questionnaire, setQuestionnaire] = useSelectedOne();
 
   const onClick = () => {
-    const requestBody: Omit<IRespondent, "_id"> = {
+    const requestBody: Omit<IRespondent, '_id'> = {
       name: value,
       questionnaire,
     };
@@ -54,13 +54,13 @@ export const RespondentForm: FC = () => {
       <h2>Add Respondent</h2>
       <Field>
         <Label htmlFor="name">Respondent name</Label>
-        <Input {...{ onChange, value, id: "name" }} />
+        <Input {...{ onChange, value, id: 'name' }} />
       </Field>
       <Field>
         <Label onClick={() => setIsFocusedSelect(true)}>Answer type</Label>
         <SelectComponent
           options={options}
-          onChange={(option) => setQuestionnaire(option!.value)}
+          onChange={(option) => setQuestionnaire(option?.value)}
           isFocused={isFocusedSelect}
           setIsFocused={setIsFocusedSelect}
         />

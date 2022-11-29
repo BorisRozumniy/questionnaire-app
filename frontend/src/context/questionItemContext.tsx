@@ -1,12 +1,13 @@
-import { createContext, FC, ReactNode } from "react";
-import { TMongoId } from "../@types/common";
-import { IQuestion, QuestionItemContextType } from "../@types/question";
-import { useInput } from "../useInput";
+import { createContext, FC, ReactNode } from 'react';
+import { TMongoId } from '../@types/common';
+import { IQuestion, QuestionItemContextType } from '../@types/question';
+import { useInput } from '../useInput';
 
 export const QuestionItemContext =
   createContext<QuestionItemContextType | null>({
     question: {} as IQuestion,
-    newOptionValue: "",
+    newOptionValue: '',
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     setNewOptionValue: () => {},
   });
 
@@ -25,7 +26,7 @@ export const QuestionItemProvider: FC<Props> = ({
   editMode,
   questionnaireId,
 }) => {
-  const [newOptionValue, setNewOptionValue] = useInput("");
+  const [newOptionValue, setNewOptionValue] = useInput('');
 
   const value = {
     question,

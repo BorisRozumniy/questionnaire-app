@@ -1,9 +1,9 @@
-import { FC } from "react";
-import { Card } from "../../components/Styled/Card";
-import styled from "styled-components";
-import { IQuestionnaire } from "../../@types/questionnaire";
-import { useNavigate } from "react-router-dom";
-import { frontendUrls } from "../../urls/frontendUrls";
+import { FC } from 'react';
+import { Card } from '../../components/Styled/Card';
+import styled from 'styled-components';
+import { IQuestionnaire } from '../../@types/questionnaire';
+import { useNavigate } from 'react-router-dom';
+import { frontendUrls } from '../../urls/frontendUrls';
 
 type Props = {
   questionnaire: IQuestionnaire;
@@ -12,7 +12,7 @@ type Props = {
 export const Questionnaire: FC<Props> = ({ questionnaire }) => {
   const { _id, name, questions } = questionnaire;
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onClick = () => navigate(`${frontendUrls.questionnaires}:${_id}`);
 

@@ -9,7 +9,8 @@ export const Card = styled.div`
   color: ${({ theme }) => theme.colors.black};
   cursor: pointer;
 
-&:hover,
-&:focus {
-  box-shadow: ${({ theme }) => theme.colors.outline} 0 0 0 3px;
-}`;
+  &:hover,
+  &:focus {
+    box-shadow: ${({ theme }) => theme.colors.outline} 0 0 0 3px;
+  }
+`;
